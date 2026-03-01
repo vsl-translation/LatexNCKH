@@ -20,6 +20,29 @@
 \usepackage{tocloft}
 \usepackage{hyperref}
 
+% --- CÁC GÓI BỔ SUNG ĐỂ VẼ KHUNG BÌA ---
+\usepackage{tikz}
+\usetikzlibrary{calc}
+
+% Lệnh tự động vẽ khung bìa đôi có họa tiết 4 góc
+\newcommand{\vekhung}{
+    \begin{tikzpicture}[remember picture, overlay]
+        % Khung ngoài (nét đậm)
+        \draw[line width=2.5pt, color=blue!40!black] 
+            ($(current page.north west) + (2.5cm,-1.5cm)$) 
+            rectangle ($(current page.south east) + (-1.5cm,1.5cm)$);
+        % Khung trong (nét mảnh)
+        \draw[line width=0.5pt, color=blue!40!black] 
+            ($(current page.north west) + (2.65cm,-1.65cm)$) 
+            rectangle ($(current page.south east) + (-1.65cm,1.65cm)$);
+        % Họa tiết 4 góc
+        \draw[line width=1.5pt, color=blue!40!black] ($(current page.north west) + (2.5cm,-1.5cm)$) rectangle ($(current page.north west) + (2.65cm,-1.65cm)$);
+        \draw[line width=1.5pt, color=blue!40!black] ($(current page.south west) + (2.5cm,1.5cm)$) rectangle ($(current page.south west) + (2.65cm,1.65cm)$);
+        \draw[line width=1.5pt, color=blue!40!black] ($(current page.north east) + (-1.5cm,-1.5cm)$) rectangle ($(current page.north east) + (-1.65cm,-1.65cm)$);
+        \draw[line width=1.5pt, color=blue!40!black] ($(current page.south east) + (-1.5cm,1.5cm)$) rectangle ($(current page.south east) + (-1.65cm,1.65cm)$);
+    \end{tikzpicture}
+}
+
 % --- CÀI ĐẶT TIÊU ĐỀ CHƯƠNG ---
 \titleformat{\chapter}[display]
   {\normalfont\huge\bfseries\centering}{\chaptertitlename\ \thechapter}{20pt}{\Huge}
@@ -28,65 +51,68 @@
 \begin{document}
 
 % ==========================================
-% BÌA NGOÀI
+% BÌA NGOÀI (Trang 1)
 % ==========================================
 \begin{titlepage}
+\vekhung % Gọi lệnh vẽ khung
 \begin{center}
     \textbf{\large TRƯỜNG ĐẠI HỌC GIAO THÔNG VẬN TẢI TP. HỒ CHÍ MINH}\\
-    \vspace{1cm}
-    % Chèn logo trường tại đây
-    % \includegraphics[width=0.6\textwidth]{logo_uth.png}\\
+    \vspace{1.5cm}
+    % Bỏ comment dòng dưới để chèn logo thật
+    % \includegraphics[width=0.5\textwidth]{logo_uth.png}\\
     \vspace{2cm}
-    \textbf{\Large BÁO CÁO TỔNG KẾT}\\
-    \textbf{\Large HỘI THẢO SINH VIÊN UTH}\\
+    \textbf{\Huge BÁO CÁO TỔNG KẾT}\\[1.2cm]
+    \textbf{\Large HỘI THẢO SINH VIÊN UTH}\\[0.4cm]
     \textbf{\Large NGHIÊN CỨU KHOA HỌC NĂM 2025}\\
-    \vspace{2cm}
-    \textbf{\Large TÊN ĐỀ TÀI: \dots\dots\dots\dots\dots\dots\dots\dots\dots\dots}\\
-    \vspace{0.5cm}
-    \textbf{Mã số: \dots\dots\dots\dots\dots}\\
-    \vspace{3cm}
-    \begin{flushleft}
-        \large
-        \textbf{Nhóm trưởng đề tài:} \dots\dots\dots\dots\dots\dots\dots\dots\\
-        \textbf{Thời gian thực hiện:} Từ tháng 8/2025 đến tháng 12/2025\\
-    \end{flushleft}
+    \vspace{2.5cm}
+    \textbf{\large TÊN ĐỀ TÀI: \dots\dots\dots\dots\dots\dots\dots\dots\dots\dots\dots\dots\dots\dots\dots}\\
+    \vspace{0.7cm}
+    \textbf{\large Mã số \hspace{2.2cm}: \dots\dots\dots\dots\dots\dots\dots\dots\dots\dots}\\
+    \vspace{3.5cm}
+    % Căn chỉnh 2 dấu hai chấm thẳng hàng
+    \begin{tabular}{ll}
+        \textbf{\large Nhóm trưởng đề tài} & \textbf{\large : NGUYỄN VĂN A} \\[0.4cm]
+        \textbf{\large Thời gian thực hiện} & \textbf{\large : Từ tháng 8/2025 đến tháng 12/2025}
+    \end{tabular}
     \vfill
-    \textbf{Thành phố Hồ Chí Minh, tháng 12 năm 2025}
+    \textbf{\large Thành phố Hồ Chí Minh, tháng 12 năm 2025}
 \end{center}
 \end{titlepage}
 
 % ==========================================
-% BÌA TRONG
+% BÌA TRONG (Trang 2)
 % ==========================================
 \begin{titlepage}
+\vekhung % Gọi lệnh vẽ khung
 \begin{center}
     \textbf{\large TRƯỜNG ĐẠI HỌC GIAO THÔNG VẬN TẢI TP. HỒ CHÍ MINH}\\
-    \vspace{1cm}
-    % \includegraphics[width=0.6\textwidth]{logo_uth.png}\\
     \vspace{1.5cm}
-    \textbf{\Large BÁO CÁO TỔNG KẾT}\\
-    \textbf{\Large HỘI THẢO SINH VIÊN UTH}\\
+    % Bỏ comment dòng dưới để chèn logo thật
+    % \includegraphics[width=0.5\textwidth]{logo_uth.png}\\
+    \vspace{2cm}
+    \textbf{\Huge BÁO CÁO TỔNG KẾT}\\[1.2cm]
+    \textbf{\Large HỘI THẢO SINH VIÊN UTH}\\[0.4cm]
     \textbf{\Large NGHIÊN CỨU KHOA HỌC NĂM 2025}\\
-    \vspace{1.5cm}
-    \textbf{\Large TÊN ĐỀ TÀI: \dots\dots\dots\dots\dots\dots\dots\dots\dots\dots}\\
-    \vspace{0.5cm}
-    \textbf{Mã số: \dots\dots\dots\dots\dots}\\
-    \vspace{1.5cm}
+    \vspace{2.5cm}
+    \textbf{\large TÊN ĐỀ TÀI: \dots\dots\dots\dots\dots\dots\dots\dots\dots\dots\dots\dots\dots\dots\dots}\\
+    \vspace{0.7cm}
+    \textbf{\large Mã số \hspace{2.2cm}: \dots\dots\dots\dots\dots\dots\dots\dots\dots\dots}\\
 \end{center}
+\vspace{1.5cm}
+
 \begin{flushleft}
-    \large
-    \textbf{DANH SÁCH THÀNH VIÊN:}\\
-    Nhóm trưởng: Nguyễn Văn A – MSSV\\
-    Thành viên: Nguyễn Văn B – MSSV\\
-    Thành viên: Nguyễn Văn C – MSSV\\
-    Thư ký: Nguyễn Văn D – MSSV\\
-    \vspace{1cm}
-    \textbf{GIẢNG VIÊN HƯỚNG DẪN:}\\
-    Họ và tên, học hàm, học vị: TS. Nguyễn Văn E\\
+    \hspace{2cm}\textbf{\large \underline{DANH SÁCH THÀNH VIÊN:}}\\[0.4cm]
+    \hspace{2.5cm}\textbf{1. Nhóm trưởng: Nguyễn Văn A – MSSV}\\[0.2cm]
+    \hspace{2.5cm}\textbf{2. Thành viên: Nguyễn Văn B – MSSV}\\[0.2cm]
+    \hspace{2.5cm}\textbf{3. Thành viên: Nguyễn Văn C – MSSV}\\[0.2cm]
+    \hspace{2.5cm}\textbf{4. Thư ký: Nguyễn Văn D – MSSV}\\[1.2cm]
+    
+    \hspace{2cm}\textbf{\large \underline{GIẢNG VIÊN HƯỚNG DẪN:}}\\[0.4cm]
+    \hspace{2cm}Họ và tên, học hàm, học vị: TS. Nguyễn Văn E
 \end{flushleft}
 \vfill
 \begin{center}
-    \textbf{Thành phố Hồ Chí Minh, tháng 12 năm 2025}
+    \textbf{\large Thành phố Hồ Chí Minh, tháng 12 năm 2025}
 \end{center}
 \end{titlepage}
 
