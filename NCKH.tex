@@ -1,0 +1,276 @@
+\documentclass[13pt,a4paper,oneside]{report}
+
+% --- CÁC GÓI CƠ BẢN ---
+\usepackage[utf8]{inputenc}
+\usepackage[T5]{fontenc} % Hỗ trợ tiếng Việt
+\usepackage[vietnamese]{babel}
+\usepackage{mathptmx} % Sử dụng font Times New Roman
+\usepackage{geometry}
+\geometry{
+    a4paper,
+    left=3cm,
+    right=2cm,
+    top=2cm,
+    bottom=2cm
+}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{tabularx}
+\usepackage{titlesec}
+\usepackage{tocloft}
+\usepackage{hyperref}
+
+% --- CÀI ĐẶT TIÊU ĐỀ CHƯƠNG ---
+\titleformat{\chapter}[display]
+  {\normalfont\huge\bfseries\centering}{\chaptertitlename\ \thechapter}{20pt}{\Huge}
+\titlespacing*{\chapter}{0pt}{-50pt}{20pt}
+
+\begin{document}
+
+% ==========================================
+% BÌA NGOÀI
+% ==========================================
+\begin{titlepage}
+\begin{center}
+    \textbf{\large TRƯỜNG ĐẠI HỌC GIAO THÔNG VẬN TẢI TP. HỒ CHÍ MINH}\\
+    \vspace{1cm}
+    % Chèn logo trường tại đây
+    % \includegraphics[width=0.6\textwidth]{logo_uth.png}\\
+    \vspace{2cm}
+    \textbf{\Large BÁO CÁO TỔNG KẾT}\\
+    \textbf{\Large HỘI THẢO SINH VIÊN UTH}\\
+    \textbf{\Large NGHIÊN CỨU KHOA HỌC NĂM 2025}\\
+    \vspace{2cm}
+    \textbf{\Large TÊN ĐỀ TÀI: \dots\dots\dots\dots\dots\dots\dots\dots\dots\dots}\\
+    \vspace{0.5cm}
+    \textbf{Mã số: \dots\dots\dots\dots\dots}\\
+    \vspace{3cm}
+    \begin{flushleft}
+        \large
+        \textbf{Nhóm trưởng đề tài:} \dots\dots\dots\dots\dots\dots\dots\dots\\
+        \textbf{Thời gian thực hiện:} Từ tháng 8/2025 đến tháng 12/2025\\
+    \end{flushleft}
+    \vfill
+    \textbf{Thành phố Hồ Chí Minh, tháng 12 năm 2025}
+\end{center}
+\end{titlepage}
+
+% ==========================================
+% BÌA TRONG
+% ==========================================
+\begin{titlepage}
+\begin{center}
+    \textbf{\large TRƯỜNG ĐẠI HỌC GIAO THÔNG VẬN TẢI TP. HỒ CHÍ MINH}\\
+    \vspace{1cm}
+    % \includegraphics[width=0.6\textwidth]{logo_uth.png}\\
+    \vspace{1.5cm}
+    \textbf{\Large BÁO CÁO TỔNG KẾT}\\
+    \textbf{\Large HỘI THẢO SINH VIÊN UTH}\\
+    \textbf{\Large NGHIÊN CỨU KHOA HỌC NĂM 2025}\\
+    \vspace{1.5cm}
+    \textbf{\Large TÊN ĐỀ TÀI: \dots\dots\dots\dots\dots\dots\dots\dots\dots\dots}\\
+    \vspace{0.5cm}
+    \textbf{Mã số: \dots\dots\dots\dots\dots}\\
+    \vspace{1.5cm}
+\end{center}
+\begin{flushleft}
+    \large
+    \textbf{DANH SÁCH THÀNH VIÊN:}\\
+    Nhóm trưởng: Nguyễn Văn A – MSSV\\
+    Thành viên: Nguyễn Văn B – MSSV\\
+    Thành viên: Nguyễn Văn C – MSSV\\
+    Thư ký: Nguyễn Văn D – MSSV\\
+    \vspace{1cm}
+    \textbf{GIẢNG VIÊN HƯỚNG DẪN:}\\
+    Họ và tên, học hàm, học vị: TS. Nguyễn Văn E\\
+\end{flushleft}
+\vfill
+\begin{center}
+    \textbf{Thành phố Hồ Chí Minh, tháng 12 năm 2025}
+\end{center}
+\end{titlepage}
+
+\pagenumbering{roman}
+
+% ==========================================
+% LỜI CAM ĐOAN
+% ==========================================
+\chapter*{LỜI CAM ĐOAN}
+\addcontentsline{toc}{chapter}{LỜI CAM ĐOAN}
+Chúng tôi xin cam đoan rằng báo cáo khoa học này là kết quả của quá trình học tập và nghiên cứu nghiêm túc do chính nhóm chúng tôi thực hiện, dưới sự hướng dẫn trực tiếp của giảng viên phụ trách.
+
+Toàn bộ số liệu, hình ảnh, bảng biểu và kết quả phân tích được trình bày trong báo cáo đều có nguồn gốc rõ ràng, được thu thập và xử lý một cách trung thực, không sao chép hay trích dẫn trái phép từ bất kỳ công trình nghiên cứu nào khác.
+
+Chúng tôi hoàn toàn chịu trách nhiệm trước nhà trường và pháp luật về tính chính xác, tính trung thực cũng như giá trị khoa học của toàn bộ nội dung trong báo cáo này.
+\vspace{1cm}
+\begin{flushright}
+\textit{TP. Hồ Chí Minh, ngày \dots tháng 12 năm 2025}\\
+\textbf{Đại diện nhóm thực hiện}\\
+\textbf{Nhóm trưởng đề tài}\\
+\textit{(ký và ghi rõ họ tên)}\\
+\vspace{2cm}
+\textbf{Nguyễn Văn A}
+\end{flushright}
+
+% ==========================================
+% LỜI CÁM ƠN
+% ==========================================
+\chapter*{LỜI CÁM ƠN}
+\addcontentsline{toc}{chapter}{LỜI CÁM ƠN}
+Nhóm thực hiện cần có phần Lời cảm ơn, được trình bày ngắn gọn, trang trọng và không vượt quá 01 trang A4.
+\vspace{1cm}
+\begin{flushright}
+\textit{TP. Hồ Chí Minh, ngày \dots tháng 12 năm 2025}\\
+\textbf{Đại diện nhóm thực hiện}\\
+\textbf{Nhóm trưởng đề tài}\\
+\textit{(ký và ghi rõ họ tên)}\\
+\vspace{2cm}
+\textbf{Nguyễn Văn A}
+\end{flushright}
+
+% ==========================================
+% DANH SÁCH THÀNH VIÊN
+% ==========================================
+\chapter*{DANH SÁCH THÀNH VIÊN}
+\addcontentsline{toc}{chapter}{DANH SÁCH THÀNH VIÊN}
+\begin{table}[h]
+\centering
+\begin{tabular}{|c|l|c|c|l|}
+\hline
+\textbf{STT} & \textbf{HỌ VÀ TÊN} & \textbf{MÃ SỐ SV} & \textbf{LỚP} & \textbf{KHOA/VIỆN} \\ \hline
+1 & Nguyễn Văn A & & & \\ \hline
+2 & Nguyễn Văn B & & & \\ \hline
+3 & Nguyễn Văn C & & & \\ \hline
+4 & Nguyễn Văn D & & & \\ \hline
+\end{tabular}
+\end{table}
+
+% ==========================================
+% MỤC LỤC & DANH MỤC
+% ==========================================
+\tableofcontents
+\newpage
+\listoffigures
+\addcontentsline{toc}{chapter}{DANH SÁCH HÌNH ẢNH}
+\newpage
+\listoftables
+\addcontentsline{toc}{chapter}{DANH SÁCH BẢNG}
+\newpage
+
+\chapter*{DANH SÁCH BẢNG CHỮ CÁI VIẾT TẮT}
+\addcontentsline{toc}{chapter}{DANH SÁCH BẢNG CHỮ CÁI VIẾT TẮT}
+\begin{table}[h]
+\centering
+\begin{tabular}{|l|l|l|}
+\hline
+\textbf{TỪ VIẾT TẮT} & \textbf{TỪ TIẾNG ANH} & \textbf{DỊCH NGHĨA} \\ \hline
+VCK & & Viện Cơ Khí \\ \hline
+ĐH GTVT & & Đại học Giao thông vận tải \\ \hline
+\end{tabular}
+\end{table}
+
+\clearpage
+\pagenumbering{arabic} % Đánh số trang 1, 2, 3...
+
+% ==========================================
+% MỞ ĐẦU
+% ==========================================
+\chapter*{MỞ ĐẦU}
+\addcontentsline{toc}{chapter}{MỞ ĐẦU}
+\section*{1. Tính cấp thiết của đề tài}
+Nhóm nghiên cứu có trách nhiệm trình bày đầy đủ các nội dung theo cấu trúc của báo cáo. Báo cáo hoàn chỉnh có độ dài từ 30 đến 40 trang A4, bao gồm hình ảnh, bảng biểu, số liệu và tài liệu tham khảo.
+
+\section*{2. Phạm vi nghiên cứu}
+Nội dung phạm vi nghiên cứu...
+
+\section*{3. Phương pháp nghiên cứu}
+\begin{itemize}
+    \item Phương pháp khảo sát thực tiễn: Nếu có…
+    \item Phương pháp phân tích – tổng hợp: Được sử dụng để xử lý số liệu...
+    \item Phương pháp mô phỏng hoặc thực nghiệm (nếu có): Mô phỏng quá trình...
+\end{itemize}
+
+\section*{4. Cơ sở khoa học và ý nghĩa thực tiễn của đề tài}
+\textbf{- Cơ sở khoa học:} Trình bày đầy đủ nội dung...\\
+\textbf{- Ý nghĩa thực tiễn:} Trình bày đầy đủ nội dung...
+
+\section*{5. Các nội dung nghiên cứu chính của đề tài}
+Cấu trúc của báo cáo được chia thành 4 chương:
+\begin{itemize}
+    \item \textbf{Chương 1:} Cơ sở lý thuyết và tổng quan tài liệu
+    \item \textbf{Chương 2:} Phân tích yêu cầu và xây dựng mô hình nghiên cứu
+    \item \textbf{Chương 3:} Thiết kế – Mô phỏng – Thực nghiệm
+    \item \textbf{Chương 4:} Phân tích kết quả và đề xuất giải pháp
+\end{itemize}
+
+% ==========================================
+% CHƯƠNG 1
+% ==========================================
+\chapter{CƠ SỞ LÝ THUYẾT VÀ TỔNG QUAN TÀI LIỆU}
+
+\section{Nội dung 1}
+Nhóm nghiên cứu có trách nhiệm trình bày đầy đủ các nội dung theo cấu trúc của báo cáo. 
+
+\subsection{Nội dung nghiên cứu 1.1}
+Hướng dẫn trình bày công thức tính như sau (Ví dụ Nhị thức Newton):
+\begin{equation}
+    (x+a)^n = \sum_{k=0}^{n} \binom{n}{k} x^k a^{n-k}
+\end{equation}
+
+\subsection{Nội dung nghiên cứu 1.2}
+Hướng dẫn cách trình bày bảng:
+\begin{table}[h]
+\centering
+\caption{Bảng mẫu số 1}
+\begin{tabular}{|c|c|c|}
+\hline
+\textbf{Nội dung 1} & \textbf{Nội dung 2} & \textbf{Nội dung 3} \\ \hline
+1 & 2 & 3 \\ \hline
+4 & 5 & 6 \\ \hline
+\end{tabular}
+\end{table}
+
+\section{Nội dung 2}
+Trình bày nội dung 2 ở đây...
+
+% ==========================================
+% CHƯƠNG 2
+% ==========================================
+\chapter{XÂY DỰNG MÔ HÌNH NGHIÊN CỨU}
+
+\section{Nội dung nghiên cứu 2.1}
+% \begin{figure}[h]
+%     \centering
+%     \includegraphics[width=0.8\textwidth]{hinh_anh_2.png}
+%     \caption{Hình ảnh 2 (Ảnh được tạo tự động, ảnh rõ nét, có khung)}
+% \end{figure}
+
+\subsection{Nội dung 2.1.1}
+Nội dung chi tiết...
+
+\subsection{Nội dung 2.1.2}
+Tất cả các chương còn lại đều tuân thủ quy cách trình bày tương tự, đồng thời mỗi chương cần được ngắt sang một trang mới để đảm bảo bố cục rõ ràng.
+
+% ==========================================
+% KẾT LUẬN VÀ HƯỚNG PHÁT TRIỂN
+% ==========================================
+\chapter*{KẾT LUẬN VÀ HƯỚNG PHÁT TRIỂN}
+\addcontentsline{toc}{chapter}{KẾT LUẬN VÀ HƯỚNG PHÁT TRIỂN}
+\section*{1. Kết luận}
+Nhóm nghiên cứu có trách nhiệm trình bày đầy đủ các nội dung theo cấu trúc...
+
+\section*{2. Hướng phát triển của đề tài}
+Nhóm nghiên cứu có trách nhiệm trình bày đầy đủ các nội dung theo cấu trúc...
+
+% ==========================================
+% PHỤ LỤC & TÀI LIỆU THAM KHẢO
+% ==========================================
+\chapter*{PHỤ LỤC (NẾU CÓ)}
+\addcontentsline{toc}{chapter}{PHỤ LỤC}
+Nội dung phụ lục...
+
+\chapter*{TÀI LIỆU THAM KHẢO}
+\addcontentsline{toc}{chapter}{TÀI LIỆU THAM KHẢO}
+Định dạng theo chuẩn IEEE. Bạn có thể sử dụng BibTeX để tự động hóa định dạng này bằng cách gọi \texttt{\textbackslash bibliographystyle\{ieeetr\}}.
+
+\end{document}
