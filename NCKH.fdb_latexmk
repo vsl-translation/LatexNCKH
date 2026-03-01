@@ -1,5 +1,5 @@
 # Fdb version 4
-["pdflatex"] 1772374073.1922 "d:/Latex/NCKH.tex" "NCKH.pdf" "NCKH" 1772374074.5889 0
+["pdflatex"] 1772377455.26902 "d:/Latex/NCKH.tex" "NCKH.pdf" "NCKH" 1772377456.71319 0
   "C:/Users/PC/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map" 1772373621 89969 e95579120a3aa0ebc21d2737ca2ba701 ""
   "C:/Users/PC/AppData/Local/MiKTeX/fonts/tfm/public/rsfs/rsfs10.tfm" 1772373628 688 37338d6ab346c2f1466b29e195316aa4 ""
   "C:/Users/PC/AppData/Local/MiKTeX/miktex/data/le/pdftex/pdflatex.fmt" 1772373021 13332034 f8df657594dd3d80a74fc33faf89f2bd ""
@@ -175,13 +175,13 @@
   "C:/Users/PC/AppData/Local/Programs/MiKTeX/tex/latex/vntex/t5enc.dfu" 1368738347 13949 387dd4fa58aea5f873839c93430fffed ""
   "C:/Users/PC/AppData/Local/Programs/MiKTeX/tex/latex/vntex/t5ptm.fd" 1368738347 1100 803888e7a6edcd8c143317c75deceb08 ""
   "C:/Users/PC/AppData/Local/Programs/MiKTeX/tex/latex/xcolor/xcolor.sty" 1729265222 55384 b454dec21c2d9f45ec0b793f0995b992 ""
-  "NCKH.aux" 1772374074 2890 b551d5fb0160fe732313901b3437fbd1 "pdflatex"
-  "NCKH.lof" 1772374074 73 e1f4f3635ada1bfd29920229503eeb78 "pdflatex"
-  "NCKH.lot" 1772374074 164 b637ecc39f6ffc13cdeb2f97a38534e8 "pdflatex"
-  "NCKH.out" 1772374074 3033 db368f660a91778487a53bab4ca6c679 "pdflatex"
-  "NCKH.tex" 1772374070 12678 70e23faf63d03e05ddbc51eef7a45fca ""
-  "NCKH.toc" 1772374074 1470 3337745d96ad67ad168a219c94d3cb6c "pdflatex"
-  "d:/Latex/NCKH.tex" 1772374070 12678 70e23faf63d03e05ddbc51eef7a45fca ""
+  "NCKH.aux" 1772377456 2890 b551d5fb0160fe732313901b3437fbd1 "pdflatex"
+  "NCKH.lof" 1772377456 73 e1f4f3635ada1bfd29920229503eeb78 "pdflatex"
+  "NCKH.lot" 1772377456 164 b637ecc39f6ffc13cdeb2f97a38534e8 "pdflatex"
+  "NCKH.out" 1772377456 3033 db368f660a91778487a53bab4ca6c679 "pdflatex"
+  "NCKH.tex" 1772377454 13999 761f2bcd64fbfbdb5654d8372e17615e ""
+  "NCKH.toc" 1772377456 1470 3337745d96ad67ad168a219c94d3cb6c "pdflatex"
+  "d:/Latex/NCKH.tex" 1772377454 13999 761f2bcd64fbfbdb5654d8372e17615e ""
   (generated)
   "NCKH.aux"
   "NCKH.lof"
