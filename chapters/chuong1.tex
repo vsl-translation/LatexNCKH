@@ -4,29 +4,16 @@
 \chapter{TỔNG QUAN VỀ ĐỀ TÀI}
 
 \section{Giới thiệu chung}
-Nhóm nghiên cứu có trách nhiệm trình bày đầy đủ các nội dung theo cấu trúc của báo cáo.
-
-\subsection{Nội dung nghiên cứu 1.1}
-Hướng dẫn trình bày công thức tính như sau (Ví dụ Nhị thức Newton):
-\begin{equation}
-    (x+a)^n = \sum_{k=0}^{n} \binom{n}{k} x^k a^{n-k}
-\end{equation}
-
-\subsection{Nội dung nghiên cứu 1.2}
-Hướng dẫn cách trình bày bảng:
-\begin{table}[h]
-\centering
-\caption{Bảng mẫu số 1}
-\begin{tabular}{|c|c|c|}
-\hline
-\textbf{Nội dung 1} & \textbf{Nội dung 2} & \textbf{Nội dung 3} \\ \hline
-1 & 2 & 3 \\ \hline
-4 & 5 & 6 \\ \hline
-\end{tabular}
-\end{table}
+Đề tài “Nghiên cứu và phát triển hệ thống dịch hai chiều giữa ngôn ngữ ký hiệu và ngôn ngữ Việt” nhằm xây dựng một nền tảng ứng dụng di động hỗ trợ người khiếm thính và khiếm thanh giao tiếp hiệu quả hơn trong xã hội. Hệ thống được thiết kế như một cầu nối giữa ngôn ngữ ký hiệu Việt Nam (Vietnamese Sign Language – VSL) và ngôn ngữ Việt, giúp chuyển đổi linh hoạt giữa cử chỉ ký hiệu, văn bản và giọng nói.
 
 \section{Đặc trưng của ngôn ngữ ký hiệu Việt Nam (VSL)}
-Trình bày nội dung 2 ở đây\ldots
+Ngôn ngữ ký hiệu là một ngôn ngữ thị giác – không gian, trong đó ngữ pháp được thể hiện thông qua vị trí tay, chuyển động, biểu cảm khuôn mặt và ngữ cảnh. Cấu trúc câu thường tuân theo thứ tự: Thời gian → Địa điểm → Chủ thể → Hành động → Đối tượng → Nhấn mạnh/Kết thúc. Vì vậy, việc chuyển đổi giữa tiếng Việt và VSL đòi hỏi phải xử lý đồng thời thông tin thị giác, ngữ cảnh và cấu trúc ngôn ngữ.
 
 \section{Mục tiêu và phạm vi nghiên cứu}
-Trình bày nội dung 2 ở đây\ldots
+Hệ thống được thiết kế với hai chức năng chính:
+
+Chuyển đổi từ ngôn ngữ ký hiệu sang tiếng Việt (VSL → VN): Sử dụng camera để ghi nhận chuỗi hình ảnh cử chỉ tay và biểu cảm khuôn mặt, sau đó áp dụng các mô hình học sâu để nhận diện và chuyển đổi thành văn bản hoặc giọng nói tiếng Việt.
+
+Chuyển đổi từ tiếng Việt sang ngôn ngữ ký hiệu (VN → VSL): Phân tích câu tiếng Việt bằng các kỹ thuật xử lý ngôn ngữ tự nhiên (NLP), sau đó ánh xạ sang các ký hiệu tương ứng trong cơ sở dữ liệu và hiển thị dưới dạng video ký hiệu.
+
+Hệ thống ứng dụng các công nghệ trí tuệ nhân tạo hiện đại như Computer Vision, Deep Learning và Natural Language Processing, nhằm tạo ra trải nghiệm giao tiếp tự nhiên và thời gian thực. Cách tiếp cận này góp phần thúc đẩy khả năng giao tiếp và hòa nhập xã hội cho cộng đồng người khiếm thính, góp phần thúc đẩy bình đẳng giao tiếp và hòa nhập xã hội cho cộng đồng người khiếm thính tại Việt Nam.

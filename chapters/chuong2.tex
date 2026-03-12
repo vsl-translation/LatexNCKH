@@ -4,17 +4,26 @@
 \chapter{XÂY DỰNG MÔ HÌNH NGHIÊN CỨU}
 
 \section{Tổng quan tình hình nghiên cứu}
-% \begin{figure}[h]
-%     \centering
-%     \includegraphics[width=0.8\textwidth]{hinh_anh_2.png}
-%     \caption{Hình ảnh 2 (Ảnh được tạo tự động, ảnh rõ nét, có khung)}
-% \end{figure}
+Nghiên cứu về nhận diện và dịch ngôn ngữ ký hiệu Việt Nam (VSL) vẫn còn khá hạn chế so với các ngôn ngữ ký hiệu phổ biến như ASL hoặc CSL. Phần lớn các nghiên cứu hiện nay tập trung vào bài toán nhận diện ký hiệu một chiều (VSL → văn bản), trong khi các hệ thống dịch hai chiều hoàn chỉnh vẫn còn rất ít.
 
-\subsection{Nội dung 2.1.1}
-Nội dung chi tiết\ldots
-
-\subsection{Nội dung 2.1.2}
-Tất cả các chương còn lại đều tuân thủ quy cách trình bày tương tự, đồng thời mỗi chương cần được ngắt sang một trang mới để đảm bảo bố cục rõ ràng.
+Các nghiên cứu ban đầu chủ yếu sử dụng các phương pháp học máy truyền thống như Hidden Markov Model (HMM), Support Vector Machine (SVM) và Dynamic Time Warping (DTW) để nhận diện chuỗi cử chỉ. Tuy nhiên, từ năm 2018 trở lại đây, các mô hình Deep Learning như CNN, LSTM, BiLSTM và Transformer đã được áp dụng rộng rãi, giúp cải thiện đáng kể độ chính xác của hệ thống.
 
 \section{Các công trình nổi bật về nhận diện VSL}
+Một số công trình nổi bật bao gồm:
+
+Vietnamese Sign Language Alphabet Recognition Using MediaPipe và Deep Learning (2025): xây dựng bộ dữ liệu gồm 23 chữ cái và 2 dấu thanh của VSL, đạt độ chính xác khoảng 95%.
+
+Ứng dụng MoViNet-A2 cho nhận diện bảng chữ cái VSL: sử dụng dữ liệu từ cảm biến Kinect và mô hình video classification.
+
+Vietnamese-Sign-Language-Translation (GitHub): dự án mã nguồn mở sử dụng MediaPipe, OpenCV và TensorFlow để trích xuất đặc trưng cử chỉ và huấn luyện mô hình học sâu.
+
+Dự án dịch ngôn ngữ ký hiệu của sinh viên Đại học Sư phạm Kỹ thuật TP.HCM (2025): xây dựng ứng dụng nhận diện ký hiệu kết hợp NLP và Computer Vision.
 \section{Thách thức trong bài toán dịch hai chiều}
+
+Mặc dù các nghiên cứu trên đạt độ chính xác cao trong việc nhận diện ký hiệu đơn lẻ, nhưng vẫn còn nhiều thách thức khi triển khai hệ thống dịch hai chiều theo thời gian thực, đặc biệt là các vấn đề liên quan đến:
+
+Sự khác biệt về cấu trúc ngữ pháp giữa VSL và tiếng Việt.
+
+Thiếu các bộ dữ liệu lớn và chuẩn hóa.
+
+Khả năng xử lý chuỗi cử chỉ liên tục.

@@ -1,0 +1,18 @@
+\chapter{THỰC NGHIỆM VÀ ĐÁNH GIÁ}
+
+\section{Môi trường và dữ liệu thực nghiệm}
+
+\subsection{Bộ dữ liệu và Kỹ thuật Data Augmentation}
+Kết hợp bộ dữ liệu chuẩn QIPEDC và dữ liệu tự thu thập. Để giải quyết bài toán thiếu hụt dữ liệu, hệ thống áp dụng kỹ thuật Augmentation (Thêm nhiễu Gaussian, thay đổi tỷ lệ tay, cắt gọt thời gian), giúp 1 video gốc sinh ra 7 tệp dữ liệu huấn luyện đa dạng.
+\subsection{Môi trường huấn luyện}
+Sử dụng TensorFlow/PyTorch trên các máy chủ GPU để tối ưu hóa trọng số mô hình Transformer.
+\section{Vai trò của mã hóa cảm xúc (Emotion Encoding)}
+Thực nghiệm cho thấy việc đưa 7 chiều cảm xúc vào quá trình huấn luyện giúp mô hình phân biệt chính xác các ký hiệu có hình dáng tay giống hệt nhau nhưng khác ngữ nghĩa.
+\section{TPhân tích và đánh giá hiệu năng hệ thống}
+\subsection{Hiệu năng xử lý thời gian thực (Real-time processing)}
+Nhờ việc chạy thư viện MediaPipe ở chế độ bất đồng bộ (async detect) hệ thống xử lý mượt mà luồng video trực tiếp mà không bị hiện tượng rớt khung hình (drop frame) trên thiết bị di động.
+\subsection{Tính ổn định với Stability Filter}
+Hệ thống tích hợp một "Bộ lọc ổn định" (Stability Filter) ở bước cuối. Từ vựng chỉ được xuất ra màn hình khi đạt độ tin cậy (confidence) từ 0.6 trở lên và duy trì sự đồng nhất trong 3 khung hình liên tiếp, giúp triệt tiêu hiện tượng nhãn kết quả bị giật/nhảy liên tục.
+\subsection{Nâng cao ngữ cảnh với PhoBERT}
+Luồng xử lý tích hợp thêm cơ chế PhoBERT Context Scoring ở giai đoạn cuối để đánh giá và lựa chọn từ ngữ có ngữ cảnh phù hợp nhất, làm cho câu dịch trở nên tự nhiên hơn.
+
