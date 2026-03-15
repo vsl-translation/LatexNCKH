@@ -1,34 +1,27 @@
-\chapter{PHƯƠNG PHÁP VÀ THIẾT KẾ HỆ THỐNG}
-
-\section{Đề xuất kiến trúc hệ thống tổng quát}
-Hệ thống được xây dựng dựa trên mô hình Hybrid AI, kết hợp giữa Computer Vision và Natural Language Processing (NLP) nhằm giải quyết bài toán dịch hai chiều giữa VSL và tiếng Việt. Kiến trúc hệ thống bao gồm hai luồng xử lý chính: VN → VSL và VSL → VN.
-
-Các thành phần chính của hệ thống bao gồm:
-
-Module thu thập dữ liệu từ camera hoặc microphone.
-
-Module trích xuất đặc trưng bằng MediaPipe.
-
-Mô hình học sâu để nhận diện chuỗi cử chỉ.
-
-Hệ thống xử lý ngôn ngữ tự nhiên để phân tích câu.
-
-Cơ sở dữ liệu video ký hiệu để hiển thị kết quả.
-\section{Thiết kế luồng xử lý chiều thuận (VSL $\rightarrow$ Tiếng Việt)}
-
-\subsection{Thu thập dữ liệu và Tiền xử lý}
-Quay video từ webcam hoặc camera điện thoại với tốc độ 30 FPS.
-\subsection{Trích xuất đặc trưng với MediaPipe}
-Sử dụng thư viện MediaPipe để xác định các điểm mốc trên cơ thể, hai bàn tay và khuôn mặt. Từ các điểm này, hệ thống tạo ra vector đặc trưng cho mỗi khung hình, bao gồm thông tin về tư thế, chuyển động tay và biểu cảm khuôn mặt.
-\subsection{Nhận diện với mô hình Transformer}
-Chuỗi đặc trưng theo thời gian được đưa vào mô hình học sâu dựa trên kiến trúc Transformer neural network architecture để phân tích và nhận diện ý nghĩa của các cử chỉ ký hiệu.  Hệ thống sử dụng cơ chế Sliding Window để liên tục cập nhật các khung hình mới, cho phép mô hình dự đoán kết quả ngay khi người dùng đang thực hiện ký hiệu. Kết quả nhận diện được chuyển đổi thành văn bản tiếng Việt và hiển thị cho người dùng.
-
-\section{ Thiết kế luồng xử lý chiều nghịch (Tiếng Việt $\rightarrow$ VSL)}
-\subsection{Nhận dạng giọng nói (STT) và Tiền xử lý văn bản}
-Âm thanh từ người dùng được chuyển thành văn bản tiếng Việt. Sau đó, tiến hành chuẩn hóa câu bằng cách: chuyển về chữ thường, loại bỏ dấu câu và tách từ bằng thư viện NLP.
-\subsection{Phân tích NLP và thuật toán cửa sổ trượt (Sliding Window)}
-Hệ thống áp dụng giải thuật quét cửa sổ trượt (Sliding Window) để phân tách từ, với nguyên tắc ưu tiên cắt và đối chiếu các cụm từ dài trước (ví dụ: ưu tiên "ăn cơm" thay vì "ăn" và "cơm" riêng lẻ). Đồng thời, các từ thừa (Stopwords) không mang ý nghĩa ký hiệu hình thể sẽ được lọc bỏ.
-\subsection{Tái cấu trúc ngữ pháp và Truy vấn cơ sở dữ liệu}
-Các từ được sắp xếp lại theo cấu trúc ngữ pháp của ngôn ngữ ký hiệu. Hệ thống sử dụng thuật toán Sliding Window để tìm các cụm từ dài nhất tồn tại trong cơ sở dữ liệu ký hiệu.
-\subsection{Ánh xạ và hiển thị video (Visualization)}
-Hệ thống truy vấn các cụm từ trong cơ sở dữ liệu (hơn 4.000 video mẫu) để lấy các video ký hiệu tương ứng. Các video này sau đó được thuật toán cắt ghép mượt mà để diễn đạt lại nội dung một cách tự nhiên cho người khiếm thính trên giao diện ứng dụng.
+% ==========================================
+% CHƯƠNG 3: PHƯƠNG PHÁP VÀ ĐỀ XUẤT
+% ==========================================
+\chapter{PHƯƠNG PHÁP VÀ ĐỀ XUẤT}
+ 
+Hệ thống được xây dựng dựa trên mô hình Hybrid AI, là sự kết hợp chặt chẽ giữa Computer Vision, Deep Learning và Natural Language Processing (NLP) để giải quyết bài toán dịch hai chiều VSL $\leftrightarrow$ Tiếng Việt một cách toàn diện.
+ 
+\section{Kiến trúc tổng thể}
+ 
+Hệ thống được phân chia thành hai luồng xử lý độc lập và đối xứng, trong đó mỗi luồng tương ứng với một chiều của bài toán dịch thuật. Cả hai luồng đều chia sẻ lớp trung gian Logic Solving trên server, với thiết bị đầu cuối (kính thông minh hoặc ứng dụng di động) đóng vai trò là điểm tiếp nhận đầu vào và hiển thị đầu ra.
+ 
+Thiết bị trung tâm được mô tả trong đề tài là một loại kính thông minh tích hợp microphone, camera, màn hình hiển thị nhỏ và kết nối mạng. Thiết bị này đóng vai trò thu nhận tín hiệu đầu vào (giọng nói hoặc luồng video cử chỉ), gửi yêu cầu lên server để xử lý, nhận phản hồi và hiển thị kết quả phiên dịch ra giao diện người dùng.
+ 
+\section{Thành phần công nghệ chính}
+ 
+\begin{itemize}
+    \item \textbf{MediaPipe (Google):} Thư viện trích xuất điểm mốc (landmark) trên cơ thể và bàn tay với độ chính xác cao và tốc độ xử lý realtime.
+ 
+    \item \textbf{BiLSTM (Bidirectional Long Short-Term Memory):} Mô hình học sâu chính dùng cho bài toán nhận diện chuỗi cử chỉ theo thời gian (VSL $\rightarrow$ VN).
+ 
+    \item \textbf{Underthesea:} Thư viện NLP chuyên biệt cho tiếng Việt, dùng để phân tách từ, loại bỏ từ dừng và chuẩn hóa đầu vào (VN $\rightarrow$ VSL).
+ 
+    \item \textbf{PhoBERT:} Mô hình ngôn ngữ BERT tiền huấn luyện trên tiếng Việt, được dùng để chấm điểm và lựa chọn từ phù hợp nhất về mặt ngữ cảnh.
+ 
+    \item \textbf{FER-2013 Dataset / Emotion Recognition Model:} Mô hình phát hiện biểu cảm khuôn mặt theo 7 trạng thái cảm xúc, tích hợp vào vector đặc trưng để tăng độ chính xác phiên dịch.
+\end{itemize}
+ 

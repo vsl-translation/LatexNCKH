@@ -1,0 +1,30 @@
+
+% ==========================================
+% CHƯƠNG 6: PHÂN TÍCH VÀ ĐÁNH GIÁ
+% ==========================================
+\chapter{PHÂN TÍCH VÀ ĐÁNH GIÁ}
+ 
+\section{Hiệu năng xử lý thời gian thực}
+ 
+Một trong những yêu cầu phi chức năng quan trọng nhất của hệ thống là khả năng phản hồi gần như tức thì. Để đạt được điều này, hệ thống tối ưu theo nhiều chiều:
+ 
+\begin{itemize}
+    \item \textbf{Xử lý bất đồng bộ:} MediaPipe chạy ở LIVE\_STREAM mode với \texttt{detect\_async()}, tách biệt hoàn toàn luồng capture video và luồng phát hiện landmark. Kỹ thuật thread-safe với \texttt{Lock()} đảm bảo không có race condition khi callback trả về kết quả.
+ 
+    \item \textbf{Vector hóa đặc trưng:} Mỗi frame được nén thành vector 178 chiều số thực thay vì xử lý pixel thô, giảm đáng kể khối lượng dữ liệu truyền lên server và thời gian inference của mô hình.
+ 
+    \item \textbf{Sliding Window Buffer:} Cơ chế deque(maxlen=64) đảm bảo hệ thống luôn sẵn sàng dự đoán với 64 frame gần nhất mà không cần chờ kết thúc một đoạn cử chỉ hoàn chỉnh.
+\end{itemize}
+ 
+\section{Độ ổn định và tính nhất quán của kết quả}
+ 
+Hệ thống tích hợp Stability Filter với hai tiêu chí lọc song song: ngưỡng confidence tổng hợp (Gesture + Emotion + Context $\geq$ 0.6) và tính nhất quán thời gian (cùng nhãn trong $\geq$ 3 frame liên tiếp). Cơ chế kép này giúp loại bỏ hiệu quả cả hai loại lỗi phổ biến: dự đoán sai do nhiễu nhất thời và dự đoán có độ tin cậy thấp.
+ 
+\section{Chất lượng ngữ nghĩa của đầu ra}
+ 
+Việc tích hợp PhoBERT Context Scoring ở giai đoạn cuối của pipeline đảm bảo rằng từ được chọn không chỉ phù hợp về cử chỉ và cảm xúc mà còn tự nhiên trong ngữ cảnh câu tiếng Việt. Cơ chế "Bổ sung từ cho tròn nghĩa" tiếp theo giúp câu dịch vượt qua dạng liệt kê từ khóa thô, trở thành câu văn hoàn chỉnh và tự nhiên. Ví dụ, từ chuỗi từ khóa ["Tôi", "xơi cơm", "bạn", "chiều", "hôm qua"], hệ thống tổng hợp thành "Tôi ăn cơm với bạn chiều hôm qua".
+ 
+\section{Đánh giá vai trò của Emotion Encoding}
+ 
+Phân tích định tính cho thấy mô hình có khả năng phân biệt tinh tế các ký hiệu đồng hình dựa trên biểu cảm khuôn mặt. Cụ thể, cùng một cử chỉ tay khi kết hợp với nét mặt Happy dẫn đến nhận diện "Cám ơn chân thành", trong khi nét mặt Angry dẫn đến kết quả là sắc thái tiêu cực. Điều này cho thấy 30 chiều Finger Curl kết hợp với 7 chiều Emotion đã cung cấp cho mô hình một lớp ngữ cảnh phong phú mà các hệ thống chỉ nhận dạng tay thuần túy không thể đạt được.
+ 
