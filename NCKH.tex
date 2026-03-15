@@ -32,6 +32,7 @@
 \usepackage{titlesec}
 \usepackage{tocloft}
 \usepackage{hyperref}
+\usepackage{indentfirst}
 
 % =============================
 % VẼ KHUNG BÌA
@@ -64,6 +65,17 @@
 
 \titlespacing*{\chapter}{0pt}{-30pt}{20pt}
 
+% =============================
+% HYPERREF CONFIG
+% =============================
+\hypersetup{
+    colorlinks=true,
+    linkcolor=black,
+    urlcolor=blue,
+    citecolor=black,
+    pdfencoding=auto
+}
+
 % ==========================================
 \begin{document}
 % ==========================================
@@ -81,6 +93,7 @@
 
 % --- MỤC LỤC ---
 \tableofcontents
+\addcontentsline{toc}{chapter}{Mục lục}
 \newpage
 
 % --- DANH SÁCH ---
@@ -94,22 +107,16 @@
 
 \include{frontmatter/bang_chu_viet_tat}
 
-% =============================
-% NỘI DUNG CHÍNH
-% =============================
 \clearpage
 \pagenumbering{arabic}
 
-\include{chapters/mo_dau}
 \include{chapters/chuong1}
 \include{chapters/chuong2}
-\include{chapters/ket_luan}
-
-% =============================
-% PHỤ LỤC
-% =============================
-\include{chapters/phu_luc}
+\include{chapters/chuong3}
+\include{chapters/chuong4}
+\include{chapters/chuong5}
+\include{chapters/chuong6}
+\include{chapters/chuong7}
 \include{chapters/tai_lieu_tham_khao}
 
-% ==========================================
 \end{document}

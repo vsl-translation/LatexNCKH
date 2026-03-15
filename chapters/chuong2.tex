@@ -1,17 +1,35 @@
+
 % ==========================================
-% CHƯƠNG 2: XÂY DỰNG MÔ HÌNH NGHIÊN CỨU
+% CHƯƠNG 2: CÔNG TRÌNH NGHIÊN CỨU LIÊN QUAN
 % ==========================================
-\chapter{XÂY DỰNG MÔ HÌNH NGHIÊN CỨU}
-
-\section{Nội dung nghiên cứu 2.1}
-% \begin{figure}[h]
-%     \centering
-%     \includegraphics[width=0.8\textwidth]{hinh_anh_2.png}
-%     \caption{Hình ảnh 2 (Ảnh được tạo tự động, ảnh rõ nét, có khung)}
-% \end{figure}
-
-\subsection{Nội dung 2.1.1}
-Nội dung chi tiết\ldots
-
-\subsection{Nội dung 2.1.2}
-Tất cả các chương còn lại đều tuân thủ quy cách trình bày tương tự, đồng thời mỗi chương cần được ngắt sang một trang mới để đảm bảo bố cục rõ ràng.
+\chapter{CÔNG TRÌNH NGHIÊN CỨU LIÊN QUAN}
+ 
+Lĩnh vực nhận diện và dịch Ngôn ngữ Ký hiệu Việt Nam (VSL) vẫn còn tương đối non trẻ so với các ngôn ngữ ký hiệu phổ biến trên thế giới như Ngôn ngữ Ký hiệu Mỹ (ASL) hay Ngôn ngữ Ký hiệu Trung Quốc (CSL). Phần lớn các nghiên cứu hiện nay vẫn tập trung vào bài toán nhận diện một chiều (VSL $\rightarrow$ văn bản), trong khi các hệ thống dịch hai chiều hoàn chỉnh và thực tế còn rất hạn chế.
+ 
+\section{Sự phát triển của các phương pháp nghiên cứu}
+ 
+Các nghiên cứu giai đoạn đầu chủ yếu dựa trên các phương pháp học máy truyền thống như Hidden Markov Model (HMM), Support Vector Machine (SVM) và Dynamic Time Warping (DTW). Tuy nhiên, từ sau năm 2018, sự bùng nổ của Deep Learning đã kéo theo những cải tiến vượt bậc. Các kiến trúc như CNN, LSTM, BiLSTM và Transformer đã được áp dụng rộng rãi và trở thành xu hướng chủ đạo, giúp cải thiện đáng kể độ chính xác và khả năng xử lý chuỗi thời gian trong nhận diện ký hiệu.
+ 
+\section{Một số công trình tiêu biểu}
+ 
+\begin{itemize}
+    \item \textbf{Vietnamese Sign Language Alphabet Recognition Using MediaPipe và Deep Learning (2025):} Xây dựng bộ dữ liệu gồm 23 chữ cái và 2 dấu thanh của VSL, đạt độ chính xác lên tới khoảng 95\%, cho thấy tiềm năng to lớn của MediaPipe trong việc trích xuất đặc trưng bàn tay.
+ 
+    \item \textbf{Ứng dụng MoViNet-A2 cho nhận diện bảng chữ cái VSL:} Sử dụng dữ liệu từ cảm biến Kinect và mô hình phân loại video, cho thấy tiềm năng của việc xử lý dữ liệu đa chiều trong nhận diện chuỗi cử chỉ liên tục.
+ 
+    \item \textbf{Dự án dịch ngôn ngữ ký hiệu -- SV Đại học Sư phạm Kỹ thuật TP.HCM (Huy chương Đồng 2025):} Xây dựng ứng dụng nhận diện ký hiệu kết hợp NLP và Computer Vision, là minh chứng thực tiễn cho sự quan tâm ngày càng tăng đối với bài toán này tại Việt Nam.
+\end{itemize}
+ 
+\section{Khoảng trống nghiên cứu}
+ 
+Mặc dù các công trình trên đạt độ chính xác cao trong việc nhận diện ký hiệu đơn lẻ hoặc bảng chữ cái tĩnh, hầu hết vẫn chưa giải quyết được ba thách thức lớn:
+ 
+\begin{itemize}
+    \item Sự khác biệt sâu sắc về cấu trúc ngữ pháp giữa VSL và tiếng Việt, đặc biệt khi dịch các câu hội thoại phức tạp.
+ 
+    \item Thiếu các bộ dữ liệu lớn, chuẩn hóa và đa dạng về người thực hiện, góc quay, điều kiện ánh sáng.
+ 
+    \item Khả năng nhận diện chuỗi cử chỉ liên tục theo thời gian thực trên thiết bị di động có tài nguyên hạn chế.
+\end{itemize}
+ 
+Đề tài này được xây dựng trên cơ sở nhận diện rõ những khoảng trống trên, từ đó đề xuất một hệ thống tích hợp đa thành phần với kiến trúc Hybrid AI để giải quyết toàn diện cả ba chiều thách thức trên.

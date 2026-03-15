@@ -1,29 +1,50 @@
 % ==========================================
-% CHƯƠNG 1: CƠ SỞ LÝ THUYẾT VÀ TỔNG QUAN TÀI LIỆU
+% CHƯƠNG 1: GIỚI THIỆU
 % ==========================================
-\chapter{CƠ SỞ LÝ THUYẾT VÀ TỔNG QUAN TÀI LIỆU}
-
-\section{Nội dung 1}
-Nhóm nghiên cứu có trách nhiệm trình bày đầy đủ các nội dung theo cấu trúc của báo cáo.
-
-\subsection{Nội dung nghiên cứu 1.1}
-Hướng dẫn trình bày công thức tính như sau (Ví dụ Nhị thức Newton):
-\begin{equation}
-    (x+a)^n = \sum_{k=0}^{n} \binom{n}{k} x^k a^{n-k}
-\end{equation}
-
-\subsection{Nội dung nghiên cứu 1.2}
-Hướng dẫn cách trình bày bảng:
-\begin{table}[h]
-\centering
-\caption{Bảng mẫu số 1}
-\begin{tabular}{|c|c|c|}
-\hline
-\textbf{Nội dung 1} & \textbf{Nội dung 2} & \textbf{Nội dung 3} \\ \hline
-1 & 2 & 3 \\ \hline
-4 & 5 & 6 \\ \hline
-\end{tabular}
-\end{table}
-
-\section{Nội dung 2}
-Trình bày nội dung 2 ở đây\ldots
+\chapter{GIỚI THIỆU}
+ 
+\section{Giới thiệu chung}
+ 
+Đề tài \textbf{"Nghiên cứu và Phát triển Hệ thống Dịch Hai Chiều giữa Ngôn ngữ Ký hiệu và Ngôn ngữ Tự nhiên"} được thực hiện nhằm xây dựng một nền tảng ứng dụng di động thế hệ mới, hỗ trợ người khiếm thính và khiếm thanh giao tiếp hiệu quả, tự nhiên và bình đẳng hơn trong cuộc sống hàng ngày. Đây là một trong những hướng nghiên cứu có ý nghĩa xã hội sâu sắc, nhằm thu hẹp khoảng cách giao tiếp giữa cộng đồng người khiếm thính và phần còn lại của xã hội Việt Nam.
+ 
+Theo thống kê, Việt Nam có khoảng 2,5 triệu người khiếm thính, trong đó phần lớn sử dụng Ngôn ngữ Ký hiệu Việt Nam (Vietnamese Sign Language -- VSL) như ngôn ngữ mẹ đẻ của mình
+(\href{https://moh.gov.vn/tin-lien-quan/-/asset_publisher/vjYyM7O9aWnX/content/viet-nam-co-khoang-2-5-trieu-nguoi-khuyet-tat-nghe-noi}{Bộ Y tế Việt Nam}).
+Tuy nhiên, do thiếu hụt các công cụ phiên dịch tự động và chính xác, việc giao tiếp giữa họ với những người không biết ngôn ngữ ký hiệu vẫn còn nhiều rào cản.
+ 
+Hệ thống được đề xuất trong nghiên cứu này được thiết kế để đóng vai trò như một cầu nối thông minh, cho phép chuyển đổi linh hoạt hai chiều giữa cử chỉ ký hiệu, văn bản và giọng nói tiếng Việt.
+ 
+\section{Đặc điểm của Ngôn ngữ Ký hiệu Việt Nam (NNKH/VSL)}
+ 
+Ngôn ngữ ký hiệu là một \textbf{ngôn ngữ thị giác -- không gian} hoàn chỉnh, với ngữ pháp và cú pháp riêng biệt, không phụ thuộc vào tiếng Việt nói hay viết. Trong NNKH, thông tin ngữ pháp được truyền tải đồng thời qua nhiều kênh như: vị trí và chuyển động của tay, hướng lòng bàn tay, biểu cảm khuôn mặt, chuyển động của miệng và môi, cũng như hướng nhìn của người thực hiện ký hiệu.
+ 
+Một điểm đặc trưng quan trọng là cấu trúc câu trong VSL tuân theo thứ tự rất khác so với tiếng Việt thông thường. Cụ thể, một câu trong VSL thường được xây dựng theo trật tự:
+ 
+\begin{center}
+\textbf{THỜI GIAN $\rightarrow$ ĐỊA ĐIỂM $\rightarrow$ CHỦ THỂ $\rightarrow$ ĐỘNG TÁC $\rightarrow$ ĐỐI TƯỢNG $\rightarrow$ (NHẤN MẠNH/KẾT THÚC)}
+\end{center}
+ 
+Ví dụ, câu tiếng Việt:
+ 
+\textit{"Hôm nay ở nhà tôi ăn cơm rồi"}
+ 
+sẽ được biểu diễn trong VSL theo chuỗi ký hiệu:
+ 
+\begin{center}
+\textbf{HÔM NAY $\rightarrow$ NHÀ $\rightarrow$ TÔI $\rightarrow$ ĂN $\rightarrow$ CƠM $\rightarrow$ (XONG)}
+\end{center}
+ 
+Do đó, hệ thống phiên dịch không thể đơn thuần dịch từng từ theo thứ tự ban đầu mà cần phải thực hiện bước phân tích ngữ pháp và tái cấu trúc câu theo quy tắc của VSL. Đây là một trong những thách thức kỹ thuật quan trọng trong việc xây dựng hệ thống phiên dịch tự động giữa ngôn ngữ ký hiệu và tiếng Việt.
+ 
+\section{Mục tiêu và phạm vi nghiên cứu}
+ 
+Hệ thống được đề xuất trong nghiên cứu này tập trung vào việc xây dựng một nền tảng phiên dịch hai chiều giữa ngôn ngữ ký hiệu và tiếng Việt, với hai chức năng chính:
+ 
+\begin{itemize}
+    \item \textbf{Chuyển đổi từ ngôn ngữ ký hiệu sang tiếng Việt (VSL $\rightarrow$ VN):}
+    Hệ thống sử dụng camera để ghi nhận chuỗi hình ảnh cử chỉ tay và biểu cảm khuôn mặt của người sử dụng. Sau đó, các mô hình học sâu (Deep Learning) được áp dụng để nhận diện chuỗi ký hiệu và chuyển đổi thành văn bản hoặc giọng nói tiếng Việt.
+ 
+    \item \textbf{Chuyển đổi từ tiếng Việt sang ngôn ngữ ký hiệu (VN $\rightarrow$ VSL):}
+    Hệ thống phân tích câu tiếng Việt bằng các kỹ thuật xử lý ngôn ngữ tự nhiên (Natural Language Processing -- NLP), sau đó ánh xạ nội dung sang các ký hiệu tương ứng trong cơ sở dữ liệu và hiển thị dưới dạng video hoặc hình ảnh ký hiệu.
+\end{itemize}
+ 
+Hệ thống ứng dụng các công nghệ trí tuệ nhân tạo hiện đại như \textit{Computer Vision}, \textit{Deep Learning} và \textit{Natural Language Processing} nhằm tạo ra trải nghiệm giao tiếp tự nhiên và thời gian thực. Cách tiếp cận này góp phần thúc đẩy khả năng giao tiếp và hòa nhập xã hội cho cộng đồng người khiếm thính tại Việt Nam.

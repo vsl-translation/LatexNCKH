@@ -1,0 +1,23 @@
+
+% ==========================================
+% CHƯƠNG 5: THỰC NGHIỆM VÀ KẾT QUẢ
+% ==========================================
+\chapter{THỰC NGHIỆM VÀ KẾT QUẢ}
+ 
+\section{Xây dựng Bộ dữ liệu và Kỹ thuật Tăng cường Dữ liệu}
+ 
+Để xây dựng mô hình có khả năng tổng quát hóa tốt trên nhiều điều kiện thực tế, nhóm nghiên cứu kết hợp hai nguồn dữ liệu: bộ dữ liệu chuẩn QIPEDC (Bộ dữ liệu ngôn ngữ ký hiệu dành cho giáo dục học sinh khiếm thính cấp tiểu học của Bộ GD\&ĐT) và dữ liệu tự thu thập qua \texttt{webcam\_collector.py}.
+ 
+Quá trình thu thập được thiết kế có chủ đích: mỗi từ/cụm từ được quay với đầy đủ 7 trạng thái cảm xúc (angry, disgust, fear, happy, sad, surprise, neutral) bởi nhiều người thực hiện khác nhau, với góc quay và điều kiện ánh sáng đa dạng. Đây là bước nền tảng quan trọng giúp mô hình học được sự phong phú của biểu đạt cảm xúc trong VSL.
+ 
+Nhờ chiến lược Augmentation (mỗi video sinh ra 7 biến thể), quy mô bộ dữ liệu tăng đáng kể so với số lượng video thu thập thực tế. Ba kỹ thuật augmentation được áp dụng: thêm nhiễu Gaussian mức độ khác nhau để mô phỏng biến động ánh sáng và chất lượng camera; co giãn tỷ lệ tay để mô phỏng người dùng đứng ở nhiều khoảng cách khác nhau; và cắt gọt thời gian (time warp) để học cả cách thực hiện ký hiệu nhanh lẫn chậm.
+ 
+\section{Kết quả Huấn luyện và Đánh giá}
+ 
+Quá trình huấn luyện được thực hiện sử dụng framework PyTorch, với optimizer Adam và scheduler giảm learning rate. Mô hình được đánh giá theo các chỉ số: độ chính xác (accuracy), ma trận nhầm lẫn (confusion matrix) và biểu đồ loss/accuracy qua các epoch.
+ 
+Bộ lọc ổn định (Stability Filter) với ngưỡng confidence $\geq$ 0.6 và yêu cầu nhất quán trong 3 frames liên tiếp đã chứng tỏ hiệu quả trong việc giảm tỷ lệ nhãn giật/nhảy, từ đó nâng cao đáng kể trải nghiệm người dùng trong điều kiện thực tế.
+ 
+Thực nghiệm cũng xác nhận rằng việc bổ sung 7 chiều Emotion vào feature vector mang lại cải thiện rõ rệt so với mô hình chỉ dùng Pose và Hands. Điều này minh chứng cho giả thuyết ban đầu rằng biểu cảm khuôn mặt đóng vai trò không thể thiếu trong việc phân biệt ý nghĩa các ký hiệu đồng hình trong VSL.
+ 
+ 
