@@ -1,122 +1,122 @@
-\documentclass[12pt,a4paper,oneside]{report}
+    \documentclass[12pt,a4paper,oneside]{report}
 
-% =============================
-% FONT & TIẾNG VIỆT
-% =============================
-\usepackage{fontspec}
-\usepackage{polyglossia}
-\setmainlanguage{vietnamese}
-\setmainfont{Times New Roman}
+    % =============================
+    % FONT & TIẾNG VIỆT
+    % =============================
+    \usepackage{fontspec}
+    \usepackage{polyglossia}
+    \setmainlanguage{vietnamese}
+    \setmainfont{Times New Roman}
 
-\XeTeXlinebreaklocale "vi"
-\XeTeXlinebreakskip = 0pt plus 1pt
+    \XeTeXlinebreaklocale "vi"
+    \XeTeXlinebreakskip = 0pt plus 1pt
 
-% =============================
-% PAGE LAYOUT
-% =============================
-\usepackage{geometry}
-\geometry{
-    a4paper,
-    left=3cm,
-    right=2cm,
-    top=2cm,
-    bottom=2cm
-}
+    % =============================
+    % PAGE LAYOUT
+    % =============================
+    \usepackage{geometry}
+    \geometry{
+        a4paper,
+        left=3cm,
+        right=2cm,
+        top=2cm,
+        bottom=2cm
+    }
 
-% =============================
-% GÓI CƠ BẢN
-% =============================
-\usepackage{graphicx}
-\usepackage{amsmath}
-\usepackage{tabularx}
-\usepackage{titlesec}
-\usepackage{tocloft}
-\usepackage{hyperref}
-\usepackage{indentfirst}
+    % =============================
+    % GÓI CƠ BẢN
+    % =============================
+    \usepackage{graphicx}
+    \usepackage{amsmath}
+    \usepackage{tabularx}
+    \usepackage{titlesec}
+    \usepackage{tocloft}
+    \usepackage{hyperref}
+    \usepackage{indentfirst}
 
-% =============================
-% VẼ KHUNG BÌA
-% =============================
-\usepackage{tikz}
-\usetikzlibrary{calc}
+    % =============================
+    % VẼ KHUNG BÌA
+    % =============================
+    \usepackage{tikz}
+    \usetikzlibrary{calc}
 
-\newcommand{\vekhung}{
-    \begin{tikzpicture}[remember picture, overlay]
-        \draw[line width=2.5pt, color=blue!40!black]
-        ($(current page.north west)+(2.5cm,-1.5cm)$)
-        rectangle
-        ($(current page.south east)+(-1.5cm,1.5cm)$);
+    \newcommand{\vekhung}{
+        \begin{tikzpicture}[remember picture, overlay]
+            \draw[line width=2.5pt, color=blue!40!black]
+            ($(current page.north west)+(2.5cm,-1.5cm)$)
+            rectangle
+            ($(current page.south east)+(-1.5cm,1.5cm)$);
 
-        \draw[line width=0.5pt, color=blue!40!black]
-        ($(current page.north west)+(2.65cm,-1.65cm)$)
-        rectangle
-        ($(current page.south east)+(-1.65cm,1.65cm)$);
-    \end{tikzpicture}
-}
+            \draw[line width=0.5pt, color=blue!40!black]
+            ($(current page.north west)+(2.65cm,-1.65cm)$)
+            rectangle
+            ($(current page.south east)+(-1.65cm,1.65cm)$);
+        \end{tikzpicture}
+    }
 
-% =============================
-% FORMAT CHAPTER
-% =============================
-\titleformat{\chapter}[display]
-{\normalfont\huge\bfseries\centering}
-{\chaptertitlename\ \thechapter}
-{20pt}
-{\Huge}
+    % =============================
+    % FORMAT CHAPTER
+    % =============================
+    \titleformat{\chapter}[display]
+    {\normalfont\huge\bfseries\centering}
+    {\chaptertitlename\ \thechapter}
+    {20pt}
+    {\Huge}
 
-\titlespacing*{\chapter}{0pt}{-30pt}{20pt}
+    \titlespacing*{\chapter}{0pt}{-30pt}{20pt}
 
-% =============================
-% HYPERREF CONFIG
-% =============================
-\hypersetup{
-    colorlinks=true,
-    linkcolor=black,
-    urlcolor=blue,
-    citecolor=black,
-    pdfencoding=auto
-}
+    % =============================
+    % HYPERREF CONFIG
+    % =============================
+    \hypersetup{
+        colorlinks=true,
+        linkcolor=black,
+        urlcolor=black,
+        citecolor=black,
+        pdfencoding=auto
+    }
 
-% ==========================================
-\begin{document}
-% ==========================================
+    % ==========================================
+    \begin{document}
+    % ==========================================
 
-% --- BÌA (không đánh số trang) ---
-\pagenumbering{gobble}
-\include{frontmatter/bia_ngoai}
-\include{frontmatter/bia_trong}
+    % --- BÌA (không đánh số trang) ---
+    \pagenumbering{gobble}
+    \include{frontmatter/bia_ngoai}
+    \include{frontmatter/bia_trong}
 
-% --- PHẦN TIỀN VĂN (số La Mã) ---
-\pagenumbering{roman}
-\include{frontmatter/loi_cam_doan}
-\include{frontmatter/loi_cam_on}
-\include{frontmatter/danh_sach_thanh_vien}
+    % --- PHẦN TIỀN VĂN (số La Mã) ---
+    \pagenumbering{roman}
+    \include{frontmatter/loi_cam_doan}
+    \include{frontmatter/loi_cam_on}
+    \include{frontmatter/danh_sach_thanh_vien}
 
-% --- MỤC LỤC ---
-\tableofcontents
-\addcontentsline{toc}{chapter}{Mục lục}
-\newpage
+    % --- MỤC LỤC ---
+    \tableofcontents
+    \addcontentsline{toc}{chapter}{Mục lục}
+    \newpage
 
-% --- DANH SÁCH ---
-\listoffigures
-\addcontentsline{toc}{chapter}{Danh sách hình ảnh}
-\newpage
+    % --- DANH SÁCH ---
+    \listoffigures
+    \addcontentsline{toc}{chapter}{Danh sách hình ảnh}
+    \newpage
 
-\listoftables
-\addcontentsline{toc}{chapter}{Danh sách bảng}
-\newpage
+    \listoftables
+    \addcontentsline{toc}{chapter}{Danh sách bảng}
+    \newpage
 
-\include{frontmatter/bang_chu_viet_tat}
+    \include{frontmatter/bang_chu_viet_tat}
 
-\clearpage
-\pagenumbering{arabic}
+    \clearpage
+    \pagenumbering{arabic}
 
-\include{chapters/chuong1}
-\include{chapters/chuong2}
-\include{chapters/chuong3}
-\include{chapters/chuong4}
-\include{chapters/chuong5}
-\include{chapters/chuong6}
-\include{chapters/chuong7}
-\include{chapters/tai_lieu_tham_khao}
+    \include{chapters/chuong1}
+    \include{chapters/chuong2}
+    \include{chapters/chuong3}
+    \include{chapters/chuong4}
+    \include{chapters/chuong5}
+    \include{chapters/chuong6}
+    \include{chapters/chuong7}
+    \include{chapters/tai_lieu_tham_khao}
 
-\end{document}
+    \end{document}
