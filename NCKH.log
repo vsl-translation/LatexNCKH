@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999998 (MiKTeX 26.2) (preloaded format=xelatex 2026.3.21)  21 MAR 2026 23:46
+This is XeTeX, Version 3.141592653-2.6-0.999998 (MiKTeX 26.2) (preloaded format=xelatex 2026.3.21)  21 MAR 2026 23:53
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1058,7 +1058,7 @@ Package caption Info: Standard document class detected.
 Package caption Info: float package is loaded.
 Package caption Info: hyperref package is loaded.
 )
-Package hyperref Info: Option `colorlinks' set `true' on input line 156.
+Package hyperref Info: Option `colorlinks' set `true' on input line 155.
 \@quotelevel=\count478
 \@quotereset=\count479
 (NCKH.aux (frontmatter/bia_ngoai.aux) (frontmatter/bia_trong.aux)
@@ -1069,26 +1069,26 @@ Package hyperref Info: Option `colorlinks' set `true' on input line 156.
 (chapters/chuong7.aux) (chapters/tai_lieu_tham_khao.aux))
 \openout1 = `NCKH.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 159.
-LaTeX Font Info:    ... okay on input line 159.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 159.
-LaTeX Font Info:    ... okay on input line 159.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 159.
-LaTeX Font Info:    ... okay on input line 159.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 159.
-LaTeX Font Info:    ... okay on input line 159.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 159.
-LaTeX Font Info:    ... okay on input line 159.
-LaTeX Font Info:    Checking defaults for TU/lmr/m/n on input line 159.
-LaTeX Font Info:    ... okay on input line 159.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 159.
-LaTeX Font Info:    ... okay on input line 159.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 159.
-LaTeX Font Info:    ... okay on input line 159.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 159.
-LaTeX Font Info:    ... okay on input line 159.
-LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 159.
-LaTeX Font Info:    ... okay on input line 159.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 158.
+LaTeX Font Info:    ... okay on input line 158.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 158.
+LaTeX Font Info:    ... okay on input line 158.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 158.
+LaTeX Font Info:    ... okay on input line 158.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 158.
+LaTeX Font Info:    ... okay on input line 158.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 158.
+LaTeX Font Info:    ... okay on input line 158.
+LaTeX Font Info:    Checking defaults for TU/lmr/m/n on input line 158.
+LaTeX Font Info:    ... okay on input line 158.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 158.
+LaTeX Font Info:    ... okay on input line 158.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 158.
+LaTeX Font Info:    ... okay on input line 158.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 158.
+LaTeX Font Info:    ... okay on input line 158.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 158.
+LaTeX Font Info:    ... okay on input line 158.
 
 Package fontspec Info: 
 (fontspec)             Adjusting the maths setup (use [no-math] to avoid
@@ -1096,64 +1096,64 @@ Package fontspec Info:
 
 \symlegacymaths=\mathgroup6
 LaTeX Font Info:    Overwriting symbol font `legacymaths' in version `bold'
-(Font)                  OT1/cmr/m/n --> OT1/cmr/bx/n on input line 159.
-LaTeX Font Info:    Redeclaring math accent \acute on input line 159.
-LaTeX Font Info:    Redeclaring math accent \grave on input line 159.
-LaTeX Font Info:    Redeclaring math accent \ddot on input line 159.
-LaTeX Font Info:    Redeclaring math accent \tilde on input line 159.
-LaTeX Font Info:    Redeclaring math accent \bar on input line 159.
-LaTeX Font Info:    Redeclaring math accent \breve on input line 159.
-LaTeX Font Info:    Redeclaring math accent \check on input line 159.
-LaTeX Font Info:    Redeclaring math accent \hat on input line 159.
-LaTeX Font Info:    Redeclaring math accent \dot on input line 159.
-LaTeX Font Info:    Redeclaring math accent \mathring on input line 159.
-LaTeX Font Info:    Redeclaring math symbol \Gamma on input line 159.
-LaTeX Font Info:    Redeclaring math symbol \Delta on input line 159.
-LaTeX Font Info:    Redeclaring math symbol \Theta on input line 159.
-LaTeX Font Info:    Redeclaring math symbol \Lambda on input line 159.
-LaTeX Font Info:    Redeclaring math symbol \Xi on input line 159.
-LaTeX Font Info:    Redeclaring math symbol \Pi on input line 159.
-LaTeX Font Info:    Redeclaring math symbol \Sigma on input line 159.
-LaTeX Font Info:    Redeclaring math symbol \Upsilon on input line 159.
-LaTeX Font Info:    Redeclaring math symbol \Phi on input line 159.
-LaTeX Font Info:    Redeclaring math symbol \Psi on input line 159.
-LaTeX Font Info:    Redeclaring math symbol \Omega on input line 159.
-LaTeX Font Info:    Redeclaring math symbol \mathdollar on input line 159.
-LaTeX Font Info:    Redeclaring symbol font `operators' on input line 159.
+(Font)                  OT1/cmr/m/n --> OT1/cmr/bx/n on input line 158.
+LaTeX Font Info:    Redeclaring math accent \acute on input line 158.
+LaTeX Font Info:    Redeclaring math accent \grave on input line 158.
+LaTeX Font Info:    Redeclaring math accent \ddot on input line 158.
+LaTeX Font Info:    Redeclaring math accent \tilde on input line 158.
+LaTeX Font Info:    Redeclaring math accent \bar on input line 158.
+LaTeX Font Info:    Redeclaring math accent \breve on input line 158.
+LaTeX Font Info:    Redeclaring math accent \check on input line 158.
+LaTeX Font Info:    Redeclaring math accent \hat on input line 158.
+LaTeX Font Info:    Redeclaring math accent \dot on input line 158.
+LaTeX Font Info:    Redeclaring math accent \mathring on input line 158.
+LaTeX Font Info:    Redeclaring math symbol \Gamma on input line 158.
+LaTeX Font Info:    Redeclaring math symbol \Delta on input line 158.
+LaTeX Font Info:    Redeclaring math symbol \Theta on input line 158.
+LaTeX Font Info:    Redeclaring math symbol \Lambda on input line 158.
+LaTeX Font Info:    Redeclaring math symbol \Xi on input line 158.
+LaTeX Font Info:    Redeclaring math symbol \Pi on input line 158.
+LaTeX Font Info:    Redeclaring math symbol \Sigma on input line 158.
+LaTeX Font Info:    Redeclaring math symbol \Upsilon on input line 158.
+LaTeX Font Info:    Redeclaring math symbol \Phi on input line 158.
+LaTeX Font Info:    Redeclaring math symbol \Psi on input line 158.
+LaTeX Font Info:    Redeclaring math symbol \Omega on input line 158.
+LaTeX Font Info:    Redeclaring math symbol \mathdollar on input line 158.
+LaTeX Font Info:    Redeclaring symbol font `operators' on input line 158.
 LaTeX Font Info:    Encoding `OT1' has changed to `TU' for symbol font
-(Font)              `operators' in the math version `normal' on input line 159.
+(Font)              `operators' in the math version `normal' on input line 158.
 
 LaTeX Font Info:    Overwriting symbol font `operators' in version `normal'
 (Font)                  OT1/cmr/m/n --> TU/TimesNewRoman(0)/m/n on input line 1
-59.
+58.
 LaTeX Font Info:    Encoding `OT1' has changed to `TU' for symbol font
-(Font)              `operators' in the math version `bold' on input line 159.
+(Font)              `operators' in the math version `bold' on input line 158.
 LaTeX Font Info:    Overwriting symbol font `operators' in version `bold'
 (Font)                  OT1/cmr/bx/n --> TU/TimesNewRoman(0)/m/n on input line 
-159.
+158.
 LaTeX Font Info:    Overwriting symbol font `operators' in version `normal'
 (Font)                  TU/TimesNewRoman(0)/m/n --> TU/TimesNewRoman(0)/m/n on 
-input line 159.
+input line 158.
 LaTeX Font Info:    Overwriting math alphabet `\mathit' in version `normal'
 (Font)                  OT1/cmr/m/it --> TU/TimesNewRoman(0)/m/it on input line
- 159.
+ 158.
 LaTeX Font Info:    Overwriting math alphabet `\mathbf' in version `normal'
 (Font)                  OT1/cmr/bx/n --> TU/TimesNewRoman(0)/b/n on input line 
-159.
+158.
 LaTeX Font Info:    Overwriting math alphabet `\mathsf' in version `normal'
-(Font)                  OT1/cmss/m/n --> TU/lmss/m/n on input line 159.
+(Font)                  OT1/cmss/m/n --> TU/lmss/m/n on input line 158.
 LaTeX Font Info:    Overwriting math alphabet `\mathtt' in version `normal'
-(Font)                  OT1/cmtt/m/n --> TU/lmtt/m/n on input line 159.
+(Font)                  OT1/cmtt/m/n --> TU/lmtt/m/n on input line 158.
 LaTeX Font Info:    Overwriting symbol font `operators' in version `bold'
 (Font)                  TU/TimesNewRoman(0)/m/n --> TU/TimesNewRoman(0)/b/n on 
-input line 159.
+input line 158.
 LaTeX Font Info:    Overwriting math alphabet `\mathit' in version `bold'
 (Font)                  OT1/cmr/bx/it --> TU/TimesNewRoman(0)/b/it on input lin
-e 159.
+e 158.
 LaTeX Font Info:    Overwriting math alphabet `\mathsf' in version `bold'
-(Font)                  OT1/cmss/bx/n --> TU/lmss/b/n on input line 159.
+(Font)                  OT1/cmss/bx/n --> TU/lmss/b/n on input line 158.
 LaTeX Font Info:    Overwriting math alphabet `\mathtt' in version `bold'
-(Font)                  OT1/cmtt/m/n --> TU/lmtt/b/n on input line 159.
+(Font)                  OT1/cmtt/m/n --> TU/lmtt/b/n on input line 158.
 
 *geometry* driver: auto-detecting
 *geometry* detected driver: xetex
@@ -1193,7 +1193,7 @@ Package biblatex Info: Trying to load language 'vietnamese'...
 Package biblatex Info: ... file 'vietnamese.lbx' not found.
 
 Package biblatex Warning: Language 'vietnamese' not supported.
-(biblatex)                Using dummy definitions on input line 159.
+(biblatex)                Using dummy definitions on input line 158.
 
 Package biblatex Info: XeTeX detected.
 (biblatex)             Assuming input encoding 'utf8'.
@@ -1204,9 +1204,9 @@ Package biblatex Info: Automatic encoding selection.
 Package biblatex Info: Trying to load bibliographic data...
 Package biblatex Info: ... file 'NCKH.bbl' found.
 (NCKH.bbl)
-Package biblatex Info: Reference section=0 on input line 159.
-Package biblatex Info: Reference segment=0 on input line 159.
-Package hyperref Info: Link coloring ON on input line 159.
+Package biblatex Info: Reference section=0 on input line 158.
+Package biblatex Info: Reference segment=0 on input line 158.
+Package hyperref Info: Link coloring ON on input line 158.
  (NCKH.out) (NCKH.out)
 \@outlinefile=\write5
 \openout5 = `NCKH.out'.
@@ -1345,93 +1345,51 @@ Chương 4.
 
 
 
-]
-LaTeX Font Info:    Calculating math sizes for size <13> on input line 74.
-
-
-LaTeX Font Warning: Font shape `OML/cmm/m/it' in size <13> not available
-(Font)              size <12> substituted on input line 74.
-
-
-LaTeX Font Warning: Font shape `OML/cmm/m/it' in size <6.5> not available
-(Font)              size <6> substituted on input line 74.
-
-
-LaTeX Font Warning: Font shape `OMS/cmsy/m/n' in size <13> not available
-(Font)              size <12> substituted on input line 74.
-
-
-LaTeX Font Warning: Font shape `OMS/cmsy/m/n' in size <6.5> not available
-(Font)              size <6> substituted on input line 74.
-
-
-LaTeX Font Warning: Font shape `OT1/cmr/m/n' in size <13> not available
-(Font)              size <12> substituted on input line 74.
-
-
-LaTeX Font Warning: Font shape `OT1/cmr/m/n' in size <6.5> not available
-(Font)              size <6> substituted on input line 74.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 74.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\rightarrow' on input line 74.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 74.
-
-[7]
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 121.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\rightarrow' on input line 121.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 121.
-
-[8] [9]
+] [7] [8] [9]
 Overfull \hbox (9.77606pt too wide) in paragraph at lines 241--246
 []\TU/TimesNewRoman(0)/m/n/12 Các siêu tham số chính của mô hình: finger_dim = 
 32, curl_embed_dim = 32, temporal_dim
  []
 
-[10] [11]) [12]
+[10]) [11]
 \openout2 = `chapters/chuong5.aux'.
 
  (chapters/chuong5.tex
 Chương 5.
 
-Overfull \hbox (0.92972pt too wide) in paragraph at lines 28--29
+Overfull \hbox (0.92972pt too wide) in paragraph at lines 57--58
 \TU/TimesNewRoman(0)/m/n/12 Mô hình EfficientNet-B2 được huấn luyện theo chiến 
 lược hai giai đoạn trên framework PyTorch.
  []
 
-[13
+[12
 
 
 
 
 ]
-File: images/training_history.png Graphic file (type bmp)
-<images/training_history.png>
-File: images/per_class_metrics_val.png Graphic file (type bmp)
-<images/per_class_metrics_val.png>
-File: images/per_class_metrics_test.png Graphic file (type bmp)
-<images/per_class_metrics_test.png>
- [14]) [15]
+
+LaTeX Warning: Reference `fig:training_history' on page 13 undefined on input l
+ine 61.
+
+File: images/5_data_distribution.png Graphic file (type bmp)
+<images/5_data_distribution.png>
+File: images/1_training_curves.png Graphic file (type bmp)
+<images/1_training_curves.png>
+[13]
+File: images/3_confusion_matrix.png Graphic file (type bmp)
+<images/3_confusion_matrix.png>
+ [14]
+File: images/4_per_class_metrics.png Graphic file (type bmp)
+<images/4_per_class_metrics.png>
+File: images/7_attention_weights.png Graphic file (type bmp)
+<images/7_attention_weights.png>
+ [15]) [16]
 \openout2 = `chapters/chuong6.aux'.
 
  (chapters/chuong6.tex
 Chương 6.
-) [16
+) [17
 
 
 
@@ -1441,15 +1399,15 @@ Chương 6.
 
  (chapters/chuong7.tex
 Chương 7.
-) [17
+) [18
 
 
 
 
-] [18]
+] [19]
 \openout2 = `chapters/tai_lieu_tham_khao.aux'.
 
- (chapters/tai_lieu_tham_khao.tex) [19
+ (chapters/tai_lieu_tham_khao.tex) [20
 
 
 
@@ -1467,22 +1425,21 @@ L3 programming layer <2026-01-19>
  ***********
 
 
-LaTeX Font Warning: Size substitutions with differences
-(Font)              up to 1.0pt have occurred.
+LaTeX Warning: There were undefined references.
 
 Package rerunfilecheck Info: File `NCKH.out' has not changed.
-(rerunfilecheck)             Checksum: B1AE06BC40132FB2C633CCAE75137937;11027.
+(rerunfilecheck)             Checksum: 1EA12407E32DF40628CEDCCC86E55493;10819.
 Package logreq Info: Writing requests to 'NCKH.run.xml'.
 \openout1 = `NCKH.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 32218 strings out of 402983
- 650806 string characters out of 5448275
- 1548042 words of memory out of 5000000
- 60389 multiletter control sequences out of 15000+600000
- 638428 words of font info for 117 fonts, out of 8000000 for 9000
+ 32204 strings out of 402983
+ 650616 string characters out of 5448275
+ 1549073 words of memory out of 5000000
+ 60382 multiletter control sequences out of 15000+600000
+ 635565 words of font info for 100 fonts, out of 8000000 for 9000
  1348 hyphenation exceptions out of 8191
  84i,10n,94p,1199b,554s stack positions out of 10000i,1000n,20000p,200000b,200000s
 
-Output written on NCKH.xdv (29 pages, 465336 bytes).
+Output written on NCKH.xdv (30 pages, 474052 bytes).

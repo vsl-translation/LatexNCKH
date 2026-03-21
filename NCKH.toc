@@ -8,7 +8,7 @@
 \contentsline {chapter}{DANH SÁCH BẢNG CHỮ CÁI VIẾT TẮT}{v}{table.caption.2}%
 \contentsline {chapter}{\numberline {1}GIỚI THIỆU}{1}{chapter.1}%
 \contentsline {section}{\numberline {1.1}Giới thiệu chung}{1}{section.1.1}%
-\contentsline {section}{\numberline {1.2}Đặc điểm của Ngôn ngữ Ký hiệu Việt Nam (NNKH/VSL)}{1}{section.1.2}%
+\contentsline {section}{\numberline {1.2}Đặc điểm của Ngôn ngữ Ký hiệu Việt Nam}{1}{section.1.2}%
 \contentsline {section}{\numberline {1.3}Mục tiêu và phạm vi nghiên cứu}{2}{section.1.3}%
 \contentsline {chapter}{\numberline {2}CÔNG TRÌNH NGHIÊN CỨU LIÊN QUAN}{3}{chapter.2}%
 \contentsline {section}{\numberline {2.1}Sự phát triển của các phương pháp nghiên cứu}{3}{section.2.1}%
@@ -24,29 +24,29 @@
 \contentsline {subsection}{\numberline {4.1.3}Cross-Attention và Temporal Pooling}{6}{subsection.4.1.3}%
 \contentsline {subsection}{\numberline {4.1.4}Hàm mất mát và tối ưu hóa}{7}{subsection.4.1.4}%
 \contentsline {subsection}{\numberline {4.1.5}Data Augmentation}{7}{subsection.4.1.5}%
-\contentsline {section}{\numberline {4.2}Quy trình chuyển đổi tiếng Việt sang ngôn ngữ ký hiệu (VN $\rightarrow $ VSL)}{7}{section.4.2}%
+\contentsline {section}{\numberline {4.2}Quy trình chuyển đổi tiếng Việt sang ngôn ngữ ký hiệu}{7}{section.4.2}%
 \contentsline {subsection}{\numberline {4.2.1}Quy trình cơ bản}{7}{subsection.4.2.1}%
 \contentsline {subsection}{\numberline {4.2.2}Quy trình logic xử lý chi tiết}{7}{subsection.4.2.2}%
-\contentsline {section}{\numberline {4.3}Quy trình chuyển đổi ngôn ngữ ký hiệu sang tiếng Việt (VSL $\rightarrow $ VN)}{8}{section.4.3}%
+\contentsline {section}{\numberline {4.3}Quy trình chuyển đổi ngôn ngữ ký hiệu sang tiếng Việt}{8}{section.4.3}%
 \contentsline {subsection}{\numberline {4.3.1}Quy trình cơ bản}{8}{subsection.4.3.1}%
 \contentsline {subsection}{\numberline {4.3.2}Thu thập dữ liệu huấn luyện}{8}{subsection.4.3.2}%
 \contentsline {subsection}{\numberline {4.3.3}Trích xuất đặc trưng}{8}{subsection.4.3.3}%
 \contentsline {subsection}{\numberline {4.3.4}Huấn luyện mô hình Hand-Aware Transformer}{9}{subsection.4.3.4}%
 \contentsline {subsection}{\numberline {4.3.5}Nhận dạng theo thời gian thực}{10}{subsection.4.3.5}%
-\contentsline {section}{\numberline {4.4}Vai trò then chốt của Emotion Encoding trong NNKH}{11}{section.4.4}%
-\contentsline {subsection}{\numberline {4.4.1}Cơ chế trích xuất và mã hóa cảm xúc khuôn mặt}{11}{subsection.4.4.1}%
-\contentsline {subsection}{\numberline {4.4.2}Tích hợp vào feature vector}{11}{subsection.4.4.2}%
-\contentsline {section}{\numberline {4.5}Cơ chế lựa chọn ứng viên tiềm năng -- Pipeline 4 giai đoạn}{12}{section.4.5}%
-\contentsline {chapter}{\numberline {5}THỰC NGHIỆM VÀ KẾT QUẢ}{13}{chapter.5}%
-\contentsline {section}{\numberline {5.1}Xây dựng Bộ dữ liệu}{13}{section.5.1}%
-\contentsline {section}{\numberline {5.2}Kỹ thuật Tăng cường Dữ liệu}{13}{section.5.2}%
-\contentsline {section}{\numberline {5.3}Môi trường và Cấu hình Huấn luyện}{13}{section.5.3}%
-\contentsline {section}{\numberline {5.4}Kết quả Huấn luyện}{14}{section.5.4}%
-\contentsline {section}{\numberline {5.5}Đánh giá theo Từng Nhãn}{14}{section.5.5}%
-\contentsline {chapter}{\numberline {6}PHÂN TÍCH VÀ ĐÁNH GIÁ}{16}{chapter.6}%
-\contentsline {section}{\numberline {6.1}Hiệu năng xử lý thời gian thực}{16}{section.6.1}%
-\contentsline {section}{\numberline {6.2}Độ ổn định và tính nhất quán của kết quả}{16}{section.6.2}%
-\contentsline {section}{\numberline {6.3}Chất lượng ngữ nghĩa của đầu ra}{16}{section.6.3}%
-\contentsline {chapter}{\numberline {7}KẾT LUẬN VÀ HƯỚNG PHÁT TRIỂN}{17}{chapter.7}%
-\contentsline {section}{\numberline {7.1}Kết luận}{17}{section.7.1}%
-\contentsline {section}{\numberline {7.2}Hướng phát triển}{17}{section.7.2}%
+\contentsline {section}{\numberline {4.4}Vai trò then chốt của Emotion Encoding trong VSL}{11}{section.4.4}%
+\contentsline {section}{\numberline {4.5}Cơ chế lựa chọn ứng viên tiềm năng -- Pipeline 4 giai đoạn}{11}{section.4.5}%
+\contentsline {chapter}{\numberline {5}THỰC NGHIỆM VÀ KẾT QUẢ}{12}{chapter.5}%
+\contentsline {section}{\numberline {5.1}Xây dựng Bộ dữ liệu}{12}{section.5.1}%
+\contentsline {section}{\numberline {5.2}Môi trường và Cấu hình Huấn luyện}{13}{section.5.2}%
+\contentsline {section}{\numberline {5.3}Kết quả Huấn luyện}{13}{section.5.3}%
+\contentsline {section}{\numberline {5.4}Đánh giá theo Từng Nhãn}{13}{section.5.4}%
+\contentsline {section}{\numberline {5.5}Đánh giá trên tập kiểm thử}{14}{section.5.5}%
+\contentsline {section}{\numberline {5.6}Phân tích định tính -- Temporal Attention}{15}{section.5.6}%
+\contentsline {section}{\numberline {5.7}Đánh giá vai trò của Emotion Encoding}{15}{section.5.7}%
+\contentsline {chapter}{\numberline {6}PHÂN TÍCH VÀ ĐÁNH GIÁ}{17}{chapter.6}%
+\contentsline {section}{\numberline {6.1}Hiệu năng xử lý thời gian thực}{17}{section.6.1}%
+\contentsline {section}{\numberline {6.2}Độ ổn định và tính nhất quán của kết quả}{17}{section.6.2}%
+\contentsline {section}{\numberline {6.3}Chất lượng ngữ nghĩa của đầu ra}{17}{section.6.3}%
+\contentsline {chapter}{\numberline {7}KẾT LUẬN VÀ HƯỚNG PHÁT TRIỂN}{18}{chapter.7}%
+\contentsline {section}{\numberline {7.1}Kết luận}{18}{section.7.1}%
+\contentsline {section}{\numberline {7.2}Hướng phát triển}{18}{section.7.2}%
