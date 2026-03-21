@@ -7,17 +7,19 @@ Hệ thống được xây dựng dựa trên mô hình Hybrid AI, là sự kế
  
 \section{Kiến trúc tổng thể}
  
-Hệ thống được phân chia thành hai luồng xử lý độc lập và đối xứng, trong đó mỗi luồng tương ứng với một chiều của bài toán dịch thuật. Cả hai luồng đều chia sẻ lớp trung gian Logic Solving trên server, với thiết bị đầu cuối (kính thông minh hoặc ứng dụng di động) đóng vai trò là điểm tiếp nhận đầu vào và hiển thị đầu ra.
- 
-Thiết bị trung tâm được mô tả trong đề tài là một loại kính thông minh tích hợp microphone, camera, màn hình hiển thị nhỏ và kết nối mạng. Thiết bị này đóng vai trò thu nhận tín hiệu đầu vào (giọng nói hoặc luồng video cử chỉ), gửi yêu cầu lên server để xử lý, nhận phản hồi và hiển thị kết quả phiên dịch ra giao diện người dùng.
- 
+Hệ thống được phân chia thành hai luồng xử lý độc lập và đối xứng, trong đó mỗi luồng tương ứng với một chiều của bài toán dịch thuật. Cả hai luồng đều chia sẻ lớp trung gian Logic Solving trên server, với thiết bị đầu cuối là ứng dụng di động đóng vai trò tiếp nhận đầu vào và hiển thị đầu ra.
+
+Trong phạm vi của đề tài, hệ thống được triển khai trên nền tảng điện thoại thông minh. Thiết bị này tích hợp sẵn microphone, camera và màn hình hiển thị, cho phép thu nhận dữ liệu đầu vào (giọng nói hoặc video cử chỉ), gửi yêu cầu đến server để xử lý, sau đó nhận kết quả và hiển thị trực tiếp cho người dùng.
+
+Việc sử dụng điện thoại thông minh giúp tận dụng hạ tầng phần cứng phổ biến, giảm chi phí triển khai và tăng khả năng tiếp cận của người dùng, đồng thời vẫn đảm bảo khả năng mở rộng hệ thống sang các thiết bị chuyên dụng (như kính thông minh) trong tương lai.
+
 \section{Thành phần công nghệ chính}
  
 \begin{itemize}
     \item \textbf{MediaPipe (Google):} Thư viện trích xuất điểm mốc (landmark) trên cơ thể và bàn tay với độ chính xác cao và tốc độ xử lý realtime.
  
-    \item \textbf{BiLSTM (Bidirectional Long Short-Term Memory):} Mô hình học sâu chính dùng cho bài toán nhận diện chuỗi cử chỉ theo thời gian (VSL $\rightarrow$ VN).
- 
+    \item \textbf{Transformer:} Mô hình học sâu chính được sử dụng cho bài toán nhận diện và dịch chuỗi cử chỉ theo thời gian (VSL $\rightarrow$ VN). Transformer sử dụng cơ chế Attention giúp mô hình học được mối quan hệ dài hạn giữa các frame trong chuỗi video, từ đó cải thiện độ chính xác so với các mô hình tuần tự truyền thống như RNN hay LSTM.
+
     \item \textbf{Underthesea:} Thư viện NLP chuyên biệt cho tiếng Việt, dùng để phân tách từ, loại bỏ từ dừng và chuẩn hóa đầu vào (VN $\rightarrow$ VSL).
  
     \item \textbf{PhoBERT:} Mô hình ngôn ngữ BERT tiền huấn luyện trên tiếng Việt, được dùng để chấm điểm và lựa chọn từ phù hợp nhất về mặt ngữ cảnh.
