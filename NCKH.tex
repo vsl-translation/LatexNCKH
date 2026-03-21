@@ -1,6 +1,5 @@
 \documentclass[12pt,a4paper,oneside]{report}
 
-
 % =============================
 % FONT & TIẾNG VIỆT
 % =============================
@@ -24,7 +23,6 @@
     bottom=2cm
 }
 
-
 % =============================
 % GÓI CƠ BẢN
 % =============================
@@ -33,56 +31,50 @@
 \usepackage{tabularx}
 \usepackage{titlesec}
 \usepackage{tocloft}
-\usepackage{hyperref}
 \usepackage{indentfirst}
-\usepackage{eso-pic} 
-
-\usepackage{setspace} 
-% =============================
-% VẼ KHUNG BÌA
-% =============================
-\usepackage{tikz}
-\usetikzlibrary{calc}
-
-
-\onehalfspacing 
-
-% =============================
-% VẼ KHUNG BÌA
-% =============================
-\usepackage{tikz}
-\usetikzlibrary{calc}
+\usepackage{setspace}
 \usepackage{eso-pic}
+\usepackage{tikz}
+\usetikzlibrary{calc}
+\usepackage{hyperref}   % hyperref luôn cuối cùng
 
+\onehalfspacing
+
+% =============================
+% VẼ KHUNG BÌA
+% =============================
 \newcommand{\vekhung}{%
 \AddToShipoutPictureBG*{%
 \begin{tikzpicture}[remember picture,overlay]
-
-  % Khung ngoài
   \draw[line width=5pt, color=blue!50!black]
     ([xshift=1.5cm,yshift=-1.5cm]current page.north west)
     rectangle
     ([xshift=-1.5cm,yshift=1.5cm]current page.south east);
-
-  % Khung trong
   \draw[line width=0.8pt, color=blue!50!black]
     ([xshift=1.8cm,yshift=-1.8cm]current page.north west)
     rectangle
     ([xshift=-1.8cm,yshift=1.8cm]current page.south east);
-
-  % Hoa góc
   \foreach \p in {north west, north east, south west, south east}{
     \draw[line width=1pt]
       ([xshift=1.3cm,yshift=-1.3cm]current page.\p) -- ++(1cm,0);
     \draw[line width=1pt]
       ([xshift=1.3cm,yshift=-1.3cm]current page.\p) -- ++(0,-1cm);
   }
-
 \end{tikzpicture}%
 }%
 }
+% Format riêng cho chapter* (không số)
+% Format chapter* (không số)
+\titleformat{name=\chapter,numberless}[block]
+{\normalfont\fontsize{14}{17}\selectfont\bfseries\centering}
+{}
+{0pt}
+{\MakeUppercase}
+
+\titlespacing*{name=\chapter,numberless}{0pt}{-60pt}{20pt}
+
 % =============================
-% FORMAT CHAPTER
+% FORMAT CHAPTER & SECTION
 % =============================
 \titleformat{\chapter}[block]
 {\normalfont\fontsize{14}{17}\bfseries\centering}
@@ -90,9 +82,14 @@
 {0pt}
 {\MakeUppercase}
 
+
+% Thêm chữ "Chương" vào mục lục
+\renewcommand{\cftchappresnum}{CHƯƠNG }
+\renewcommand{\cftchapaftersnum}{:}
+\setlength{\cftchapnumwidth}{2.5cm}
+
 \titlespacing*{\chapter}{0pt}{-20pt}{20pt}
 
-% Format section (1.1) size 13, in đậm, chữ thường
 \titleformat{\section}
 {\normalfont\fontsize{13}{16}\bfseries}
 {\thesection}
@@ -100,8 +97,9 @@
 {}
 
 \titlespacing*{\section}{0pt}{12pt}{6pt}
+
 % =============================
-% FORMAT LIST OF FIGURES/TABLES & TOC
+% FORMAT LIST & TOC
 % =============================
 \AtBeginDocument{
   \renewcommand{\listfigurename}{DANH MỤC HÌNH ẢNH}
@@ -113,60 +111,55 @@
 
 \renewcommand{\cftloftitlefont}{\hfill\normalfont\fontsize{14}{17}\bfseries}
 \renewcommand{\cftafterloftitle}{\hfill}
-
 \renewcommand{\cftlottitlefont}{\hfill\normalfont\fontsize{14}{17}\bfseries}
 \renewcommand{\cftafterlottitle}{\hfill}
-
 \renewcommand{\cfttoctitlefont}{\hfill\normalfont\fontsize{14}{17}\bfseries}
 \renewcommand{\cftaftertoctitle}{\hfill}
-
+\renewcommand{\cfttoctitlefont}{\hfill\normalfont\fontsize{14}{17}\selectfont\bfseries}
+\renewcommand{\cftaftertoctitle}{\hfill\null}
 \setlength{\cftbeforeloftitleskip}{0pt}
 \setlength{\cftbeforelottitleskip}{0pt}
 \setlength{\cftbeforetoctitleskip}{0pt}
+
+% =============================
+% HYPERREF CONFIG
+% =============================
+\hypersetup{
+    colorlinks=true,
+    linkcolor=black,
+    urlcolor=blue,
+    citecolor=black,
+    pdfencoding=auto
+}
+
 % ==========================================
 \begin{document}
 % ==========================================
 
-
-% ==========================================
-
-% ==========================================
-
-% Đặt NGAY ĐÂY, dòng đầu tiên sau \begin{document}
-\AtBeginDocument{
-  \renewcommand{\listfigurename}{DANH MỤC HÌNH ẢNH}
-  \renewcommand{\listtablename}{DANH MỤC BẢNG}
-  \renewcommand{\contentsname}{MỤC LỤC}
-}
-
-% --- BÌA (không đánh số trang) ---
 \pagenumbering{gobble}
 \include{frontmatter/bia_ngoai}
 \include{frontmatter/bia_trong}
 
-% --- PHẦN TIỀN VĂN (số La Mã) ---
-\pagenumbering{roman}
+
 \include{frontmatter/loi_cam_doan}
 \include{frontmatter/loi_cam_on}
 \include{frontmatter/danh_sach_thanh_vien}
+\pagenumbering{roman}
 
-% --- MỤC LỤC ---
+\renewcommand{\contentsname}{MỤC LỤC}
 \tableofcontents
-% Viết hoa tên trong danh mục hình ảnh
-
 \addcontentsline{toc}{chapter}{MỤC LỤC}
 \newpage
 
-% --- DANH SÁCH ---
-\listoffigures
-% Viết hoa tên trong danh mục hình ảnh
 
+\renewcommand{\listfigurename}{DANH MỤC HÌNH ẢNH}
+\renewcommand{\listtablename}{DANH MỤC BẢNG}
+
+\listoffigures
 \addcontentsline{toc}{chapter}{DANH MỤC HÌNH ẢNH}
 \newpage
 
 \listoftables
-% Viết hoa tên trong danh mục hình ảnh
-
 \addcontentsline{toc}{chapter}{DANH MỤC BẢNG}
 \newpage
 
