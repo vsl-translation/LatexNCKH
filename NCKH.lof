@@ -1,0 +1,10 @@
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {5.1}{\ignorespaces \xpg@aux {}{vietnamese}\ignorespaces Lịch sử huấn luyện EfficientNet-B2: Loss và Accuracy trên tập Validation qua 40 epoch. Đường nét đứt đánh dấu thời điểm unfreeze backbone (epoch 10); đường vàng chỉ epoch tốt nhất (epoch 28, Val Balanced Accuracy = 70.7\%).}}{14}{figure.caption.4}%
+\contentsline {figure}{\numberline {5.2}{\ignorespaces \xpg@aux {}{vietnamese}\ignorespaces Chỉ số Precision, Recall và F1-Score theo từng nhãn cảm xúc trên tập Validation.}}{14}{figure.caption.5}%
+\contentsline {figure}{\numberline {5.3}{\ignorespaces \xpg@aux {}{vietnamese}\ignorespaces Chỉ số Precision, Recall và F1-Score theo từng nhãn cảm xúc trên tập Test.}}{15}{figure.caption.6}%
+\addvspace {10\p@ }
+\addvspace {10\p@ }
