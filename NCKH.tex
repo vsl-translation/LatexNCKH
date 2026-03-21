@@ -1,3 +1,4 @@
+
 \documentclass[12pt,a4paper,oneside]{report}
 
 
@@ -8,6 +9,8 @@
 \usepackage{polyglossia}
 \setmainlanguage{vietnamese}
 \setmainfont{Times New Roman}
+\usepackage{graphicx}
+\usepackage{float}
 
 \XeTeXlinebreaklocale "vi"
 \XeTeXlinebreakskip = 0pt plus 1pt
@@ -159,15 +162,11 @@
 
 % --- DANH SÁCH ---
 \listoffigures
-% Viết hoa tên trong danh mục hình ảnh
-
-\addcontentsline{toc}{chapter}{DANH MỤC HÌNH ẢNH}
+\addcontentsline{toc}{chapter}{DANH SÁCH HÌNH ẢNH}
 \newpage
 
 \listoftables
-% Viết hoa tên trong danh mục hình ảnh
-
-\addcontentsline{toc}{chapter}{DANH MỤC BẢNG}
+\addcontentsline{toc}{chapter}{DANH SÁCH BẢNG}
 \newpage
 
 \include{frontmatter/bang_chu_viet_tat}
