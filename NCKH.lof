@@ -1,0 +1,12 @@
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {5.1}{\ignorespaces \xpg@aux {}{vietnamese}\ignorespaces Phân phối số lượng mẫu theo từng lớp ký hiệu (Train / Val / Test)}}{12}{figure.caption.4}%
+\contentsline {figure}{\numberline {5.2}{\ignorespaces \xpg@aux {}{vietnamese}\ignorespaces Đường cong Loss và Accuracy trong quá trình huấn luyện (Train vs.\ Validation). Đường đứt nét cam đánh dấu epoch tốt nhất.}}{13}{figure.caption.5}%
+\contentsline {figure}{\numberline {5.3}{\ignorespaces \xpg@aux {}{vietnamese}\ignorespaces Ma trận nhầm lẫn trên tập Test (chuẩn hóa theo hàng). Giá trị trên đường chéo chính biểu thị recall của từng lớp.}}{14}{figure.caption.7}%
+\contentsline {figure}{\numberline {5.4}{\ignorespaces \xpg@aux {}{vietnamese}\ignorespaces Precision, Recall và F1-score theo từng lớp ký hiệu VSL trên tập Test. Màu xanh lá: F1 $\geq $ 80\%; màu vàng: 50\% $\leq $ F1 $<$ 80\%; màu đỏ: F1 $<$ 50\%.}}{15}{figure.caption.8}%
+\contentsline {figure}{\numberline {5.5}{\ignorespaces \xpg@aux {}{vietnamese}\ignorespaces Temporal Attention Weights -- mức độ chú ý của mô hình theo từng frame (màu đậm = được chú ý nhiều hơn). Mỗi hàng là một mẫu test với nhãn thật tương ứng.}}{15}{figure.caption.9}%
+\addvspace {10\p@ }
+\addvspace {10\p@ }
