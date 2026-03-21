@@ -40,9 +40,14 @@ Hình~\ref{fig:data_dist} minh họa phân phối số lượng mẫu theo từn
 tăng cường. Có thể thấy các lớp tương đối cân bằng nhau, hạn chế hiện tượng
 lệch lớp trong quá trình huấn luyện.
 
-    \item \textbf{Co giãn tỷ lệ (Scale Jitter):} Nhân tọa độ bàn tay theo hệ số $\times$0.95 và $\times$1.05, mô phỏng người dùng đứng ở các khoảng cách khác nhau so với camera.
+\begin{itemize}
+    \item \textbf{Co giãn tỷ lệ (Scale Jitter):} Nhân tọa độ bàn tay theo hệ số
+    $\times$0.95 và $\times$1.05, mô phỏng người dùng đứng ở các khoảng cách
+    khác nhau so với camera.
 
-    \item \textbf{Cắt gọt thời gian (Time Warp):} Cắt 5\% và 10\% số frame ở đầu và cuối chuỗi, buộc mô hình học cách nhận diện ký hiệu khi được thực hiện ở tốc độ khác nhau.
+    \item \textbf{Cắt gọt thời gian (Time Warp):} Cắt 5\% và 10\% số frame ở
+    đầu và cuối chuỗi, buộc mô hình học cách nhận diện ký hiệu khi được thực
+    hiện ở tốc độ khác nhau.
 \end{itemize}
 
 Đáng lưu ý, kỹ thuật augmentation đóng vai trò đặc biệt quan trọng với nhãn disgust do số lượng mẫu gốc rất hạn chế, giúp tránh hiện tượng mô hình bỏ qua hoàn toàn nhãn thiểu số này trong quá trình học.
