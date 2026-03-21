@@ -213,21 +213,57 @@ Ba cơ chế tối ưu quan trọng được áp dụng:
 
 \section{Vai trò then chốt của Emotion Encoding trong NNKH}
 
-Một trong những đóng góp quan trọng và đặc sắc nhất của đề tài là việc tích hợp
-Emotion Encoding vào feature vector. Trong ngôn ngữ ký hiệu, biểu cảm khuôn mặt
-không chỉ là yếu tố thứ cấp mà là một thành phần ngữ pháp bắt buộc, có khả năng
-thay đổi hoàn toàn ý nghĩa của một cử chỉ.
+Một trong những đóng góp quan trọng và đặc sắc nhất của đề tài là việc tích hợp Emotion Encoding vào feature vector. Trong Ngôn ngữ Ký hiệu, biểu cảm khuôn mặt không chỉ là yếu tố thứ cấp mà là một thành phần ngữ pháp bắt buộc, có khả năng thay đổi hoàn toàn ý nghĩa của một cử chỉ.
 
-Ví dụ minh họa: cùng một cử chỉ tay nhưng khi kết hợp với nét mặt trung tính
-sẽ có nghĩa là "Cảm ơn" thông thường, trong khi nét mặt vui vẻ biểu đạt "Cảm
-ơn chân thành", nét mặt tức giận dẫn đến ý nghĩa tiêu cực như "Ghét" hoặc sự
-bực bội, còn nét mặt ngạc nhiên truyền đạt một sắc thái hoàn toàn khác.
 
-Việc bổ sung 7 chiều emotion vào mỗi timestep (từ \textbf{201 lên 208 chiều})
-không chỉ tăng dung lượng thông tin mà còn cung cấp cho mô hình một lớp ngữ
-cảnh quan trọng mà các hệ thống chỉ dựa trên nhận diện tay thuần túy hoàn toàn
-bỏ sót. Đây là điểm phân biệt tạo ra ưu thế rõ rệt của hệ thống này so với các
-công trình trước đó.
+Ví dụ minh họa: Cùng một cử chỉ tay nhưng khi kết hợp với nét mặt NEUTRAL sẽ có nghĩa là "Cảm ơn" (thông thường), trong khi nét mặt HAPPY biểu đạt "Cảm ơn chân thành" (vui vẻ), nét mặt ANGRY lại dẫn đến ý nghĩa tiêu cực như "Ghét" hoặc sự bực bội, còn SURPRISE truyền đạt sự ngạc nhiên hoàn toàn khác.
+
+Việc thêm 7 chiều emotion vào mỗi timestep (từ 171 lên 178 chiều) không chỉ tăng dung lượng thông tin mà còn cung cấp cho mô hình một lớp ngữ cảnh quan trọng mà các hệ thống chỉ dựa trên nhận diện tay thuần túy hoàn toàn bỏ sót. Đây là điểm phân biệt và tạo ra ưu thế cạnh tranh rõ rệt của hệ thống này so với các công trình trước đó.
+
+\subsection{Cơ chế trích xuất và mã hóa cảm xúc khuôn mặt}
+
+Hệ thống phân tích biểu cảm khuôn mặt dựa trên hai nguồn đầu ra song song từ
+MediaPipe FaceLandmarker chạy ở chế độ \texttt{LIVE\_STREAM}: 468 landmarks tọa
+độ 3D biểu diễn hình học khuôn mặt, và 52 blendshape coefficients biểu diễn mức
+độ kích hoạt của từng nhóm cơ mặt theo thang $[0, 1]$.
+
+Module \texttt{FacialExpressionAnalyzer} ưu tiên phân tích theo blendshapes thông
+qua hàm \texttt{analyze\_blendshapes()}, tổng hợp các chỉ số chức năng gồm độ mở
+miệng, nụ cười, độ mở hai mắt, mắt mở to, mắt nheo, và trạng thái lông mày. Các
+chỉ số này được ánh xạ theo quy tắc ngưỡng sang một trong 7 nhãn cảm xúc chuẩn.
+Khi blendshapes không khả dụng do điều kiện ánh sáng hoặc góc quay, hệ thống tự
+động chuyển sang \texttt{analyze\_landmarks()} --- thực hiện phân tích hình học
+thuần túy từ khoảng cách tương đối giữa các landmarks để ước tính cùng tập chỉ
+số trên. Cơ chế dự phòng này đảm bảo nhãn cảm xúc được ghi nhận liên tục trong
+suốt quá trình thu thập.
+
+Tập nhãn cảm xúc gồm 7 lớp được định nghĩa thống nhất qua hằng số
+\texttt{EMOTIONS}: \textit{angry} (0), \textit{disgust} (1), \textit{fear} (2),
+\textit{happy} (3), \textit{sad} (4), \textit{surprise} (5), \textit{neutral}
+(6). Tập nhãn này được dùng xuyên suốt toàn bộ pipeline --- từ giao diện chọn
+nhãn khi thu video (\texttt{ask\_emotion()}), lưu metadata
+(\texttt{save\_video\_emotion()}), cho đến nạp dữ liệu huấn luyện trong
+\texttt{video\_to\_npy.py}.
+
+\subsection{Tích hợp vào feature vector}
+
+Sau khi xác định nhãn cảm xúc, hệ thống thực hiện mã hóa one-hot thành vector
+7 chiều và nối vào cuối feature vector chính tại mỗi timestep. Feature vector
+chính bao gồm 201 chiều từ pose landmarks, hand landmarks và finger curl. Kết
+quả là tensor đầu vào cuối cùng có kích thước \textbf{208 chiều} $\times$ $T$
+timestep, trong đó 7 chiều emotion cung cấp ngữ cảnh biểu cảm bổ sung cho từng
+khung hình trong chuỗi ký hiệu.
+
+Thông tin emotion được lưu song song với video dưới dạng file \texttt{.json} kèm
+theo, ghi nhận cả tên nhãn lẫn chỉ số nguyên (\texttt{emotion\_id}) để đảm bảo
+tính tương thích giữa các bước trong pipeline xử lý dữ liệu.
+
+Cách tiếp cận này khác biệt so với các hệ thống CNN nhận diện cảm xúc học từ
+pixel ảnh khuôn mặt: thay vì xây dựng một nhánh CNN riêng biệt đòi hỏi lượng
+lớn dữ liệu gán nhãn, hệ thống tận dụng biểu diễn trung gian chất lượng cao của
+MediaPipe vốn đã được tối ưu hóa trên tập dữ liệu quy mô lớn, nhờ đó giảm đáng
+kể chi phí huấn luyện trong khi vẫn đảm bảo độ chính xác cần thiết cho bài toán
+nhận dạng ngôn ngữ ký hiệu.
 
 \section{Cơ chế lựa chọn ứng viên tiềm năng -- Pipeline 4 giai đoạn}
 
