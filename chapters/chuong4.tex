@@ -71,7 +71,7 @@ Tối ưu hóa bằng AdamW ($\lambda = 10^{-4}$), Linear Warmup 8 epoch rồi C
 Tập dữ liệu $108 \times 100 = 10.800$ mẫu, augment 9 lần ($p = 0.4$) bằng Gaussian Noise lên tọa độ tay và đặc trưng curl. Tổng mẫu hiệu dụng: $97.200$.
 
 
-\section{Quy trình chuyển đổi tiếng Việt sang ngôn ngữ ký hiệu (VN $\rightarrow$ VSL)}
+\section{Quy trình chuyển đổi tiếng Việt sang ngôn ngữ ký hiệu}
 
 Đây là chiều "thuận" của hệ thống, giúp người nghe/nói thông thường có thể
 truyền đạt thông điệp tới người khiếm thính thông qua thiết bị.
@@ -118,15 +118,15 @@ hệ thống tiến hành qua năm bước xử lý tuần tự:
     trả về thiết bị để phát.
 \end{itemize}
 
-\section{Quy trình chuyển đổi ngôn ngữ ký hiệu sang tiếng Việt (VSL $\rightarrow$ VN)}
+\section{Quy trình chuyển đổi ngôn ngữ ký hiệu sang tiếng Việt}
 
 Đây là chiều "nghịch" và phức tạp hơn, đòi hỏi hệ thống phải hiểu và giải mã
-các chuỗi cử chỉ động trong không gian ba chiều từ Quy trình video camera.
+các chuỗi cử chỉ động trong không gian ba chiều từ quy trình video camera.
 
 \subsection{Quy trình cơ bản}
 
-Thiết bị tiếp nhận Quy trình frames video liên tục từ camera và gửi lên server.
-Server thực hiện toàn bộ quá trình Logic Solving bao gồm trích xuất đặc trưng,
+Thiết bị tiếp nhận luồng frames video liên tục từ camera và gửi lên server.
+Server thực hiện toàn bộ quá trình xử lý trung tâm bao gồm trích xuất đặc trưng,
 nhận diện cử chỉ, lọc cảm xúc và xử lý ngữ cảnh, sau đó trả về kết quả phiên
 dịch dưới dạng văn bản và giọng đọc để hiển thị trên giao diện người dùng.
 
@@ -151,9 +151,9 @@ Các file video thô được chuyển đổi sang định dạng mảng số đ
 mô hình. Quy trình xử lý bao gồm các bước: đọc từng frame của video $\rightarrow$
 đưa qua MediaPipe để phát hiện điểm mốc $\rightarrow$ chuẩn hóa tọa độ
 $\rightarrow$ resample về chuỗi cố định 64 frames $\rightarrow$ ghép vector cảm
-xúc one-hot $\rightarrow$ lưu file với kích thước \textbf{(64, 208)}.
+xúc one-hot $\rightarrow$ lưu file với kích thước 64, 208.
 
-Cấu trúc feature vector \textbf{208 chiều} cho mỗi frame bao gồm:
+Cấu trúc feature vector 208 chiều cho mỗi frame bao gồm:
 
 \begin{itemize}
     \item \textbf{Pose (45 chiều):} 15 điểm xương quan trọng trên cơ thể (mũi,
@@ -186,20 +186,20 @@ Cấu trúc feature vector \textbf{208 chiều} cho mỗi frame bao gồm:
     luyện trên bộ dữ liệu FER-2013.
 \end{itemize}
 
-Để tăng cường dữ liệu, mỗi video gốc được biến thể thành \textbf{9 file}: 1 file
+Để tăng cường dữ liệu, mỗi video gốc được biến thể thành 9 file: 1 file
 gốc, 1 file mirror hoán đổi tay trái $\leftrightarrow$ tay phải, 1 file mirror
 kết hợp nhiễu Gaussian, 2 file thêm nhiễu Gaussian vào tọa độ tay (mức 0.003 và
 0.006), 2 file co giãn tỷ lệ tay ($\times$0.95 và $\times$1.05), và 2 file time
-warp (cắt 5\% và 10\% đầu/cuối). Chiến lược này \textbf{chỉ áp dụng cho tập
-Train}, không áp dụng cho Val và Test, nhằm đánh giá khả năng tổng quát hóa thực
+warp (cắt 5\% và 10\% đầu/cuối). Chiến lược này chỉ áp dụng cho tập
+Train, không áp dụng cho Val và Test, nhằm đánh giá khả năng tổng quát hóa thực
 sự của mô hình.
 
 \subsection{Huấn luyện mô hình Hand-Aware Transformer}
 
-Mô hình được sử dụng là \textbf{HandAwareVSLClassifier} -- một kiến trúc
+Mô hình được sử dụng là HandAwareVSLClassifier -- một kiến trúc
 Transformer có nhận thức về cấu trúc bàn tay, được thiết kế để khai thác đồng
 thời quan hệ không gian giữa các ngón tay và quan hệ thời gian giữa các frame.
-Đầu vào có kích thước \textbf{(B, 64, 208)}, được xử lý qua 6 module tuần tự:
+Đầu vào có kích thước (B, 64, 208), được xử lý qua 6 module tuần tự:
 
 \begin{itemize}
     \item \textbf{Feature Parser:} Tách feature vector 208 chiều thành các thành
@@ -226,7 +226,7 @@ thời quan hệ không gian giữa các ngón tay và quan hệ thời gian gi�
     \item \textbf{Curl Encoder và Hand Aggregator:} Curl Encoder encode đặc trưng
     co duỗi của từng ngón thành embedding 32 chiều cho mỗi tay. Hand Aggregator
     sau đó gộp toàn bộ các thành phần -- finger embedding, curl embedding, pose
-    và emotion -- thành vector \textbf{256 chiều} cho mỗi timestep, sẵn sàng
+    và emotion -- thành vector 256 chiều cho mỗi timestep, sẵn sàng
     đưa vào bước xử lý thời gian.
 
     \item \textbf{Temporal Transformer:} Transformer encoder với chuẩn hóa
@@ -248,16 +248,16 @@ clipping = 1.0.
 
 Hệ thống nhận dạng theo thời gian thực hoạt động theo vòng lặp liên tục gồm 10
 bước: (1) thu frame BGR từ webcam, (2) lật ảnh và chuyển sang RGB, (3) phát hiện
-điểm mốc bất đồng bộ qua MediaPipe, (4) trích xuất \textbf{201 chiều} đặc trưng
+điểm mốc bất đồng bộ qua MediaPipe, (4) trích xuất 201 chiều đặc trưng
 pose, tọa độ tay và finger curl, (5) chuẩn hóa frame, (6) ghép vector cảm xúc
-tạo thành vector \textbf{208 chiều}, (7) đưa vào buffer cửa sổ trượt, (8) khi
+tạo thành vector 208 chiều, (7) đưa vào buffer cửa sổ trượt, (8) khi
 đủ 64 frame liên tiếp thì thực hiện suy luận, (9) áp dụng softmax lấy nhãn và
 điểm tin cậy, (10) kiểm tra tính ổn định trong 3 frame.
 
 Ba cơ chế tối ưu quan trọng được áp dụng:
 
 \begin{itemize}
-    \item \textbf{Xử lý bất đồng bộ (MediaPipe LIVE\_STREAM mode):} Phát hiện
+    \item \textbf{Xử lý bất đồng bộ:} Phát hiện
     điểm mốc chạy song song với Quy trình thu video thông qua cơ chế callback
     thread-safe, tránh hiện tượng mất frame kể cả khi tài nguyên phần cứng hạn
     chế.
@@ -267,65 +267,22 @@ Ba cơ chế tối ưu quan trọng được áp dụng:
     gần nhất và cho phép dự đoán liên tục mà không cần chờ kết thúc đoạn cử chỉ
     hoàn chỉnh.
 
-    \item \textbf{Bộ lọc ổn định (Stability Filter):} Kết quả chỉ được hiển thị
+    \item \textbf{Bộ lọc ổn định:} Kết quả chỉ được hiển thị
     khi điểm tin cậy $\geq$ 0.6 và cùng nhãn xuất hiện trong ít nhất 3 frame
     liên tiếp. Cơ chế này triệt tiêu hiện tượng nhãn bị giật/nhảy liên tục do
     nhiễu, đảm bảo trải nghiệm người dùng mượt mà.
 \end{itemize}
 
-\section{Vai trò then chốt của Emotion Encoding trong NNKH}
+\section{Vai trò then chốt của Emotion Encoding trong VSL}
 
 Một trong những đóng góp quan trọng và đặc sắc nhất của đề tài là việc tích hợp Emotion Encoding vào feature vector. Trong Ngôn ngữ Ký hiệu, biểu cảm khuôn mặt không chỉ là yếu tố thứ cấp mà là một thành phần ngữ pháp bắt buộc, có khả năng thay đổi hoàn toàn ý nghĩa của một cử chỉ.
 
 
-Ví dụ minh họa: Cùng một cử chỉ tay nhưng khi kết hợp với nét mặt NEUTRAL sẽ có nghĩa là "Cảm ơn" (thông thường), trong khi nét mặt HAPPY biểu đạt "Cảm ơn chân thành" (vui vẻ), nét mặt ANGRY lại dẫn đến ý nghĩa tiêu cực như "Ghét" hoặc sự bực bội, còn SURPRISE truyền đạt sự ngạc nhiên hoàn toàn khác.
-
-Việc thêm 7 chiều emotion vào mỗi timestep (từ 171 lên 178 chiều) không chỉ tăng dung lượng thông tin mà còn cung cấp cho mô hình một lớp ngữ cảnh quan trọng mà các hệ thống chỉ dựa trên nhận diện tay thuần túy hoàn toàn bỏ sót. Đây là điểm phân biệt và tạo ra ưu thế cạnh tranh rõ rệt của hệ thống này so với các công trình trước đó.
-
-\subsection{Cơ chế trích xuất và mã hóa cảm xúc khuôn mặt}
-
-Hệ thống phân tích biểu cảm khuôn mặt dựa trên hai nguồn đầu ra song song từ
-MediaPipe FaceLandmarker chạy ở chế độ \texttt{LIVE\_STREAM}: 468 landmarks tọa
-độ 3D biểu diễn hình học khuôn mặt, và 52 blendshape coefficients biểu diễn mức
-độ kích hoạt của từng nhóm cơ mặt theo thang $[0, 1]$.
-
-Module \texttt{FacialExpressionAnalyzer} ưu tiên phân tích theo blendshapes thông
-qua hàm \texttt{analyze\_blendshapes()}, tổng hợp các chỉ số chức năng gồm độ mở
-miệng, nụ cười, độ mở hai mắt, mắt mở to, mắt nheo, và trạng thái lông mày. Các
-chỉ số này được ánh xạ theo quy tắc ngưỡng sang một trong 7 nhãn cảm xúc chuẩn.
-Khi blendshapes không khả dụng do điều kiện ánh sáng hoặc góc quay, hệ thống tự
-động chuyển sang \texttt{analyze\_landmarks()} --- thực hiện phân tích hình học
-thuần túy từ khoảng cách tương đối giữa các landmarks để ước tính cùng tập chỉ
-số trên. Cơ chế dự phòng này đảm bảo nhãn cảm xúc được ghi nhận liên tục trong
-suốt quá trình thu thập.
-
-Tập nhãn cảm xúc gồm 7 lớp được định nghĩa thống nhất qua hằng số
-\texttt{EMOTIONS}: \textit{angry} (0), \textit{disgust} (1), \textit{fear} (2),
-\textit{happy} (3), \textit{sad} (4), \textit{surprise} (5), \textit{neutral}
-(6). Tập nhãn này được dùng xuyên suốt toàn bộ pipeline --- từ giao diện chọn
-nhãn khi thu video (\texttt{ask\_emotion()}), lưu metadata
-(\texttt{save\_video\_emotion()}), cho đến nạp dữ liệu huấn luyện trong
-\texttt{video\_to\_npy.py}.
-
-\subsection{Tích hợp vào feature vector}
-
-Sau khi xác định nhãn cảm xúc, hệ thống thực hiện mã hóa one-hot thành vector
-7 chiều và nối vào cuối feature vector chính tại mỗi timestep. Feature vector
-chính bao gồm 201 chiều từ pose landmarks, hand landmarks và finger curl. Kết
-quả là tensor đầu vào cuối cùng có kích thước \textbf{208 chiều} $\times$ $T$
-timestep, trong đó 7 chiều emotion cung cấp ngữ cảnh biểu cảm bổ sung cho từng
-khung hình trong chuỗi ký hiệu.
-
-Thông tin emotion được lưu song song với video dưới dạng file \texttt{.json} kèm
-theo, ghi nhận cả tên nhãn lẫn chỉ số nguyên (\texttt{emotion\_id}) để đảm bảo
-tính tương thích giữa các bước trong pipeline xử lý dữ liệu.
-
-Cách tiếp cận này khác biệt so với các hệ thống CNN nhận diện cảm xúc học từ
-pixel ảnh khuôn mặt: thay vì xây dựng một nhánh CNN riêng biệt đòi hỏi lượng
-lớn dữ liệu gán nhãn, hệ thống tận dụng biểu diễn trung gian chất lượng cao của
-MediaPipe vốn đã được tối ưu hóa trên tập dữ liệu quy mô lớn, nhờ đó giảm đáng
-kể chi phí huấn luyện trong khi vẫn đảm bảo độ chính xác cần thiết cho bài toán
-nhận dạng ngôn ngữ ký hiệu.
+Việc bổ sung 7 chiều emotion vào mỗi timestep (từ 201 lên 208 chiều)
+không chỉ tăng dung lượng thông tin mà còn cung cấp cho mô hình một lớp ngữ
+cảnh quan trọng mà các hệ thống chỉ dựa trên nhận diện tay thuần túy hoàn toàn
+bỏ sót. Đây là điểm phân biệt tạo ra ưu thế rõ rệt của hệ thống này so với các
+công trình trước đó.
 
 \section{Cơ chế lựa chọn ứng viên tiềm năng -- Pipeline 4 giai đoạn}
 
