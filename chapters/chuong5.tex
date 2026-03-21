@@ -1,23 +1,63 @@
-
 % ==========================================
 % CHƯƠNG 5: THỰC NGHIỆM VÀ KẾT QUẢ
 % ==========================================
 \chapter{THỰC NGHIỆM VÀ KẾT QUẢ}
- 
-\section{Xây dựng Bộ dữ liệu và Kỹ thuật Tăng cường Dữ liệu}
- 
-Để xây dựng mô hình có khả năng tổng quát hóa tốt trên nhiều điều kiện thực tế, nhóm nghiên cứu kết hợp hai nguồn dữ liệu: bộ dữ liệu chuẩn QIPEDC (Bộ dữ liệu ngôn ngữ ký hiệu dành cho giáo dục học sinh khiếm thính cấp tiểu học của Bộ GD\&ĐT) và dữ liệu tự thu thập qua \texttt{webcam\_collector.py}.
- 
-Quá trình thu thập được thiết kế có chủ đích: mỗi từ/cụm từ được quay với đầy đủ 7 trạng thái cảm xúc (angry, disgust, fear, happy, sad, surprise, neutral) bởi nhiều người thực hiện khác nhau, với góc quay và điều kiện ánh sáng đa dạng. Đây là bước nền tảng quan trọng giúp mô hình học được sự phong phú của biểu đạt cảm xúc trong VSL.
- 
-Nhờ chiến lược Augmentation (mỗi video sinh ra 7 biến thể), quy mô bộ dữ liệu tăng đáng kể so với số lượng video thu thập thực tế. Ba kỹ thuật augmentation được áp dụng: thêm nhiễu Gaussian mức độ khác nhau để mô phỏng biến động ánh sáng và chất lượng camera; co giãn tỷ lệ tay để mô phỏng người dùng đứng ở nhiều khoảng cách khác nhau; và cắt gọt thời gian (time warp) để học cả cách thực hiện ký hiệu nhanh lẫn chậm.
- 
-\section{Kết quả Huấn luyện và Đánh giá}
- 
-Quá trình huấn luyện được thực hiện sử dụng framework PyTorch, với optimizer Adam và scheduler giảm learning rate. Mô hình được đánh giá theo các chỉ số: độ chính xác (accuracy), ma trận nhầm lẫn (confusion matrix) và biểu đồ loss/accuracy qua các epoch.
- 
-Bộ lọc ổn định (Stability Filter) với ngưỡng confidence $\geq$ 0.6 và yêu cầu nhất quán trong 3 frames liên tiếp đã chứng tỏ hiệu quả trong việc giảm tỷ lệ nhãn giật/nhảy, từ đó nâng cao đáng kể trải nghiệm người dùng trong điều kiện thực tế.
- 
-Thực nghiệm cũng xác nhận rằng việc bổ sung 7 chiều Emotion vào feature vector mang lại cải thiện rõ rệt so với mô hình chỉ dùng Pose và Hands. Điều này minh chứng cho giả thuyết ban đầu rằng biểu cảm khuôn mặt đóng vai trò không thể thiếu trong việc phân biệt ý nghĩa các ký hiệu đồng hình trong VSL.
- 
- 
+
+\section{Xây dựng Bộ dữ liệu}
+
+Bộ dữ liệu huấn luyện được tổng hợp từ hai nguồn chính. Nguồn thứ nhất là bộ dữ liệu chuẩn QIPEDC do Bộ Giáo dục và Đào tạo ban hành, phục vụ giáo dục học sinh khiếm thính cấp tiểu học. Nguồn thứ hai là dữ liệu tự thu thập thông qua công cụ \texttt{webcam\_collector.py} được phát triển trong khuôn khổ đề tài.
+
+Quá trình thu thập được thiết kế có chủ đích nhằm đảm bảo tính đa dạng: mỗi từ/cụm từ được quay với đầy đủ 7 trạng thái cảm xúc (angry, disgust, fear, happy, sad, surprise, neutral), thực hiện bởi nhiều người khác nhau trong các điều kiện góc quay và ánh sáng đa dạng. Bộ dữ liệu bao gồm \textbf{7 nhãn cảm xúc} với tổng số mẫu phân bổ không đồng đều, phản ánh đặc tính tự nhiên của dữ liệu cảm xúc thực tế: smile (n=1.774), cry (n=1.247), neutral (n=1.233), scare (n=1.024), angry (n=958), surprise (n=831) và disgust (n=111).
+
+\section{Kỹ thuật Tăng cường Dữ liệu}
+
+Do quy mô dữ liệu thực tế còn hạn chế, đặc biệt ở nhãn disgust (n=111), nhóm áp dụng chiến lược tăng cường dữ liệu (data augmentation) để mở rộng tập huấn luyện. Mỗi video gốc được biến thể thành 7 phiên bản thông qua ba nhóm kỹ thuật:
+
+\begin{itemize}
+    \item \textbf{Nhiễu Gaussian (Gaussian Noise):} Thêm nhiễu ngẫu nhiên ở hai mức độ (0.003 và 0.006) vào tọa độ landmark, mô phỏng sự biến động do điều kiện ánh sáng kém hoặc chất lượng camera thấp.
+
+    \item \textbf{Co giãn tỷ lệ (Scale Jitter):} Nhân tọa độ bàn tay theo hệ số $\times$0.95 và $\times$1.05, mô phỏng người dùng đứng ở các khoảng cách khác nhau so với camera.
+
+    \item \textbf{Cắt gọt thời gian (Time Warp):} Cắt 5\% và 10\% số frame ở đầu và cuối chuỗi, buộc mô hình học cách nhận diện ký hiệu khi được thực hiện ở tốc độ khác nhau.
+\end{itemize}
+
+Đáng lưu ý, kỹ thuật augmentation đóng vai trò đặc biệt quan trọng với nhãn disgust do số lượng mẫu gốc rất hạn chế, giúp tránh hiện tượng mô hình bỏ qua hoàn toàn nhãn thiểu số này trong quá trình học.
+
+\section{Môi trường và Cấu hình Huấn luyện}
+
+Mô hình EfficientNet-B2 được huấn luyện theo chiến lược hai giai đoạn trên framework PyTorch. Ở giai đoạn đầu (epoch 1--9), backbone được đóng băng (frozen) và chỉ huấn luyện lớp phân loại đầu ra, giúp mô hình nhanh chóng hội tụ về đặc trưng bài toán. Từ epoch 10 trở đi, toàn bộ backbone được mở đóng băng (unfreeze) để tinh chỉnh sâu hơn với learning rate nhỏ hơn.
+
+\section{Kết quả Huấn luyện}
+
+Hình~\ref{fig:training_history} trình bày biểu đồ biến thiên loss và accuracy trên tập Validation qua 40 epoch huấn luyện. Thời điểm unfreeze backbone (epoch 10) được đánh dấu bằng đường nét đứt, cho thấy sự cải thiện đột biến về cả loss lẫn accuracy ngay sau đó.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{images/training_history.png}
+    \caption{Lịch sử huấn luyện EfficientNet-B2: Loss và Accuracy trên tập Validation qua 40 epoch. Đường nét đứt đánh dấu thời điểm unfreeze backbone (epoch 10); đường vàng chỉ epoch tốt nhất (epoch 28, Val Balanced Accuracy = 70.7\%).}
+    \label{fig:training_history}
+\end{figure}
+
+Mô hình đạt kết quả tốt nhất tại \textbf{epoch 28} với \textbf{Val Balanced Accuracy = 70.7\%}. Chỉ số Balanced Accuracy được ưu tiên thay cho accuracy thông thường do bộ dữ liệu mất cân bằng nghiêm trọng giữa các nhãn (disgust chỉ có 111 mẫu so với 1.774 mẫu của smile). Quan sát biểu đồ loss cho thấy train loss tiếp tục giảm xuống ~0.45 trong khi val loss ổn định quanh mức ~0.90 từ epoch 20 trở đi, phản ánh hiện tượng overfitting nhẹ không thể tránh khỏi do mất cân bằng dữ liệu.
+
+\section{Đánh giá theo Từng Nhãn}
+
+Để phân tích chi tiết hơn, nhóm đánh giá Precision, Recall và F1-Score trên từng nhãn cảm xúc riêng biệt trên cả tập Validation và tập Test.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{images/per_class_metrics_val.png}
+    \caption{Chỉ số Precision, Recall và F1-Score theo từng nhãn cảm xúc trên tập Validation.}
+    \label{fig:per_class_metrics_val}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{images/per_class_metrics_test.png}
+    \caption{Chỉ số Precision, Recall và F1-Score theo từng nhãn cảm xúc trên tập Test.}
+    \label{fig:per_class_metrics_test}
+\end{figure}
+
+Kết quả trên tập Test (Hình~\ref{fig:per_class_metrics_test}) cho thấy sự phân hóa rõ rệt giữa các nhãn. Nhãn \textbf{smile} đạt hiệu năng cao nhất với Precision $\approx$ 0.91, Recall $\approx$ 0.85 và F1-Score $\approx$ 0.88, phù hợp với việc đây là nhãn có số lượng mẫu lớn nhất (n=1.774). Nhãn \textbf{surprise} cũng cho kết quả tốt với F1-Score $\approx$ 0.80. Ngược lại, nhãn \textbf{scare} đạt hiệu năng thấp nhất với F1-Score $\approx$ 0.55, mặc dù có số lượng mẫu trung bình (n=1.024), cho thấy đây là nhãn khó phân biệt nhất -- nhiều khả năng do đặc trưng biểu cảm của ``sợ hãi'' dễ bị nhầm lẫn với ``angry'' hoặc ``surprise''. Nhãn \textbf{disgust} có Recall cao bất thường ($\approx$ 0.83) so với Precision ($\approx$ 0.61), cho thấy mô hình có xu hướng dự đoán quá nhiều vào nhãn này -- hệ quả trực tiếp của việc số lượng mẫu gốc quá ít (n=111) dù đã qua augmentation.
+
+Đáng chú ý, kết quả giữa tập Validation (Hình~\ref{fig:per_class_metrics_val}) và tập Test (Hình~\ref{fig:per_class_metrics_test}) gần như đồng nhất, cho thấy mô hình tổng quát hóa tốt và không bị overfitting đặc thù trên tập Validation.
