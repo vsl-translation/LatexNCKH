@@ -100,7 +100,23 @@
 {}
 
 \titlespacing*{\section}{0pt}{12pt}{6pt}
+% Format subsection (1.1.1) size 13, in đậm, chữ thường
+\titleformat{\subsection}
+{\normalfont\fontsize{13}{16}\bfseries\itshape}
+{\thesubsection}
+{1em}
+{}
 
+\titlespacing*{\subsection}{0pt}{10pt}{4pt}
+
+% Format subsubsection (1.1.1.1) size 13, chữ thường
+\titleformat{\subsubsection}
+{\normalfont\fontsize{13}{16}}
+{\thesubsubsection}
+{1em}
+{}
+
+\titlespacing*{\subsubsection}{0pt}{8pt}{3pt}
 % =============================
 % FORMAT LIST & TOC
 % =============================

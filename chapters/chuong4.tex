@@ -9,7 +9,7 @@ và hiển thị kết quả, còn phần logic xử lý phức tạp được t
 Toàn bộ kiến trúc được chia thành hai Quy trình xử lý chính, song song và đối xứng
 nhau.
 
-\section{Quy trình chuyển đổi tiếng Việt sang ngôn ngữ ký hiệu (VN $\rightarrow$ VSL)}
+\section{Quy trình chuyển đổi tiếng Việt sang ngôn ngữ ký hiệu}
 
 Đây là chiều "thuận" của hệ thống, giúp người nghe/nói thông thường có thể
 truyền đạt thông điệp tới người khiếm thính thông qua thiết bị.
@@ -56,15 +56,15 @@ hệ thống tiến hành qua năm bước xử lý tuần tự:
     trả về thiết bị để phát.
 \end{itemize}
 
-\section{Quy trình chuyển đổi ngôn ngữ ký hiệu sang tiếng Việt (VSL $\rightarrow$ VN)}
+\section{Quy trình chuyển đổi ngôn ngữ ký hiệu sang tiếng Việt}
 
 Đây là chiều "nghịch" và phức tạp hơn, đòi hỏi hệ thống phải hiểu và giải mã
-các chuỗi cử chỉ động trong không gian ba chiều từ Quy trình video camera.
+các chuỗi cử chỉ động trong không gian ba chiều từ quy trình video camera.
 
 \subsection{Quy trình cơ bản}
 
-Thiết bị tiếp nhận Quy trình frames video liên tục từ camera và gửi lên server.
-Server thực hiện toàn bộ quá trình Logic Solving bao gồm trích xuất đặc trưng,
+Thiết bị tiếp nhận luồng frames video liên tục từ camera và gửi lên server.
+Server thực hiện toàn bộ quá trình xử lý trung tâm bao gồm trích xuất đặc trưng,
 nhận diện cử chỉ, lọc cảm xúc và xử lý ngữ cảnh, sau đó trả về kết quả phiên
 dịch dưới dạng văn bản và giọng đọc để hiển thị trên giao diện người dùng.
 
@@ -89,9 +89,9 @@ Các file video thô được chuyển đổi sang định dạng mảng số đ
 mô hình. Quy trình xử lý bao gồm các bước: đọc từng frame của video $\rightarrow$
 đưa qua MediaPipe để phát hiện điểm mốc $\rightarrow$ chuẩn hóa tọa độ
 $\rightarrow$ resample về chuỗi cố định 64 frames $\rightarrow$ ghép vector cảm
-xúc one-hot $\rightarrow$ lưu file với kích thước \textbf{(64, 208)}.
+xúc one-hot $\rightarrow$ lưu file với kích thước 64, 208.
 
-Cấu trúc feature vector \textbf{208 chiều} cho mỗi frame bao gồm:
+Cấu trúc feature vector 208 chiều cho mỗi frame bao gồm:
 
 \begin{itemize}
     \item \textbf{Pose (45 chiều):} 15 điểm xương quan trọng trên cơ thể (mũi,
@@ -124,20 +124,20 @@ Cấu trúc feature vector \textbf{208 chiều} cho mỗi frame bao gồm:
     luyện trên bộ dữ liệu FER-2013.
 \end{itemize}
 
-Để tăng cường dữ liệu, mỗi video gốc được biến thể thành \textbf{9 file}: 1 file
+Để tăng cường dữ liệu, mỗi video gốc được biến thể thành 9 file: 1 file
 gốc, 1 file mirror hoán đổi tay trái $\leftrightarrow$ tay phải, 1 file mirror
 kết hợp nhiễu Gaussian, 2 file thêm nhiễu Gaussian vào tọa độ tay (mức 0.003 và
 0.006), 2 file co giãn tỷ lệ tay ($\times$0.95 và $\times$1.05), và 2 file time
-warp (cắt 5\% và 10\% đầu/cuối). Chiến lược này \textbf{chỉ áp dụng cho tập
-Train}, không áp dụng cho Val và Test, nhằm đánh giá khả năng tổng quát hóa thực
+warp (cắt 5\% và 10\% đầu/cuối). Chiến lược này chỉ áp dụng cho tập
+Train, không áp dụng cho Val và Test, nhằm đánh giá khả năng tổng quát hóa thực
 sự của mô hình.
 
 \subsection{Huấn luyện mô hình Hand-Aware Transformer}
 
-Mô hình được sử dụng là \textbf{HandAwareVSLClassifier} -- một kiến trúc
+Mô hình được sử dụng là HandAwareVSLClassifier -- một kiến trúc
 Transformer có nhận thức về cấu trúc bàn tay, được thiết kế để khai thác đồng
 thời quan hệ không gian giữa các ngón tay và quan hệ thời gian giữa các frame.
-Đầu vào có kích thước \textbf{(B, 64, 208)}, được xử lý qua 6 module tuần tự:
+Đầu vào có kích thước (B, 64, 208), được xử lý qua 6 module tuần tự:
 
 \begin{itemize}
     \item \textbf{Feature Parser:} Tách feature vector 208 chiều thành các thành
@@ -164,7 +164,7 @@ thời quan hệ không gian giữa các ngón tay và quan hệ thời gian gi�
     \item \textbf{Curl Encoder và Hand Aggregator:} Curl Encoder encode đặc trưng
     co duỗi của từng ngón thành embedding 32 chiều cho mỗi tay. Hand Aggregator
     sau đó gộp toàn bộ các thành phần -- finger embedding, curl embedding, pose
-    và emotion -- thành vector \textbf{256 chiều} cho mỗi timestep, sẵn sàng
+    và emotion -- thành vector 256 chiều cho mỗi timestep, sẵn sàng
     đưa vào bước xử lý thời gian.
 
     \item \textbf{Temporal Transformer:} Transformer encoder với chuẩn hóa
@@ -186,16 +186,16 @@ clipping = 1.0.
 
 Hệ thống nhận dạng theo thời gian thực hoạt động theo vòng lặp liên tục gồm 10
 bước: (1) thu frame BGR từ webcam, (2) lật ảnh và chuyển sang RGB, (3) phát hiện
-điểm mốc bất đồng bộ qua MediaPipe, (4) trích xuất \textbf{201 chiều} đặc trưng
+điểm mốc bất đồng bộ qua MediaPipe, (4) trích xuất 201 chiều đặc trưng
 pose, tọa độ tay và finger curl, (5) chuẩn hóa frame, (6) ghép vector cảm xúc
-tạo thành vector \textbf{208 chiều}, (7) đưa vào buffer cửa sổ trượt, (8) khi
+tạo thành vector 208 chiều, (7) đưa vào buffer cửa sổ trượt, (8) khi
 đủ 64 frame liên tiếp thì thực hiện suy luận, (9) áp dụng softmax lấy nhãn và
 điểm tin cậy, (10) kiểm tra tính ổn định trong 3 frame.
 
 Ba cơ chế tối ưu quan trọng được áp dụng:
 
 \begin{itemize}
-    \item \textbf{Xử lý bất đồng bộ (MediaPipe LIVE\_STREAM mode):} Phát hiện
+    \item \textbf{Xử lý bất đồng bộ:} Phát hiện
     điểm mốc chạy song song với Quy trình thu video thông qua cơ chế callback
     thread-safe, tránh hiện tượng mất frame kể cả khi tài nguyên phần cứng hạn
     chế.
@@ -205,13 +205,13 @@ Ba cơ chế tối ưu quan trọng được áp dụng:
     gần nhất và cho phép dự đoán liên tục mà không cần chờ kết thúc đoạn cử chỉ
     hoàn chỉnh.
 
-    \item \textbf{Bộ lọc ổn định (Stability Filter):} Kết quả chỉ được hiển thị
+    \item \textbf{Bộ lọc ổn định:} Kết quả chỉ được hiển thị
     khi điểm tin cậy $\geq$ 0.6 và cùng nhãn xuất hiện trong ít nhất 3 frame
     liên tiếp. Cơ chế này triệt tiêu hiện tượng nhãn bị giật/nhảy liên tục do
     nhiễu, đảm bảo trải nghiệm người dùng mượt mà.
 \end{itemize}
 
-\section{Vai trò then chốt của Emotion Encoding trong NNKH}
+\section{Vai trò then chốt của Emotion Encoding trong VSL}
 
 Một trong những đóng góp quan trọng và đặc sắc nhất của đề tài là việc tích hợp
 Emotion Encoding vào feature vector. Trong ngôn ngữ ký hiệu, biểu cảm khuôn mặt
@@ -223,7 +223,7 @@ sẽ có nghĩa là "Cảm ơn" thông thường, trong khi nét mặt vui vẻ 
 ơn chân thành", nét mặt tức giận dẫn đến ý nghĩa tiêu cực như "Ghét" hoặc sự
 bực bội, còn nét mặt ngạc nhiên truyền đạt một sắc thái hoàn toàn khác.
 
-Việc bổ sung 7 chiều emotion vào mỗi timestep (từ \textbf{201 lên 208 chiều})
+Việc bổ sung 7 chiều emotion vào mỗi timestep (từ 201 lên 208 chiều)
 không chỉ tăng dung lượng thông tin mà còn cung cấp cho mô hình một lớp ngữ
 cảnh quan trọng mà các hệ thống chỉ dựa trên nhận diện tay thuần túy hoàn toàn
 bỏ sót. Đây là điểm phân biệt tạo ra ưu thế rõ rệt của hệ thống này so với các
