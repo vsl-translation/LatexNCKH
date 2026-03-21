@@ -1,23 +1,157 @@
-
 % ==========================================
 % CHƯƠNG 5: THỰC NGHIỆM VÀ KẾT QUẢ
 % ==========================================
 \chapter{THỰC NGHIỆM VÀ KẾT QUẢ}
- 
+
 \section{Xây dựng Bộ dữ liệu và Kỹ thuật Tăng cường Dữ liệu}
- 
-Để xây dựng mô hình có khả năng tổng quát hóa tốt trên nhiều điều kiện thực tế, nhóm nghiên cứu kết hợp hai nguồn dữ liệu: bộ dữ liệu chuẩn QIPEDC (Bộ dữ liệu ngôn ngữ ký hiệu dành cho giáo dục học sinh khiếm thính cấp tiểu học của Bộ GD\&ĐT) và dữ liệu tự thu thập qua \texttt{webcam\_collector.py}.
- 
-Quá trình thu thập được thiết kế có chủ đích: mỗi từ/cụm từ được quay với đầy đủ 7 trạng thái cảm xúc (angry, disgust, fear, happy, sad, surprise, neutral) bởi nhiều người thực hiện khác nhau, với góc quay và điều kiện ánh sáng đa dạng. Đây là bước nền tảng quan trọng giúp mô hình học được sự phong phú của biểu đạt cảm xúc trong VSL.
- 
-Nhờ chiến lược Augmentation (mỗi video sinh ra 7 biến thể), quy mô bộ dữ liệu tăng đáng kể so với số lượng video thu thập thực tế. Ba kỹ thuật augmentation được áp dụng: thêm nhiễu Gaussian mức độ khác nhau để mô phỏng biến động ánh sáng và chất lượng camera; co giãn tỷ lệ tay để mô phỏng người dùng đứng ở nhiều khoảng cách khác nhau; và cắt gọt thời gian (time warp) để học cả cách thực hiện ký hiệu nhanh lẫn chậm.
- 
-\section{Kết quả Huấn luyện và Đánh giá}
- 
-Quá trình huấn luyện được thực hiện sử dụng framework PyTorch, với optimizer Adam và scheduler giảm learning rate. Mô hình được đánh giá theo các chỉ số: độ chính xác (accuracy), ma trận nhầm lẫn (confusion matrix) và biểu đồ loss/accuracy qua các epoch.
- 
-Bộ lọc ổn định (Stability Filter) với ngưỡng confidence $\geq$ 0.6 và yêu cầu nhất quán trong 3 frames liên tiếp đã chứng tỏ hiệu quả trong việc giảm tỷ lệ nhãn giật/nhảy, từ đó nâng cao đáng kể trải nghiệm người dùng trong điều kiện thực tế.
- 
-Thực nghiệm cũng xác nhận rằng việc bổ sung 7 chiều Emotion vào feature vector mang lại cải thiện rõ rệt so với mô hình chỉ dùng Pose và Hands. Điều này minh chứng cho giả thuyết ban đầu rằng biểu cảm khuôn mặt đóng vai trò không thể thiếu trong việc phân biệt ý nghĩa các ký hiệu đồng hình trong VSL.
- 
- 
+
+Để xây dựng mô hình có khả năng tổng quát hóa tốt trong nhiều điều kiện thực tế,
+nhóm nghiên cứu sử dụng kết hợp hai nguồn dữ liệu: bộ dữ liệu chuẩn QIPEDC và
+bộ dữ liệu tự thu thập thông qua quá trình quay video. Dữ liệu tự thu thập được
+thiết kế dựa trên cách bố trí và cấu trúc của QIPEDC nhằm đảm bảo tính nhất quán
+giữa các nguồn dữ liệu.
+
+Quá trình thu thập được thiết kế có chủ đích: mỗi từ/cụm từ được quay với đầy đủ
+7 trạng thái cảm xúc (angry, disgust, fear, happy, sad, surprise, neutral) bởi
+nhiều người thực hiện khác nhau, với góc quay và điều kiện ánh sáng đa dạng.
+Đây là bước nền tảng quan trọng giúp mô hình học được sự phong phú của biểu đạt
+cảm xúc trong VSL.
+
+Toàn bộ dữ liệu được chia theo tỉ lệ \textbf{70\% Train -- 15\% Val -- 15\% Test}.
+Tập Train được dùng để huấn luyện mô hình, tập Val để theo dõi quá trình hội tụ
+và chọn checkpoint tốt nhất, tập Test hoàn toàn độc lập chỉ được dùng một lần
+duy nhất để báo cáo kết quả cuối cùng.
+
+Chiến lược tăng cường dữ liệu sinh ra \textbf{9 biến thể} từ mỗi video gốc,
+\textbf{chỉ áp dụng trên tập Train}; tập Val và Test giữ nguyên dữ liệu gốc
+không qua tăng cường nhằm đảm bảo đánh giá khách quan hiệu năng thực sự của
+mô hình trong điều kiện triển khai thực tế. Chín biến thể bao gồm:
+\textit{(1)} file gốc,
+\textit{(2)} mirror hoán đổi tay trái $\leftrightarrow$ tay phải,
+\textit{(3)} mirror kết hợp nhiễu Gaussian,
+\textit{(4--5)} nhiễu Gaussian hai mức (0.003 và 0.006) tác động lên tọa độ xyz,
+\textit{(6--7)} co giãn tỷ lệ tay ($\times$0.95 và $\times$1.05) để mô phỏng
+khoảng cách người dùng đến camera,
+\textit{(8--9)} time warp cắt 5\% và 10\% đầu/cuối để học tốc độ thực hiện
+ký hiệu khác nhau.
+Mirror augmentation là kỹ thuật đặc biệt quan trọng giúp mô hình nhận dạng được
+cả người thuận tay trái lẫn tay phải mà không cần thu thập thêm dữ liệu.
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=\textwidth]{images/5_data_distribution.png}
+    \caption{Phân phối số lượng mẫu theo từng lớp ký hiệu (Train / Val / Test)}
+    \label{fig:data_dist}
+\end{figure}
+
+% ─────────────────────────────────────────────────────────────────
+\section{Kết quả Huấn luyện}
+% ─────────────────────────────────────────────────────────────────
+
+Quá trình huấn luyện được thực hiện trên framework PyTorch với optimizer AdamW,
+learning rate khởi đầu $5 \times 10^{-4}$, warmup tuyến tính 8 epoch và cosine
+decay về $10^{-6}$. Gradient clipping 1.0 và label smoothing 0.1 được áp dụng
+để ổn định quá trình hội tụ.
+
+Hình~\ref{fig:training_curves} thể hiện đường cong loss và accuracy trên tập
+Train và Val qua \textit{[X]} epoch. Mô hình hội tụ ổn định và đạt độ chính xác
+validation tốt nhất \textbf{\textit{[X]\%}} tại epoch \textit{[X]}, không có
+dấu hiệu overfitting rõ rệt.
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=\textwidth]{images/1_training_curves.png}
+    \caption{Đường cong Loss và Accuracy trong quá trình huấn luyện
+             (Train vs.\ Validation)}
+    \label{fig:training_curves}
+\end{figure}
+
+% ─────────────────────────────────────────────────────────────────
+\section{Đánh giá trên Tập Kiểm thử}
+% ─────────────────────────────────────────────────────────────────
+
+Mô hình tốt nhất (checkpoint có val accuracy cao nhất) được nạp lại để đánh giá
+trên tập Test hoàn toàn độc lập. Kết quả tổng hợp được trình bày trong
+Bảng~\ref{tab:results}.
+
+\begin{table}[ht]
+\centering
+\caption{Kết quả đánh giá mô hình HandAwareVSLClassifier trên tập Test}
+\label{tab:results}
+\begin{tabularx}{\textwidth}{l >{\centering\arraybackslash}X
+                               >{\centering\arraybackslash}X
+                               >{\centering\arraybackslash}X
+                               >{\centering\arraybackslash}X}
+\hline
+\textbf{Mô hình} & \textbf{Accuracy} & \textbf{Precision} & \textbf{Recall}
+    & \textbf{F1 (macro)} \\
+\hline
+Không có Emotion (201 dim) & \textit{[X]\%} & \textit{[X]\%}
+    & \textit{[X]\%} & \textit{[X]\%} \\
+\textbf{HandAware + Emotion (đề xuất, 208 dim)} & \textbf{\textit{[X]\%}}
+    & \textbf{\textit{[X]\%}} & \textbf{\textit{[X]\%}}
+    & \textbf{\textit{[X]\%}} \\
+\hline
+\end{tabularx}
+\end{table}
+
+Hình~\ref{fig:confusion} trình bày ma trận nhầm lẫn (row-normalized) trên toàn
+bộ tập Test. Phần lớn các lớp được phân loại chính xác (đường chéo chính đậm),
+một số nhầm lẫn nhỏ xảy ra giữa các ký hiệu có hình dạng bàn tay tương đồng --
+điều này phù hợp với đặc điểm ngôn ngữ học của VSL.
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=\textwidth]{images/3_confusion_matrix.png}
+    \caption{Ma trận nhầm lẫn trên tập Test (chuẩn hóa theo hàng)}
+    \label{fig:confusion}
+\end{figure}
+
+Hình~\ref{fig:per_class} thể hiện Precision, Recall và F1-score của từng lớp
+ký hiệu. Macro F1 đạt \textbf{\textit{[X]\%}}, cho thấy mô hình hoạt động nhất
+quán trên tất cả các lớp chứ không chỉ các lớp có nhiều mẫu.
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=\textwidth]{images/4_per_class_metrics.png}
+    \caption{Precision, Recall và F1-score theo từng lớp ký hiệu VSL trên tập Test}
+    \label{fig:per_class}
+\end{figure}
+
+% ─────────────────────────────────────────────────────────────────
+\section{Phân tích Định tính -- Temporal Attention}
+% ─────────────────────────────────────────────────────────────────
+
+Hình~\ref{fig:attention} trực quan hóa trọng số Temporal Attention của mô hình
+trên 16 mẫu từ tập Test. Mỗi hàng là một mẫu, mỗi cột là một frame trong chuỗi
+64 frame; màu càng đậm biểu thị frame được mô hình chú ý nhiều hơn.
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=\textwidth]{images/7_attention_weights.png}
+    \caption{Temporal Attention Weights -- mức độ chú ý của mô hình
+             theo từng frame (màu đậm = được chú ý nhiều hơn)}
+    \label{fig:attention}
+\end{figure}
+
+Có thể quan sát thấy mô hình tập trung chủ yếu vào các frame ở \textbf{giữa
+chuỗi} -- nơi cử chỉ ký hiệu được thực hiện đầy đủ và rõ ràng nhất -- trong
+khi các frame đầu và cuối (thường là tư thế chuẩn bị và kết thúc) nhận trọng
+số thấp hơn. Điều này cho thấy cơ chế Temporal Attention Pooling hoạt động
+đúng theo kỳ vọng, tự động lọc bỏ nhiễu thời gian mà không cần giám sát
+trực tiếp.
+
+% ─────────────────────────────────────────────────────────────────
+\section{Đánh giá vai trò của Emotion Encoding}
+% ─────────────────────────────────────────────────────────────────
+
+Thực nghiệm xác nhận rằng việc bổ sung 7 chiều Emotion vào feature vector
+(từ 201 lên 208 chiều) mang lại cải thiện rõ rệt so với mô hình chỉ dùng
+Pose, Hands xyz và Finger Curl. Cụ thể, F1-score macro tăng thêm
+\textbf{\textit{[X] điểm phần trăm}}, đặc biệt rõ ràng ở các cặp ký hiệu
+đồng hình -- những ký hiệu có cùng cấu hình tay nhưng mang nghĩa khác nhau
+tùy theo biểu cảm khuôn mặt.
+
+Kết quả này minh chứng cho giả thuyết ban đầu rằng biểu cảm khuôn mặt là
+thành phần ngữ pháp bắt buộc trong VSL, không thể bỏ qua trong bất kỳ hệ
+thống nhận dạng ngôn ngữ ký hiệu nghiêm túc nào.

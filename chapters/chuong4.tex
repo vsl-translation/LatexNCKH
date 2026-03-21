@@ -31,89 +31,93 @@ Khi nhận được văn bản đầu vào (ví dụ: "Tôi xơi cơm với bạ
 \end{itemize}
  
 \section{Luồng 2 -- Chuyển đổi Ngôn ngữ Ký hiệu sang Tiếng Việt (VSL $\rightarrow$ VN)}
- 
+
 Đây là chiều "nghịch" và phức tạp hơn, đòi hỏi hệ thống phải hiểu và giải mã các chuỗi cử chỉ động trong không gian ba chiều từ luồng video camera.
- 
+
 \subsection{Luồng cơ bản}
- 
+
 Thiết bị tiếp nhận luồng frames video liên tục từ camera và gửi lên server. Server thực hiện toàn bộ quá trình Logic Solving (bao gồm trích xuất đặc trưng, nhận diện cử chỉ, lọc cảm xúc và xử lý ngữ cảnh), sau đó trả về kết quả phiên dịch dưới dạng văn bản (Subtitle) và giọng đọc (Voice) để hiển thị trên giao diện người dùng.
- 
+
 \subsection{Quy trình xây dựng hệ thống nhận diện -- Bước 1: Thu thập Video (\texttt{webcam\_collector.py})}
- 
+
 \texttt{webcam\_collector.py} đảm nhiệm việc thu thập dữ liệu huấn luyện từ webcam một cách có kiểm soát và có cấu trúc.
- 
+
 Sau khi chọn chức năng tạo nhãn và thu video, người dùng lần lượt: chọn nhãn (tên ký hiệu), chọn trạng thái cảm xúc kết hợp qua phím 1--7, sau đó bắt đầu quay -- tối đa 10 giây -- và nhấn Q để dừng và lưu. Mỗi phiên quay tạo ra một cặp file gồm video \texttt{.mp4} và file metadata \texttt{.json} đi kèm.
- 
+
 File JSON lưu trữ toàn bộ thông tin ngữ cảnh của video: trạng thái cảm xúc (emotion), mã định danh (emotion\_id) và ngày cập nhật. Nhờ đó, dữ liệu có thể được truy vết, kiểm tra chất lượng và tái sử dụng một cách dễ dàng.
- 
+
 Trong suốt quá trình quay, giao diện hiển thị hand landmark theo thời gian thực, giúp người thu thập quan sát và điều chỉnh tư thế tay ngay lập tức -- đảm bảo chất lượng dữ liệu đầu vào từ đầu.
- 
+
 \subsection{Bước 2: Trích xuất Đặc trưng (\texttt{video\_to\_npy.py})}
- 
-Script \texttt{video\_to\_npy.py} chuyển đổi các file video thô sang định dạng mảng số \texttt{.npy} để phục vụ huấn luyện mô hình. Quy trình xử lý bao gồm các bước: đọc từng frame của video MP4 $\rightarrow$ đưa qua MediaPipe để phát hiện điểm mốc $\rightarrow$ chuẩn hóa tọa độ (Normalize) $\rightarrow$ resample về chuỗi cố định 64 frames $\rightarrow$ thêm vector cảm xúc one-hot $\rightarrow$ lưu file \texttt{.npy} có kích thước (64, 178).
- 
-Cấu trúc Feature Vector 178 chiều cho mỗi frame bao gồm:
- 
+
+Script \texttt{video\_to\_npy.py} chuyển đổi các file video thô sang định dạng mảng số \texttt{.npy} để phục vụ huấn luyện mô hình. Quy trình xử lý bao gồm các bước: đọc từng frame của video MP4 $\rightarrow$ đưa qua MediaPipe để phát hiện điểm mốc $\rightarrow$ chuẩn hóa tọa độ (Normalize) $\rightarrow$ resample về chuỗi cố định 64 frames $\rightarrow$ thêm vector cảm xúc one-hot $\rightarrow$ lưu file \texttt{.npy} có kích thước \textbf{(64, 208)}.
+
+Cấu trúc Feature Vector \textbf{208 chiều} cho mỗi frame bao gồm:
+
 \begin{itemize}
     \item \textbf{Pose (45 chiều):} 15 điểm xương quan trọng trên cơ thể (mũi, vai, khuỷu tay, cổ tay, ngón tay cái, hông...), mỗi điểm gồm 3 tọa độ (x, y, z). Dữ liệu được chuẩn hóa bằng cách lấy điểm giữa hông làm tâm và chia cho khoảng cách giữa hai vai, đảm bảo bất biến về vị trí và kích thước người dùng.
- 
-    \item \textbf{Hands (126 chiều):} 21 điểm landmark cho mỗi bàn tay trong không gian 3 chiều ($21 \times 3 \times 2$ tay = 126 chiều). MediaPipe phát hiện đồng thời cả hai bàn tay và trả về nhãn Left/Right theo góc nhìn camera; hệ thống thực hiện bước Mirror Correction để ánh xạ đúng về góc nhìn thực của người dùng. Tọa độ được chuẩn hóa với gốc tại cổ tay (landmark 0) và chia cho khoảng cách MCP-9.
- 
-    \item \textbf{Finger Curl (30 chiều):} Đây là thành phần độc đáo giúp mô tả mức độ co duỗi (curl) của từng ngón tay trên cả hai bàn tay. Thông tin này rất quan trọng để phân biệt các ký hiệu có hình dạng bàn tay tổng thể giống nhau nhưng khác nhau ở trạng thái uốn cong của từng ngón.
- 
-    \item \textbf{Emotion (7 chiều):} Vector one-hot encoding biểu diễn xác suất của 7 trạng thái cảm xúc: Angry (giận dữ), Disgust (ghê tởm), Fear (sợ hãi), Happy (vui vẻ), Sad (buồn bã), Surprise (ngạc nhiên) và Neutral (trung tính). Trạng thái cảm xúc được xác định từ ảnh khuôn mặt thông qua mô hình FER được huấn luyện trên bộ dữ liệu FER-2013.
+
+    \item \textbf{Hands (126 chiều):} 21 điểm landmark cho mỗi bàn tay trong không gian 3 chiều ($21 \times 3 \times 2$ tay = 126 chiều). MediaPipe phát hiện đồng thời cả hai bàn tay; khi chỉ phát hiện được một tay, hệ thống luôn gán vào slot 0 bất kể trái hay phải. Khi có hai tay, các slot được sắp xếp theo tọa độ x-center (trái màn hình $\rightarrow$ slot 0, phải $\rightarrow$ slot 1). Tọa độ được chuẩn hóa với gốc tại cổ tay (landmark 0) và chia cho khoảng cách MCP-9.
+
+    \item \textbf{Finger Curl (30 chiều):} Mô tả mức độ co duỗi của từng ngón tay trên cả hai bàn tay ($5$ ngón $\times$ 3 đặc trưng $\times$ 2 tay = 30 chiều). Mỗi ngón được đặc trưng bởi ba giá trị: \textit{curl\_ratio} (tỉ lệ khoảng cách đầu ngón/MCP so với cổ tay, 0 = co hoàn toàn, 1 = duỗi thẳng), \textit{bend\_angle} (góc gập tại khớp PIP chuẩn hóa, 0 = thẳng, 1 = co tối đa), và \textit{tip\_dist\_norm} (khoảng cách đầu ngón đến cổ tay, chuẩn hóa theo kích thước bàn tay). Thành phần này cho phép phân biệt các ký hiệu có hình dạng bàn tay tổng thể giống nhau nhưng khác nhau ở trạng thái uốn cong của từng ngón.
+
+    \item \textbf{Emotion (7 chiều):} Vector one-hot encoding biểu diễn 7 trạng thái cảm xúc: Angry (giận dữ), Disgust (ghê tởm), Fear (sợ hãi), Happy (vui vẻ), Sad (buồn bã), Surprise (ngạc nhiên) và Neutral (trung tính). Trạng thái cảm xúc được xác định từ ảnh khuôn mặt thông qua mô hình FER được huấn luyện trên bộ dữ liệu FER-2013.
 \end{itemize}
- 
-Để tăng cường dữ liệu (Augmentation), mỗi video gốc được biến thể thành 7 file \texttt{.npy}: 1 file gốc, 2 file thêm nhiễu Gaussian (mức 0.003 và 0.006), 2 file co giãn tỷ lệ tay ($\times$0.95 và $\times$1.05), và 2 file time warp (cắt 5\% và 10\% đầu/cuối). Chiến lược này được áp dụng cho cả ba tập Train, Validation và Test, giúp tăng đáng kể quy mô và sự đa dạng của bộ dữ liệu.
- 
-\subsection{Bước 3: Huấn luyện Mô hình BiLSTM (\texttt{train\_bilstm\_v3.py})}
- 
-Script \texttt{train\_bilstm\_v3.py} triển khai kiến trúc BiLSTM với Attention Mechanism, được thiết kế đặc biệt để xử lý dữ liệu chuỗi thời gian 2D với đầu vào có kích thước (64, 178):
- 
+
+Để tăng cường dữ liệu (Augmentation), mỗi video gốc được biến thể thành \textbf{9 file} \texttt{.npy}: 1 file gốc (\texttt{\_org}), 1 file mirror hoán đổi tay trái $\leftrightarrow$ tay phải (\texttt{\_mirror}), 1 file mirror kết hợp nhiễu Gaussian (\texttt{\_mirror\_noise0}), 2 file thêm nhiễu Gaussian vào tọa độ tay (mức 0.003 và 0.006), 2 file co giãn tỷ lệ tay ($\times$0.95 và $\times$1.05), và 2 file time warp (cắt 5\% và 10\% đầu/cuối). Đáng chú ý, augmentation mirror giúp mô hình tổng quát hóa với cả người thuận tay trái lẫn tay phải. Chiến lược này \textbf{chỉ áp dụng cho tập Train}, không áp dụng cho Val và Test, nhằm đánh giá khả năng tổng quát hóa thực sự của mô hình.
+
+\subsection{Bước 3: Huấn luyện Mô hình Hand-Aware Transformer (\texttt{train.py})}
+
+Script \texttt{train.py} triển khai kiến trúc \textbf{HandAwareVSLClassifier} -- một Transformer có nhận thức về cấu trúc bàn tay, được thiết kế đặc biệt để khai thác đồng thời quan hệ không gian giữa các ngón tay và quan hệ thời gian giữa các frame. Đầu vào có kích thước \textbf{(B, 64, 208)}, được xử lý qua 6 module tuần tự:
+
 \begin{itemize}
-    \item \textbf{Linear Projection + LayerNorm + ReLU:} Chiếu dữ liệu đầu vào từ không gian 178 chiều lên 256 chiều, áp dụng chuẩn hóa lớp và hàm kích hoạt để ổn định quá trình huấn luyện. Đầu ra: (64, 256).
- 
-    \item \textbf{BiLSTM $\times$ 3 lớp:} Ba lớp BiLSTM với hidden dim = 256, bidirectional = True. Nhờ xử lý chuỗi theo cả hai chiều thuận và nghịch, mô hình có thể học các phụ thuộc ngữ cảnh dài hạn trong chuỗi ký hiệu. Đầu ra: (64, 512).
- 
-    \item \textbf{Attention Layer:} Cơ chế tự chú ý (self-attention) tính toán trọng số quan trọng của từng frame trong chuỗi, tổng hợp thành vector ngữ cảnh context có kích thước 512.
- 
-    \item \textbf{Concat [context, last\_h]:} Vector ngữ cảnh từ attention được nối với hidden state cuối cùng của BiLSTM, tạo ra vector tổng hợp 1024 chiều để đưa vào lớp phân loại.
+    \item \textbf{FeatureParser:} Tách feature vector 208 chiều thành các thành phần riêng biệt: pose (45), left\_hand xyz (63), right\_hand xyz (63), curl\_left (15), curl\_right (15), emotion (7) để xử lý chuyên biệt.
+
+    \item \textbf{FingerEncoder:} Encode từng nhóm ngón tay độc lập (wrist + 5 ngón = 6 nhóm) bằng MLP riêng cho mỗi nhóm, tạo ra biểu diễn không gian \textbf{(B, T, 6, finger\_dim)} với \texttt{finger\_dim = 32}. Cùng một FingerEncoder được dùng chung cho cả hai tay.
+
+    \item \textbf{FingerGraphAttention (GAT):} Áp dụng Graph Attention Network với adjacency matrix phản ánh cấu trúc giải phẫu thực của bàn tay -- cổ tay kết nối với 5 ngón, các ngón kề nhau được kết nối. Cơ chế attention chỉ cho phép thông tin truyền qua các cạnh giải phẫu hợp lệ, giúp mô hình học được quan hệ không gian có ý nghĩa sinh học. Chạy độc lập cho tay trái và tay phải với \texttt{graph\_heads = 4}.
+
+    \item \textbf{HandCrossAttention:} Cross-attention hai chiều học quan hệ tương tác giữa tay trái và tay phải. Tay trái attend vào tay phải và ngược lại, cho phép mô hình nắm bắt các ký hiệu hai tay phối hợp.
+
+    \item \textbf{CurlEncoder:} Encode đặc trưng curl của từng ngón (3 chiều/ngón) thành embedding \texttt{curl\_embed\_dim = 32} cho mỗi tay, sau đó \textbf{HandAggregator} gộp toàn bộ (finger\_dim $\times$ 2 + curl\_embed\_dim $\times$ 2 + pose\_dim + emo\_dim) thành vector \textbf{temporal\_dim = 256} cho mỗi timestep.
+
+    \item \textbf{TemporalTransformer:} Transformer encoder pre-norm với \texttt{temporal\_layers = 4} lớp và \texttt{temporal\_heads = 8} heads, xử lý chuỗi 64 timestep để học phụ thuộc thời gian dài hạn. Positional encoding dạng sinusoidal được thêm vào trước khi đưa vào encoder. Sau Transformer, \textbf{Temporal Attention Pooling} học trọng số tầm quan trọng của từng frame và tổng hợp thành vector ngữ cảnh toàn cục, cuối cùng được đưa qua MLP classifier 3 lớp để phân loại.
 \end{itemize}
- 
-Các siêu tham số của mô hình: Hidden dim = 256, LSTM layers = 3, Bidirectional = True, Attention = True, Dropout LSTM = 0.3, Dropout FC = 0.4.
- 
+
+Các siêu tham số chính: finger\_dim = 32, curl\_embed\_dim = 32, temporal\_dim = 256, temporal\_layers = 4, temporal\_heads = 8, graph\_heads = 4, dropout = 0.2, label\_smoothing = 0.1, optimizer = AdamW, learning rate = 5$\times 10^{-4}$ với warmup 8 epoch và cosine decay, gradient clipping = 1.0.
+
 \subsection{Bước 4: Nhận dạng Realtime}
- 
-Hệ thống nhận dạng theo thời gian thực hoạt động theo vòng lặp 10 bước liên tục: (1) Webcam $\rightarrow$ frame BGR, (2) Flip + Convert sang RGB, (3) MediaPipe async detect, (4) Trích xuất 171 chiều (pose + hand), (5) Normalize frame, (6) Concat Emotion $\rightarrow$ 178 chiều, (7) Buffer deque(maxlen=64), (8) Khi đủ 64 frame: chạy Inference, (9) Softmax $\rightarrow$ label + confidence, (10) Stability check 3 frames.
- 
+
+Hệ thống nhận dạng theo thời gian thực hoạt động theo vòng lặp 10 bước liên tục: (1) Webcam $\rightarrow$ frame BGR, (2) Flip + Convert sang RGB, (3) MediaPipe async detect, (4) Trích xuất \textbf{201 chiều} (pose + hands\_xyz + finger\_curl), (5) Normalize frame, (6) Concat Emotion $\rightarrow$ \textbf{208 chiều}, (7) Buffer deque(maxlen=64), (8) Khi đủ 64 frame: chạy Inference, (9) Softmax $\rightarrow$ label + confidence, (10) Stability check 3 frames.
+
 Ba cơ chế tối ưu quan trọng được áp dụng trong luồng realtime:
- 
+
 \begin{itemize}
     \item \textbf{MediaPipe LIVE\_STREAM mode (Streaming vs Batch):} Sử dụng hàm \texttt{detect\_async()} với callback nhận kết quả không đồng bộ và thread-safe với \texttt{Lock()}, tránh hiện tượng drop frame kể cả khi tài nguyên phần cứng hạn chế.
- 
-    \item \textbf{Sliding Window Buffer -- deque(maxlen=64):} Buffer tự động loại bỏ frame cũ nhất khi thêm frame mới, duy trì cửa sổ quan sát 64 frame gần nhất và cho phép dự đoán liên tục mà không cần chờ kết thúc đoạn cử chỉ.
- 
+
+    \item \textbf{Sliding Window Buffer -- deque(maxlen=64):} Buffer tự động loại bỏ frame cũ nhất khi thêm frame mới, duy trì cửa sổ quan sát 64 frame gần nhất và cho phép dự đoán liên tục mà không cần chờ kết thúc đoạn cử chỉ hoàn chỉnh.
+
     \item \textbf{Stability Filter (Bộ lọc ổn định):} Kết quả chỉ được hiển thị khi confidence $\geq$ 0.6 và cùng nhãn xuất hiện trong ít nhất 3 frame liên tiếp. Cơ chế này triệt tiêu hiện tượng nhãn bị giật/nhảy liên tục do nhiễu, đảm bảo trải nghiệm người dùng mượt mà.
 \end{itemize}
- 
+
 \section{Vai trò then chốt của Emotion Encoding trong NNKH}
- 
+
 Một trong những đóng góp quan trọng và đặc sắc nhất của đề tài là việc tích hợp Emotion Encoding vào feature vector. Trong Ngôn ngữ Ký hiệu, biểu cảm khuôn mặt không chỉ là yếu tố thứ cấp mà là một thành phần ngữ pháp bắt buộc, có khả năng thay đổi hoàn toàn ý nghĩa của một cử chỉ.
- 
+
 Ví dụ minh họa: Cùng một cử chỉ tay nhưng khi kết hợp với nét mặt NEUTRAL sẽ có nghĩa là "Cảm ơn" (thông thường), trong khi nét mặt HAPPY biểu đạt "Cảm ơn chân thành" (vui vẻ), nét mặt ANGRY lại dẫn đến ý nghĩa tiêu cực như "Ghét" hoặc sự bực bội, còn SURPRISE truyền đạt sự ngạc nhiên hoàn toàn khác.
- 
-Việc thêm 7 chiều emotion vào mỗi timestep (từ 171 lên 178 chiều) không chỉ tăng dung lượng thông tin mà còn cung cấp cho mô hình một lớp ngữ cảnh quan trọng mà các hệ thống chỉ dựa trên nhận diện tay thuần túy hoàn toàn bỏ sót. Đây là điểm phân biệt và tạo ra ưu thế cạnh tranh rõ rệt của hệ thống này so với các công trình trước đó.
- 
+
+Việc thêm 7 chiều emotion vào mỗi timestep (từ \textbf{201 lên 208 chiều}) không chỉ tăng dung lượng thông tin mà còn cung cấp cho mô hình một lớp ngữ cảnh quan trọng mà các hệ thống chỉ dựa trên nhận diện tay thuần túy hoàn toàn bỏ sót. Đây là điểm phân biệt và tạo ra ưu thế cạnh tranh rõ rệt của hệ thống này so với các công trình trước đó.
+
 \section{Cơ chế lựa chọn ứng viên tiềm năng -- Pipeline 4 giai đoạn}
- 
+
 Để nâng cao độ chính xác cuối cùng và tính tự nhiên của kết quả phiên dịch, hệ thống áp dụng một pipeline 4 giai đoạn lọc dần từ nhiều ứng viên xuống từ chính xác nhất:
- 
+
 \begin{itemize}
-    \item \textbf{Stage 1 -- Gesture Model $\rightarrow$ Top-K = 3:} Mô hình BiLSTM đưa ra 3 từ ứng viên có xác suất cao nhất dựa trên đặc trưng cử chỉ tay.
- 
+    \item \textbf{Stage 1 -- Gesture Model $\rightarrow$ Top-K = 3:} Mô hình HandAwareVSLClassifier đưa ra 3 từ ứng viên có xác suất cao nhất dựa trên đặc trưng cử chỉ tay và cấu trúc ngón.
+
     \item \textbf{Stage 2 -- Emotion Filter $\rightarrow$ Top-K = 2:} Lọc tiếp 3 ứng viên ban đầu bằng kết quả nhận diện cảm xúc khuôn mặt, loại bỏ các từ không phù hợp với cảm xúc đang biểu đạt, còn lại 2 ứng viên.
- 
+
     \item \textbf{Stage 3 -- Temporal Smoothing $\rightarrow$ Top-K = 2:} Áp dụng làm mượt theo thời gian qua nhiều frame để loại bỏ dự đoán bất thường, giữ lại 2 ứng viên ổn định nhất.
- 
+
     \item \textbf{Stage 4 -- PhoBERT Context Scoring $\rightarrow$ Final word:} Mô hình ngôn ngữ PhoBERT đánh giá xác suất xuất hiện của từng ứng viên trong ngữ cảnh của các từ đã được nhận diện trước đó trong câu, chọn ra từ cuối cùng phù hợp nhất cả về cử chỉ, cảm xúc lẫn ngữ cảnh tiếng Việt.
 \end{itemize}
