@@ -1,26 +1,20 @@
 \relax 
 \providecommand\hyper@newdestlabel[2]{}
-\@writefile{toc}{\contentsline {chapter}{\numberline {5}THỰC NGHIỆM VÀ KẾT QUẢ}{12}{chapter.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {chapter}{\numberline {5}THỰC NGHIỆM VÀ KẾT QUẢ}{13}{chapter.5}\protected@file@percent }
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
-\@writefile{toc}{\contentsline {section}{\numberline {5.1}Xây dựng bộ dữ liệu và kỹ thuật tăng cường dữ liệu}{12}{section.5.1}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {5.1}{\ignorespaces \xpg@aux {}{vietnamese}\ignorespaces Phân phối số lượng mẫu theo từng lớp ký hiệu (Train / Val / Test)}}{12}{figure.caption.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {5.1}Xây dựng Bộ dữ liệu}{13}{section.5.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {5.2}Kỹ thuật Tăng cường Dữ liệu}{13}{section.5.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {5.3}Môi trường và Cấu hình Huấn luyện}{13}{section.5.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {5.4}Kết quả Huấn luyện}{14}{section.5.4}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {5.1}{\ignorespaces \xpg@aux {}{vietnamese}\ignorespaces Lịch sử huấn luyện EfficientNet-B2: Loss và Accuracy trên tập Validation qua 40 epoch. Đường nét đứt đánh dấu thời điểm unfreeze backbone (epoch 10); đường vàng chỉ epoch tốt nhất (epoch 28, Val Balanced Accuracy = 70.7\%).}}{14}{figure.caption.4}\protected@file@percent }
 \providecommand*\caption@xref[2]{\@setref\relax\@undefined{#1}}
-\newlabel{fig:data_dist}{{5.1}{12}{\texorpdfstring {\xpg@aux {\xpg@current@opts }{\languagename }}{}\ignorespaces Phân phối số lượng mẫu theo từng lớp ký hiệu (Train / Val / Test)}{figure.caption.4}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {5.2}Kết quả huấn luyện}{12}{section.5.2}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {5.2}{\ignorespaces \xpg@aux {}{vietnamese}\ignorespaces Đường cong Loss và Accuracy trong quá trình huấn luyện (Train vs.\ Validation). Đường đứt nét cam đánh dấu epoch tốt nhất.}}{13}{figure.caption.5}\protected@file@percent }
-\newlabel{fig:training_curves}{{5.2}{13}{\texorpdfstring {\xpg@aux {\xpg@current@opts }{\languagename }}{}\ignorespaces Đường cong Loss và Accuracy trong quá trình huấn luyện (Train vs.\ Validation). Đường đứt nét cam đánh dấu epoch tốt nhất}{figure.caption.5}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {5.3}Đánh giá trên tập kiểm thử}{13}{section.5.3}\protected@file@percent }
-\@writefile{lot}{\contentsline {table}{\numberline {5.1}{\ignorespaces \xpg@aux {}{vietnamese}\ignorespaces Kết quả đánh giá mô hình HandAwareVSLClassifier trên tập Test}}{13}{table.caption.6}\protected@file@percent }
-\newlabel{tab:results}{{5.1}{13}{\texorpdfstring {\xpg@aux {\xpg@current@opts }{\languagename }}{}\ignorespaces Kết quả đánh giá mô hình HandAwareVSLClassifier trên tập Test}{table.caption.6}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {5.3}{\ignorespaces \xpg@aux {}{vietnamese}\ignorespaces Ma trận nhầm lẫn trên tập Test (chuẩn hóa theo hàng). Giá trị trên đường chéo chính biểu thị recall của từng lớp.}}{14}{figure.caption.7}\protected@file@percent }
-\newlabel{fig:confusion}{{5.3}{14}{\texorpdfstring {\xpg@aux {\xpg@current@opts }{\languagename }}{}\ignorespaces Ma trận nhầm lẫn trên tập Test (chuẩn hóa theo hàng). Giá trị trên đường chéo chính biểu thị recall của từng lớp}{figure.caption.7}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {5.4}Phân tích định tính -- Temporal Attention}{14}{section.5.4}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {5.4}{\ignorespaces \xpg@aux {}{vietnamese}\ignorespaces Precision, Recall và F1-score theo từng lớp ký hiệu VSL trên tập Test. Màu xanh lá: F1 $\geq $ 80\%; màu vàng: 50\% $\leq $ F1 $<$ 80\%; màu đỏ: F1 $<$ 50\%.}}{15}{figure.caption.8}\protected@file@percent }
-\newlabel{fig:per_class}{{5.4}{15}{\texorpdfstring {\xpg@aux {\xpg@current@opts }{\languagename }}{}\ignorespaces Precision, Recall và F1-score theo từng lớp ký hiệu VSL trên tập Test. Màu xanh lá: F1 $\geq $ 80\%; màu vàng: 50\% $\leq $ F1 $<$ 80\%; màu đỏ: F1 $<$ 50\%}{figure.caption.8}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {5.5}{\ignorespaces \xpg@aux {}{vietnamese}\ignorespaces Temporal Attention Weights -- mức độ chú ý của mô hình theo từng frame (màu đậm = được chú ý nhiều hơn). Mỗi hàng là một mẫu test với nhãn thật tương ứng.}}{15}{figure.caption.9}\protected@file@percent }
-\newlabel{fig:attention}{{5.5}{15}{\texorpdfstring {\xpg@aux {\xpg@current@opts }{\languagename }}{}\ignorespaces Temporal Attention Weights -- mức độ chú ý của mô hình theo từng frame (màu đậm = được chú ý nhiều hơn). Mỗi hàng là một mẫu test với nhãn thật tương ứng}{figure.caption.9}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {5.5}Đánh giá vai trò của Emotion Encoding}{15}{section.5.5}\protected@file@percent }
+\newlabel{fig:training_history}{{5.1}{14}{\texorpdfstring {\xpg@aux {\xpg@current@opts }{\languagename }}{}\ignorespaces Lịch sử huấn luyện EfficientNet-B2: Loss và Accuracy trên tập Validation qua 40 epoch. Đường nét đứt đánh dấu thời điểm unfreeze backbone (epoch 10); đường vàng chỉ epoch tốt nhất (epoch 28, Val Balanced Accuracy = 70.7\%)}{figure.caption.4}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {5.5}Đánh giá theo Từng Nhãn}{14}{section.5.5}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {5.2}{\ignorespaces \xpg@aux {}{vietnamese}\ignorespaces Chỉ số Precision, Recall và F1-Score theo từng nhãn cảm xúc trên tập Validation.}}{14}{figure.caption.5}\protected@file@percent }
+\newlabel{fig:per_class_metrics_val}{{5.2}{14}{\texorpdfstring {\xpg@aux {\xpg@current@opts }{\languagename }}{}\ignorespaces Chỉ số Precision, Recall và F1-Score theo từng nhãn cảm xúc trên tập Validation}{figure.caption.5}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {5.3}{\ignorespaces \xpg@aux {}{vietnamese}\ignorespaces Chỉ số Precision, Recall và F1-Score theo từng nhãn cảm xúc trên tập Test.}}{15}{figure.caption.6}\protected@file@percent }
+\newlabel{fig:per_class_metrics_test}{{5.3}{15}{\texorpdfstring {\xpg@aux {\xpg@current@opts }{\languagename }}{}\ignorespaces Chỉ số Precision, Recall và F1-Score theo từng nhãn cảm xúc trên tập Test}{figure.caption.6}{}}
 \@setckpt{chapters/chuong5}{
 \setcounter{page}{16}
 \setcounter{equation}{0}
@@ -37,8 +31,8 @@
 \setcounter{subsubsection}{0}
 \setcounter{paragraph}{0}
 \setcounter{subparagraph}{0}
-\setcounter{figure}{5}
-\setcounter{table}{1}
+\setcounter{figure}{3}
+\setcounter{table}{0}
 \setcounter{float@type}{4}
 \setcounter{parentequation}{0}
 \setcounter{lofdepth}{1}
@@ -161,7 +155,7 @@
 \setcounter{Item}{0}
 \setcounter{Hfootnote}{0}
 \setcounter{Hy@AnnotLevel}{0}
-\setcounter{bookmark@seq@number}{42}
+\setcounter{bookmark@seq@number}{44}
 \setcounter{caption@flags}{2}
 \setcounter{continuedfloat}{0}
 }
