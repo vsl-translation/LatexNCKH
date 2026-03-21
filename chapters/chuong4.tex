@@ -1,4 +1,3 @@
-
 % ==========================================
 % CHƯƠNG 4: QUÁ TRÌNH THIẾT KẾ VÀ XÂY DỰNG SẢN PHẨM
 % ==========================================
@@ -12,11 +11,21 @@ Hệ thống được thiết kế theo kiến trúc client-server, trong đó p
  
 \subsection{Luồng cơ bản}
  
-Thiết bị thu nhận đầu vào là giọng nói (voice). Tín hiệu âm thanh được chuyển đổi thành văn bản thông qua module Speech-to-Text (STT), tạo thành "Subtitle" -- văn bản thô đại diện cho nội dung người nói muốn truyền đạt. Văn bản này sau đó được gửi lên server để xử lý qua bộ Logic Solving. Phản hồi từ server bao gồm danh sách các từ đã ánh xạ cùng URL video tương ứng, được gửi trả về thiết bị và hiển thị dưới dạng UI kèm animation chuyển động 3D hoặc video người ký hiệu thực sự.
+Thiết bị thu nhận đầu vào là giọng nói (voice). Tín hiệu âm thanh được chuyển đổi thành văn bản thông qua module Speech-to-Text (STT), tạo thành "Subtitle" -- văn bản thô đại diện cho nội dung người nói muốn truyền đạt. Văn bản này sau đó được gửi lên server để xử lý qua bộ Logic Solving. Phản hồi từ server bao gồm danh sách các từ đã ánh xạ cùng URL video tương ứng, được gửi trả về thiết bị và hiển thị dưới dạng giao diện người dùng (UI) kèm video người ký hiệu thực sự.
  
 \subsection{Luồng logic xử lý chi tiết (NLP Pipeline)}
  
 Khi nhận được văn bản đầu vào (ví dụ: "Tôi xơi cơm với bạn hồi chiều hôm qua"), hệ thống tiến hành qua năm bước xử lý tuần tự:
+
+% ==========================================
+% ảnh sơ đồ vn -> vsl
+% ==========================================
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{images/so_do_vn_vsl.png}
+    \caption{Sơ đồ luồng xử lý chuyển đổi Tiếng Việt sang Ngôn ngữ Ký hiệu (VN → VSL)}
+    \label{fig:vn_vsl}
+\end{figure}
  
 \begin{itemize}
     \item \textbf{Bước 1 -- Chuẩn hóa dữ liệu:} Toàn bộ văn bản được chuyển về chữ thường, loại bỏ dấu câu, ký tự đặc biệt và khoảng trắng thừa. Bước này đảm bảo tính nhất quán khi tra cứu từ điển.
@@ -38,6 +47,16 @@ Khi nhận được văn bản đầu vào (ví dụ: "Tôi xơi cơm với bạ
  
 Thiết bị tiếp nhận luồng frames video liên tục từ camera và gửi lên server. Server thực hiện toàn bộ quá trình Logic Solving (bao gồm trích xuất đặc trưng, nhận diện cử chỉ, lọc cảm xúc và xử lý ngữ cảnh), sau đó trả về kết quả phiên dịch dưới dạng văn bản (Subtitle) và giọng đọc (Voice) để hiển thị trên giao diện người dùng.
  
+% ==========================================
+% ảnh sơ đồ vsl -> vn
+% ==========================================
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{images/so_do_vsl_vn.png}
+    \caption{Sơ đồ luồng xử lý chuyển đổi Ngôn ngữ Ký hiệu sang Tiếng Việt (VSL → VN)}
+    \label{fig:vsl_vn}
+\end{figure}
+
 \subsection{Quy trình xây dựng hệ thống nhận diện -- Bước 1: Thu thập Video (\texttt{webcam\_collector.py})}
  
 \texttt{webcam\_collector.py} đảm nhiệm việc thu thập dữ liệu huấn luyện từ webcam một cách có kiểm soát và có cấu trúc.
@@ -65,23 +84,29 @@ Cấu trúc Feature Vector 178 chiều cho mỗi frame bao gồm:
 \end{itemize}
  
 Để tăng cường dữ liệu (Augmentation), mỗi video gốc được biến thể thành 7 file \texttt{.npy}: 1 file gốc, 2 file thêm nhiễu Gaussian (mức 0.003 và 0.006), 2 file co giãn tỷ lệ tay ($\times$0.95 và $\times$1.05), và 2 file time warp (cắt 5\% và 10\% đầu/cuối). Chiến lược này được áp dụng cho cả ba tập Train, Validation và Test, giúp tăng đáng kể quy mô và sự đa dạng của bộ dữ liệu.
- 
-\subsection{Bước 3: Huấn luyện Mô hình BiLSTM (\texttt{train\_bilstm\_v3.py})}
- 
-Script \texttt{train\_bilstm\_v3.py} triển khai kiến trúc BiLSTM với Attention Mechanism, được thiết kế đặc biệt để xử lý dữ liệu chuỗi thời gian 2D với đầu vào có kích thước (64, 178):
- 
+
+\subsection{Bước 3: Huấn luyện Mô hình Transformer (\texttt{train\_transformer.py})}
+
+Script \texttt{train\_transformer.py} triển khai kiến trúc Transformer Encoder, được thiết kế để xử lý dữ liệu chuỗi thời gian với đầu vào có kích thước (64, 178):
+
 \begin{itemize}
-    \item \textbf{Linear Projection + LayerNorm + ReLU:} Chiếu dữ liệu đầu vào từ không gian 178 chiều lên 256 chiều, áp dụng chuẩn hóa lớp và hàm kích hoạt để ổn định quá trình huấn luyện. Đầu ra: (64, 256).
- 
-    \item \textbf{BiLSTM $\times$ 3 lớp:} Ba lớp BiLSTM với hidden dim = 256, bidirectional = True. Nhờ xử lý chuỗi theo cả hai chiều thuận và nghịch, mô hình có thể học các phụ thuộc ngữ cảnh dài hạn trong chuỗi ký hiệu. Đầu ra: (64, 512).
- 
-    \item \textbf{Attention Layer:} Cơ chế tự chú ý (self-attention) tính toán trọng số quan trọng của từng frame trong chuỗi, tổng hợp thành vector ngữ cảnh context có kích thước 512.
- 
-    \item \textbf{Concat [context, last\_h]:} Vector ngữ cảnh từ attention được nối với hidden state cuối cùng của BiLSTM, tạo ra vector tổng hợp 1024 chiều để đưa vào lớp phân loại.
+    \item \textbf{Input Projection + Positional Encoding:} Dữ liệu đầu vào được chiếu từ không gian 178 chiều lên không gian 256 chiều thông qua lớp Linear, sau đó cộng với Positional Encoding để mô hình nắm bắt thông tin thứ tự của các frame trong chuỗi. Đầu ra: (64, 256).
+
+    \item \textbf{Transformer Encoder Layers ($\times$ N):} Gồm nhiều lớp Encoder (thường từ 2--4 lớp), mỗi lớp bao gồm:
+    \begin{itemize}
+        \item Multi-Head Self-Attention: Cho phép mô hình học mối quan hệ giữa các frame trong toàn bộ chuỗi.
+        \item Feed Forward Network (FFN): Hai lớp fully connected giúp tăng khả năng biểu diễn.
+        \item Layer Normalization + Residual Connection: Ổn định quá trình huấn luyện và tránh mất gradient.
+    \end{itemize}
+    Đầu ra: (64, 256).
+
+    \item \textbf{Global Pooling / CLS Token:} Biểu diễn toàn bộ chuỗi được tổng hợp thành một vector đặc trưng duy nhất thông qua trung bình (mean pooling) hoặc sử dụng token đặc biệt (CLS). Đầu ra: (256).
+
+    \item \textbf{Fully Connected Layer:} Vector đặc trưng được đưa qua lớp phân loại để dự đoán nhãn cử chỉ tương ứng.
 \end{itemize}
- 
-Các siêu tham số của mô hình: Hidden dim = 256, LSTM layers = 3, Bidirectional = True, Attention = True, Dropout LSTM = 0.3, Dropout FC = 0.4.
- 
+
+Các siêu tham số tiêu biểu của mô hình: Embedding dim = 256, Number of heads = 8, Encoder layers = 3, Dropout = 0.1.
+
 \subsection{Bước 4: Nhận dạng Realtime}
  
 Hệ thống nhận dạng theo thời gian thực hoạt động theo vòng lặp 10 bước liên tục: (1) Webcam $\rightarrow$ frame BGR, (2) Flip + Convert sang RGB, (3) MediaPipe async detect, (4) Trích xuất 171 chiều (pose + hand), (5) Normalize frame, (6) Concat Emotion $\rightarrow$ 178 chiều, (7) Buffer deque(maxlen=64), (8) Khi đủ 64 frame: chạy Inference, (9) Softmax $\rightarrow$ label + confidence, (10) Stability check 3 frames.
@@ -104,12 +129,27 @@ Ví dụ minh họa: Cùng một cử chỉ tay nhưng khi kết hợp với né
  
 Việc thêm 7 chiều emotion vào mỗi timestep (từ 171 lên 178 chiều) không chỉ tăng dung lượng thông tin mà còn cung cấp cho mô hình một lớp ngữ cảnh quan trọng mà các hệ thống chỉ dựa trên nhận diện tay thuần túy hoàn toàn bỏ sót. Đây là điểm phân biệt và tạo ra ưu thế cạnh tranh rõ rệt của hệ thống này so với các công trình trước đó.
  
+\subsection{Cơ chế trích xuất và mã hóa cảm xúc khuôn mặt}
+
+Hệ thống phân tích biểu cảm khuôn mặt dựa trên hai nguồn đầu ra song song từ MediaPipe FaceLandmarker chạy ở chế độ \texttt{LIVE\_STREAM}: 468 landmarks tọa độ 3D biểu diễn hình học khuôn mặt, và 52 blendshape coefficients biểu diễn mức độ kích hoạt của từng nhóm cơ mặt theo thang $[0, 1]$.
+
+Module \texttt{FacialExpressionAnalyzer} ưu tiên phân tích theo blendshapes thông qua hàm \texttt{analyze\_blendshapes()}, tổng hợp các chỉ số chức năng gồm độ mở miệng, nụ cười, độ mở hai mắt, mắt mở to, mắt nheo, và trạng thái lông mày. Các chỉ số này được ánh xạ theo quy tắc ngưỡng sang một trong 7 nhãn cảm xúc chuẩn. Khi blendshapes không khả dụng do điều kiện ánh sáng hoặc góc quay, hệ thống tự động chuyển sang \texttt{analyze\_landmarks()} --- thực hiện phân tích hình học thuần túy từ khoảng cách tương đối giữa các landmarks để ước tính cùng tập chỉ số trên. Cơ chế dự phòng này đảm bảo nhãn cảm xúc được ghi nhận liên tục trong suốt quá trình thu thập.
+
+Tập nhãn cảm xúc gồm 7 lớp được định nghĩa thống nhất qua hằng số \texttt{EMOTIONS}: angry (0), disgust (1), fear (2), happy (3), sad (4), surprise (5), neutral (6). Tập nhãn này được dùng xuyên suốt toàn bộ pipeline --- từ giao diện chọn nhãn khi thu video (\texttt{ask\_emotion()}), lưu metadata (\texttt{save\_video\_emotion()}), cho đến nạp dữ liệu huấn luyện trong \texttt{video\_to\_npy.py}.
+
+\subsection{Tích hợp vào feature vector}
+
+Sau khi xác định nhãn cảm xúc, hệ thống thực hiện mã hóa one-hot thành vector 7 chiều và nối vào cuối feature vector chính tại mỗi timestep. Feature vector chính bao gồm 171 chiều từ pose landmarks, hand landmarks và face landmarks. Kết quả là tensor đầu vào cuối cùng có kích thước 178 chiều $\times$ T timestep, trong đó 7 chiều emotion cung cấp ngữ cảnh biểu cảm bổ sung cho từng khung hình trong chuỗi ký hiệu.
+
+Thông tin emotion được lưu song song với video dưới dạng file \texttt{.json} kèm theo, ghi nhận cả tên nhãn lẫn chỉ số nguyên (\texttt{emotion\_id}) để đảm bảo tính tương thích giữa các bước trong pipeline xử lý dữ liệu.
+
+Cách tiếp cận này khác biệt so với các hệ thống CNN nhận diện cảm xúc học từ pixel ảnh khuôn mặt: thay vì xây dựng một nhánh CNN riêng biệt đòi hỏi lượng lớn dữ liệu gán nhãn, hệ thống tận dụng biểu diễn trung gian chất lượng cao của MediaPipe vốn đã được tối ưu hóa trên tập dữ liệu quy mô lớn, nhờ đó giảm đáng kể chi phí huấn luyện trong khi vẫn đảm bảo độ chính xác cần thiết cho bài toán nhận diện ngôn ngữ ký hiệu.
 \section{Cơ chế lựa chọn ứng viên tiềm năng -- Pipeline 4 giai đoạn}
  
 Để nâng cao độ chính xác cuối cùng và tính tự nhiên của kết quả phiên dịch, hệ thống áp dụng một pipeline 4 giai đoạn lọc dần từ nhiều ứng viên xuống từ chính xác nhất:
  
 \begin{itemize}
-    \item \textbf{Stage 1 -- Gesture Model $\rightarrow$ Top-K = 3:} Mô hình BiLSTM đưa ra 3 từ ứng viên có xác suất cao nhất dựa trên đặc trưng cử chỉ tay.
+    \item \textbf{Stage 1 -- Gesture Model $\rightarrow$ Top-K = 3:} Mô hình Transformer đưa ra 3 từ ứng viên có xác suất cao nhất dựa trên đặc trưng cử chỉ tay.
  
     \item \textbf{Stage 2 -- Emotion Filter $\rightarrow$ Top-K = 2:} Lọc tiếp 3 ứng viên ban đầu bằng kết quả nhận diện cảm xúc khuôn mặt, loại bỏ các từ không phù hợp với cảm xúc đang biểu đạt, còn lại 2 ứng viên.
  

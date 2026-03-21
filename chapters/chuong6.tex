@@ -24,7 +24,3 @@ Hệ thống tích hợp Stability Filter với hai tiêu chí lọc song song: 
  
 Việc tích hợp PhoBERT Context Scoring ở giai đoạn cuối của pipeline đảm bảo rằng từ được chọn không chỉ phù hợp về cử chỉ và cảm xúc mà còn tự nhiên trong ngữ cảnh câu tiếng Việt. Cơ chế "Bổ sung từ cho tròn nghĩa" tiếp theo giúp câu dịch vượt qua dạng liệt kê từ khóa thô, trở thành câu văn hoàn chỉnh và tự nhiên. Ví dụ, từ chuỗi từ khóa ["Tôi", "xơi cơm", "bạn", "chiều", "hôm qua"], hệ thống tổng hợp thành "Tôi ăn cơm với bạn chiều hôm qua".
  
-\section{Đánh giá vai trò của Emotion Encoding}
- 
-Phân tích định tính cho thấy mô hình có khả năng phân biệt tinh tế các ký hiệu đồng hình dựa trên biểu cảm khuôn mặt. Cụ thể, cùng một cử chỉ tay khi kết hợp với nét mặt Happy dẫn đến nhận diện "Cám ơn chân thành", trong khi nét mặt Angry dẫn đến kết quả là sắc thái tiêu cực. Điều này cho thấy 30 chiều Finger Curl kết hợp với 7 chiều Emotion đã cung cấp cho mô hình một lớp ngữ cảnh phong phú mà các hệ thống chỉ nhận dạng tay thuần túy không thể đạt được.
- 
