@@ -3,7 +3,7 @@
 % ==========================================
 \chapter{THỰC NGHIỆM VÀ KẾT QUẢ}
 
-\section{Xây dựng bộ dữ liệu và kỹ thuật tăng cường dữ liệu}
+\section{Xây dựng Bộ dữ liệu}
 
 Để xây dựng mô hình có khả năng tổng quát hóa tốt trong nhiều điều kiện thực tế,
 nhóm nghiên cứu sử dụng kết hợp hai nguồn dữ liệu: bộ dữ liệu chuẩn QIPEDC (Bộ
@@ -13,11 +13,7 @@ dựng. Dữ liệu tự thu thập được thiết kế theo cùng cấu trúc
 QIPEDC nhằm đảm bảo tính nhất quán khi kết hợp hai nguồn. Bộ dữ liệu cuối cùng
 bao gồm 108 lớp ký hiệu với tổng cộng 10.800 video gốc trước khi tăng cường.
 
-Quá trình thu thập được thiết kế có chủ đích: mỗi từ/cụm từ được quay với đầy đủ
-7 trạng thái cảm xúc (angry, disgust, fear, happy, sad, surprise, neutral) bởi
-nhiều người thực hiện khác nhau, với góc quay và điều kiện ánh sáng đa dạng.
-Đây là bước nền tảng quan trọng giúp mô hình học được sự phong phú của biểu đạt
-cảm xúc trong VSL.
+Quá trình thu thập được thiết kế có chủ đích nhằm đảm bảo tính đa dạng: mỗi từ/cụm từ được quay với đầy đủ 7 trạng thái cảm xúc (angry, disgust, fear, happy, sad, surprise, neutral), thực hiện bởi nhiều người khác nhau trong các điều kiện góc quay và ánh sáng đa dạng. Bộ dữ liệu bao gồm \textbf{7 nhãn cảm xúc} với tổng số mẫu phân bổ không đồng đều, phản ánh đặc tính tự nhiên của dữ liệu cảm xúc thực tế: smile (n=1.774), cry (n=1.247), neutral (n=1.233), scare (n=1.024), angry (n=958), surprise (n=831) và disgust (n=111).
 
 Toàn bộ dữ liệu được chia theo tỉ lệ 70\% Train -- 15\% Val -- 15\% Test.
 Tập Train được dùng để huấn luyện mô hình, tập Val để theo dõi quá trình hội tụ
@@ -44,22 +40,31 @@ Hình~\ref{fig:data_dist} minh họa phân phối số lượng mẫu theo từn
 tăng cường. Có thể thấy các lớp tương đối cân bằng nhau, hạn chế hiện tượng
 lệch lớp trong quá trình huấn luyện.
 
-\begin{figure}[ht]
+    \item \textbf{Co giãn tỷ lệ (Scale Jitter):} Nhân tọa độ bàn tay theo hệ số $\times$0.95 và $\times$1.05, mô phỏng người dùng đứng ở các khoảng cách khác nhau so với camera.
+
+    \item \textbf{Cắt gọt thời gian (Time Warp):} Cắt 5\% và 10\% số frame ở đầu và cuối chuỗi, buộc mô hình học cách nhận diện ký hiệu khi được thực hiện ở tốc độ khác nhau.
+\end{itemize}
+
+Đáng lưu ý, kỹ thuật augmentation đóng vai trò đặc biệt quan trọng với nhãn disgust do số lượng mẫu gốc rất hạn chế, giúp tránh hiện tượng mô hình bỏ qua hoàn toàn nhãn thiểu số này trong quá trình học.
+
+\section{Môi trường và Cấu hình Huấn luyện}
+
+Mô hình EfficientNet-B2 được huấn luyện theo chiến lược hai giai đoạn trên framework PyTorch. Ở giai đoạn đầu (epoch 1--9), backbone được đóng băng (frozen) và chỉ huấn luyện lớp phân loại đầu ra, giúp mô hình nhanh chóng hội tụ về đặc trưng bài toán. Từ epoch 10 trở đi, toàn bộ backbone được mở đóng băng (unfreeze) để tinh chỉnh sâu hơn với learning rate nhỏ hơn.
+
+\section{Kết quả Huấn luyện}
+
+Hình~\ref{fig:training_history} trình bày biểu đồ biến thiên loss và accuracy trên tập Validation qua 40 epoch huấn luyện. Thời điểm unfreeze backbone (epoch 10) được đánh dấu bằng đường nét đứt, cho thấy sự cải thiện đột biến về cả loss lẫn accuracy ngay sau đó.
+
+\begin{figure}[H]
     \centering
     \includegraphics[width=\textwidth]{images/5_data_distribution.png}
     \caption{Biểu đồ phân phối mẫu theo từng lớp ký hiệu}
     \label{fig:data_dist}
 \end{figure}
 
-% ─────────────────────────────────────────────────────────────────
-\section{Kết quả huấn luyện}
-% ─────────────────────────────────────────────────────────────────
+Mô hình đạt kết quả tốt nhất tại \textbf{epoch 28} với \textbf{Val Balanced Accuracy = 70.7\%}. Chỉ số Balanced Accuracy được ưu tiên thay cho accuracy thông thường do bộ dữ liệu mất cân bằng nghiêm trọng giữa các nhãn (disgust chỉ có 111 mẫu so với 1.774 mẫu của smile). Quan sát biểu đồ loss cho thấy train loss tiếp tục giảm xuống ~0.45 trong khi val loss ổn định quanh mức ~0.90 từ epoch 20 trở đi, phản ánh hiện tượng overfitting nhẹ không thể tránh khỏi do mất cân bằng dữ liệu.
 
-Quá trình huấn luyện được thực hiện trên framework PyTorch với optimizer AdamW,
-learning rate khởi đầu $5 \times 10^{-4}$, warmup tuyến tính 8 epoch và cosine
-decay về $10^{-6}$. Gradient clipping 1.0 và label smoothing 0.1 được áp dụng
-để ổn định quá trình hội tụ. Early stopping với patience 20 epoch được sử dụng
-để tránh lãng phí tài nguyên tính toán khi mô hình đã hội tụ.
+\section{Đánh giá theo Từng Nhãn}
 
 Hình~\ref{fig:training_curves} thể hiện đường cong loss và accuracy trên tập
 Train và Val. Mô hình hội tụ ổn định sau 60 epoch, đạt độ chính xác validation
@@ -67,7 +72,7 @@ tốt nhất 99.4\% tại epoch 41. Khoảng cách nhỏ giữa đường train 
 mô hình không bị overfitting, chiến lược dropout (0.2) và label smoothing đã
 phát huy hiệu quả trong việc kiểm soát độ phức tạp của mô hình.
 
-\begin{figure}[ht]
+\begin{figure}[H]
     \centering
     \includegraphics[width=\textwidth]{images/1_training_curves.png}
     \caption{Biểu đồ đường cong huấn luyện}

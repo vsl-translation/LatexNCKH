@@ -2,12 +2,74 @@
 % CHƯƠNG 4: QUÁ TRÌNH THIẾT KẾ VÀ XÂY DỰNG SẢN PHẨM
 % ==========================================
 \chapter{QUÁ TRÌNH THIẾT KẾ VÀ XÂY DỰNG SẢN PHẨM}
+\section{Cơ sở lý thuyết}
 
-Hệ thống được thiết kế theo kiến trúc client-server, trong đó phần mềm phía máy
-khách (ứng dụng di động hoặc kính thông minh) chịu trách nhiệm thu thập dữ liệu
-và hiển thị kết quả, còn phần logic xử lý phức tạp được thực hiện trên server.
-Toàn bộ kiến trúc được chia thành hai Quy trình xử lý chính, song song và đối xứng
-nhau.
+\subsection{Kiến trúc Transformer}
+
+Transformer được áp dụng để xử lý chuỗi đặc trưng tay theo thời gian. Thành phần cốt lõi là Scaled Dot-Product Attention:
+
+\begin{equation}
+    \text{Attention}(\mathbf{Q}, \mathbf{K}, \mathbf{V}) 
+    = \text{softmax}\!\left(\frac{\mathbf{Q}\mathbf{K}^\top}{\sqrt{d_k}}\right)\mathbf{V}
+\end{equation}
+
+Multi-Head Attention với $h = 8$ heads, $d_\text{model} = 256$, 4 lớp Pre-LayerNorm:
+
+\begin{equation}
+    \text{head}_i = \text{Attention}(\mathbf{Q}\mathbf{W}_i^Q,\; \mathbf{K}\mathbf{W}_i^K,\; \mathbf{V}\mathbf{W}_i^V), \qquad
+    \text{MultiHead} = \text{Concat}(\text{head}_1, \ldots, \text{head}_h)\,\mathbf{W}^O
+\end{equation}
+
+Positional Encoding mã hóa vị trí frame ($T = 64$):
+
+\begin{equation}
+    \text{PE}_{(pos,\,2i)} = \sin\!\left(\frac{pos}{10000^{2i/d}}\right), \qquad
+    \text{PE}_{(pos,\,2i+1)} = \cos\!\left(\frac{pos}{10000^{2i/d}}\right)
+\end{equation}
+
+\subsection{Graph Attention Network (GAT)}
+
+GAT học quan hệ không gian giữa 6 nhóm ngón tay theo cấu trúc giải phẫu. Ma trận kề chuẩn hóa $\hat{\mathbf{A}} = \mathbf{D}^{-1}(\mathbf{A} + \mathbf{I})$, attention chỉ tính trên cạnh hợp lệ ($h = 4$ heads, finger\_dim $= 32$):
+
+\begin{equation}
+    \alpha_{ij} = \frac{\exp(s_{ij}) \cdot \hat{A}_{ij}}{\sum_{k} \exp(s_{ik}) \cdot \hat{A}_{ik}}, \qquad
+    \mathbf{h}_i' = \text{LayerNorm}\!\left(\mathbf{W}^O\sum_j \alpha_{ij}\mathbf{V}_j + \mathbf{h}_i\right)
+\end{equation}
+
+\subsection{Cross-Attention và Temporal Pooling}
+
+Cross-Attention hai chiều học quan hệ tay trái $\leftrightarrow$ tay phải:
+
+\begin{equation}
+    \mathbf{L}' = \text{LayerNorm}(\mathbf{L} + \text{Attention}(\mathbf{L},\mathbf{R},\mathbf{R})), \qquad
+    \mathbf{R}' = \text{LayerNorm}(\mathbf{R} + \text{Attention}(\mathbf{R},\mathbf{L},\mathbf{L}))
+\end{equation}
+
+Sau Temporal Transformer, chuỗi được tổng hợp bằng learned attention pooling:
+
+\begin{equation}
+    w_t = \frac{\exp(\mathbf{h}_t \mathbf{w})}{\sum_{t'} \exp(\mathbf{h}_{t'} \mathbf{w})}, \qquad
+    \mathbf{c} = \sum_{t=1}^{T} w_t \cdot \mathbf{h}_t
+\end{equation}
+
+\subsection{Hàm mất mát và tối ưu hóa}
+
+Label Smoothing Cross-Entropy ($\varepsilon = 0.1$, $C = 108$):
+
+\begin{equation}
+    \mathcal{L} = -\sum_{c=1}^{C} \tilde{y}_c \log \hat{y}_c, \qquad
+    \tilde{y}_c = \begin{cases}
+        1 - \varepsilon + \varepsilon/C & c = y^* \\
+        \varepsilon/C                   & c \neq y^*
+    \end{cases}
+\end{equation}
+
+Tối ưu hóa bằng AdamW ($\lambda = 10^{-4}$), Linear Warmup 8 epoch rồi Cosine Decay về $\alpha_\text{min} = 10^{-6}$, Early Stopping patience $= 20$.
+
+\subsection{Data Augmentation}
+
+Tập dữ liệu $108 \times 100 = 10.800$ mẫu, augment 9 lần ($p = 0.4$) bằng Gaussian Noise lên tọa độ tay và đặc trưng curl. Tổng mẫu hiệu dụng: $97.200$.
+
 
 \section{Quy trình chuyển đổi tiếng Việt sang ngôn ngữ ký hiệu}
 
@@ -213,15 +275,8 @@ Ba cơ chế tối ưu quan trọng được áp dụng:
 
 \section{Vai trò then chốt của Emotion Encoding trong VSL}
 
-Một trong những đóng góp quan trọng và đặc sắc nhất của đề tài là việc tích hợp
-Emotion Encoding vào feature vector. Trong ngôn ngữ ký hiệu, biểu cảm khuôn mặt
-không chỉ là yếu tố thứ cấp mà là một thành phần ngữ pháp bắt buộc, có khả năng
-thay đổi hoàn toàn ý nghĩa của một cử chỉ.
+Một trong những đóng góp quan trọng và đặc sắc nhất của đề tài là việc tích hợp Emotion Encoding vào feature vector. Trong Ngôn ngữ Ký hiệu, biểu cảm khuôn mặt không chỉ là yếu tố thứ cấp mà là một thành phần ngữ pháp bắt buộc, có khả năng thay đổi hoàn toàn ý nghĩa của một cử chỉ.
 
-Ví dụ minh họa: cùng một cử chỉ tay nhưng khi kết hợp với nét mặt trung tính
-sẽ có nghĩa là "Cảm ơn" thông thường, trong khi nét mặt vui vẻ biểu đạt "Cảm
-ơn chân thành", nét mặt tức giận dẫn đến ý nghĩa tiêu cực như "Ghét" hoặc sự
-bực bội, còn nét mặt ngạc nhiên truyền đạt một sắc thái hoàn toàn khác.
 
 Việc bổ sung 7 chiều emotion vào mỗi timestep (từ 201 lên 208 chiều)
 không chỉ tăng dung lượng thông tin mà còn cung cấp cho mô hình một lớp ngữ

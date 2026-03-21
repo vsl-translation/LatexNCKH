@@ -1,65 +1,17 @@
-# ==========================================
-# LaTeX Build Artifacts
+# LaTeX build files
 *.aux
 *.log
-*.out
-*.toc
-*.lof
-*.lot
 *.fls
 *.fdb_latexmk
+*.synctex.gz
 *.synctex(busy)
-*.blg
-*.bbl
+*.toc
+*.out
+*.xdv
 *.bcf
 *.run.xml
+*.lof
+*.lot
 
-# Intermediate files
-*.dvi
-*.xdv
-*.ps
-*.gz
-
-# BibTeX / Biber
-*.blg
-*.bbl
-
-# Index
-*.idx
-*.ind
-*.ilg
-
-# Glossaries
-*.glg
-*.glo
-*.gls
-*.acn
-*.acr
-*.alg
-
-# Nomenclature
-*.nlg
-*.nlo
-*.nls
-
-# ==========================================
-# Output (giữ lại nếu muốn track bản PDF)
-# ==========================================
+# PDF (tuỳ bạn, thường cũng ignore)
 *.pdf
-
-# ==========================================
-# Editor & OS
-# ==========================================
-
-*.bak
-*.backup
-*.sav
-
-# VS Code
-.vscode/
-
-# Windows
-Thumbs.db
-desktop.ini
-
-
