@@ -12,7 +12,7 @@
 \begin{itemize}
     \item Làm chủ công nghệ nhận diện đa thành phần với feature vector 178 chiều (Pose + Hands + Finger Curl + Emotion), đặc biệt là việc tích hợp thành công 7 chiều Emotion Encoding -- yếu tố quyết định giúp phân biệt các ký hiệu đồng hình trong VSL.
  
-    \item Xây dựng hoàn chỉnh hai luồng xử lý: Chiều VSL $\rightarrow$ VN với mô hình BiLSTM + Attention + PhoBERT, và chiều VN $\rightarrow$ VSL với NLP Pipeline sử dụng Underthesea, Sliding Window và cơ sở dữ liệu video ký hiệu.
+    \item Xây dựng hoàn chỉnh hai luồng xử lý: Chiều VSL $\rightarrow$ VN với mô hình Transformer + Attention + PhoBERT, và chiều VN $\rightarrow$ VSL với NLP Pipeline sử dụng Underthesea, Sliding Window và cơ sở dữ liệu video ký hiệu.
  
     \item Đạt hiệu suất thời gian thực nhờ bộ đệm cửa sổ trượt, xử lý bất đồng bộ MediaPipe và Stability Filter với confidence scoring tổng hợp.
  

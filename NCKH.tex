@@ -1,3 +1,4 @@
+
 \documentclass[12pt,a4paper,oneside]{report}
 
 
@@ -8,6 +9,8 @@
 \usepackage{polyglossia}
 \setmainlanguage{vietnamese}
 \setmainfont{Times New Roman}
+\usepackage{graphicx}
+\usepackage{float}
 
 \XeTeXlinebreaklocale "vi"
 \XeTeXlinebreakskip = 0pt plus 1pt
@@ -139,16 +142,16 @@
   \renewcommand{\contentsname}{MỤC LỤC}
 }
 
-% --- BÌA (không đánh số trang) ---
-\pagenumbering{gobble}
-\include{frontmatter/bia_ngoai}
-\include{frontmatter/bia_trong}
+    % --- BÌA (không đánh số trang) ---
+    \pagenumbering{gobble}
+    \include{frontmatter/bia_ngoai}
+    \include{frontmatter/bia_trong}
 
-% --- PHẦN TIỀN VĂN (số La Mã) ---
-\pagenumbering{roman}
-\include{frontmatter/loi_cam_doan}
-\include{frontmatter/loi_cam_on}
-\include{frontmatter/danh_sach_thanh_vien}
+    % --- PHẦN TIỀN VĂN (số La Mã) ---
+    \pagenumbering{roman}
+    \include{frontmatter/loi_cam_doan}
+    \include{frontmatter/loi_cam_on}
+    \include{frontmatter/danh_sach_thanh_vien}
 
 % --- MỤC LỤC ---
 \tableofcontents
@@ -159,29 +162,25 @@
 
 % --- DANH SÁCH ---
 \listoffigures
-% Viết hoa tên trong danh mục hình ảnh
-
-\addcontentsline{toc}{chapter}{DANH MỤC HÌNH ẢNH}
+\addcontentsline{toc}{chapter}{DANH SÁCH HÌNH ẢNH}
 \newpage
 
 \listoftables
-% Viết hoa tên trong danh mục hình ảnh
-
-\addcontentsline{toc}{chapter}{DANH MỤC BẢNG}
+\addcontentsline{toc}{chapter}{DANH SÁCH BẢNG}
 \newpage
 
-\include{frontmatter/bang_chu_viet_tat}
+    \include{frontmatter/bang_chu_viet_tat}
 
-\clearpage
-\pagenumbering{arabic}
+    \clearpage
+    \pagenumbering{arabic}
 
-\include{chapters/chuong1}
-\include{chapters/chuong2}
-\include{chapters/chuong3}
-\include{chapters/chuong4}
-\include{chapters/chuong5}
-\include{chapters/chuong6}
-\include{chapters/chuong7}
-\include{chapters/tai_lieu_tham_khao}
+    \include{chapters/chuong1}
+    \include{chapters/chuong2}
+    \include{chapters/chuong3}
+    \include{chapters/chuong4}
+    \include{chapters/chuong5}
+    \include{chapters/chuong6}
+    \include{chapters/chuong7}
+    \include{chapters/tai_lieu_tham_khao}
 
-\end{document}
+    \end{document}
